@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải Hệ Phương Trình Tuyến Tính</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deeper, more subtle dark gradient background */
+            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1; /* Default light text color for body */
+            perspective: 1000px; /* For 3D transforms */
+        }
+        .container {
+            background-color: #2c3e50; /* Slightly lighter dark container background */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 500px; /* Adjusted max-width for only 2x2 system */
+            width: 100%;
+            text-align: center;
+            border: 1px solid #3d5a73; /* Subtle border for depth */
+            backdrop-filter: blur(5px); /* Subtle blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            transform-style: preserve-3d; /* For potential 3D effects later */
+        }
+        input[type="number"], button {
+            border-radius: 10px; /* More rounded inputs and buttons */
+            padding: 14px; /* Increased padding */
+            margin-bottom: 18px; /* More space between elements */
+            font-size: 1.05rem; /* Slightly larger font */
+            transition: all 0.3s ease; /* Smooth transitions for all elements */
+        }
+        input[type="number"] {
+            background-color: #34495e; /* Darker input background */
+            border: 1px solid #4a627a; /* Darker muted border for inputs */
+            color: #ecf0f1; /* Light text for inputs */
+            width: 100%; /* Ensure inputs take full width */
+            transition: all 0.4s ease-in-out; /* Slower, smoother transition */
+        }
+        input[type="number"]::placeholder {
+            color: #bdc3c7; /* Lighter placeholder text */
+            opacity: 0.7; /* Slightly transparent */
+        }
+        input[type="number"]:focus {
+            border-color: #3498db; /* Bright blue focus ring */
+            outline: none;
+            box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.7), 0 4px 15px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+            background-color: #3d5a73; /* Slightly lighter on focus */
+            transform: scale(1.02) translateY(-3px) rotateX(2deg); /* More distinct scale, lift, and 3D rotation */
+        }
+        button {
+            background-color: #3498db; /* Vibrant blue button */
+            color: white;
+            cursor: pointer;
+            font-weight: 700; /* Bolder text */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for button text */
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Springy effect */
+        }
+        button:hover {
+            background-color: #2980b9; /* Slightly darker blue on hover */
+            transform: translateY(-7px) scale(1.03); /* More pronounced lift and scale */
+            box-shadow: 0 18px 35px rgba(52, 152, 219, 0.8); /* Larger, more intense shadow on hover */
+        }
+        button:active {
+            transform: translateY(0) scale(0.92); /* More pronounced press effect, significant shrink */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* Smaller shadow on press */
+            background-color: #1a608d; /* Even darker on active */
+        }
+        .result-box {
+            background-color: #34495e; /* Darker gray for result */
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            margin-top: 25px; /* More space */
+            min-height: 9rem; /* Ensure enough space for results */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            text-align: center;
+            font-size: 1.15rem; /* Slightly larger font */
+            color: #ecf0f1; /* Light text for result */
+            border: 1px solid #4a627a; /* Solid, muted border for result box */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+            opacity: 0; /* Start with opacity 0 for fade-in */
+            transform: translateY(50px); /* Start further below for slide-up */
+        }
+        .result-box.fade-in {
+            animation: slideInUpBounce 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* New slideInUpBounce animation */
+        }
+
+        @keyframes slideInUpBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-10px); /* Overshoot slightly upwards */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* Settle at final position */
+            }
+        }
+
+        /* Optional: Add a subtle pulse to the entire container on initial load or interaction */
+        .container.pulse {
+            animation: pulseEffect 1s ease-in-out forwards;
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: scale(1.005); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        }
+
+        .result-box span {
+            display: block;
+            margin-bottom: 8px; /* More space between lines in result */
+        }
+        .result-box span:last-child {
+            margin-bottom: 0;
+        }
+        /* Keep original Tailwind colors for distinct feedback, adjusted for dark background */
+        .text-red-600 {
+            color: #e74c3c; /* Brighter red for visibility */
+            font-weight: 600;
+        }
+        .text-green-600 {
+            color: #2ecc71; /* Brighter green for visibility */
+            font-weight: 600;
+        }
+        .text-blue-600 {
+            color: #3498db; /* Brighter blue for visibility */
+            font-weight: 600;
+        }
+        h1, h2 {
+            color: #ecf0f1; /* Light heading color */
+            margin-bottom: 1.5rem; /* More space below headings */
+        }
+        .label-text {
+            color: #bdc3c7; /* Lighter muted label text */
+            font-weight: 600;
+            margin-bottom: 8px; /* Space below label */
+        }
+        p {
+            color: #bdc3c7; /* Lighter muted paragraph text */
+            font-size: 0.95rem; /* Slightly larger paragraph text */
+            line-height: 1.5;
+        }
+        /* Radio button styling for dark mode (no longer needed for system size, but kept for general styling if any other radio buttons are added) */
+        .form-radio {
+            background-color: #34495e; /* Darker radio background */
+            border: 1px solid #4a627a; /* Darker radio border */
+            appearance: none; /* Remove default browser styling */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px; /* Larger radio button */
+            height: 20px; /* Larger radio button */
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .form-radio:checked {
+            background-color: #3498db; /* Blue when checked */
+            border-color: #3498db;
+        }
+        .form-radio:checked::before {
+            content: '';
+            display: block;
+            width: 10px; /* Larger inner dot */
+            height: 10px; /* Larger inner dot */
+            background-color: white; /* White dot inside when checked */
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .form-radio:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Focus shadow for radio */
+        }
+        .radio-label {
+            color: #bdc3c7; /* Lighter muted radio label text */
+            font-weight: 500;
+        }
+        .system-inputs .input-field {
+            margin-bottom: 0; /* Remove extra margin from input fields within grid */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Default to 3 columns for 2x2 system */
+            gap: 1rem; /* Gap between grid items */
+            margin-bottom: 1.5rem;
+        }
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align labels to the left */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6">Giải Hệ Phương Trình Tuyến Tính</h1>
+
+        <!-- 2x2 System Inputs (now always visible) -->
+        <div id="system2x2" class="system-inputs mb-6">
+            <h2 class="text-xl font-semibold text-center mb-4">Hệ 2 ẩn:</h2>
+            <p class="text-center mb-4">
+                $a_1x + b_1y = c_1$<br>
+                $a_2x + b_2y = c_2$
+            </p>
+            <div class="grid-container">
+                <div class="grid-item"><label class="block text-sm font-medium label-text">a1</label><input type="number" id="a1" value="" class="input-field"></div>
+                <div class="grid-item"><label class="block text-sm font-medium label-text">b1</label><input type="number" id="b1" value="" class="input-field"></div>
+                <div class="grid-item"><label class="block text-sm font-medium label-text">c1</label><input type="number" id="c1" value="" class="input-field"></div>
+                <div class="grid-item"><label class="block text-sm font-medium label-text">a2</label><input type="number" id="a2" value="" class="input-field"></div>
+                <div class="grid-item"><label class="block text-sm font-medium label-text">b2</label><input type="number" id="b2" value="" class="input-field"></div>
+                <div class="grid-item"><label class="block text-sm font-medium label-text">c2</label><input type="number" id="c2" value="" class="input-field"></div>
+            </div>
+        </div>
+
+        <!-- Solve Button -->
+        <button id="solveBtn"
+                class="w-full text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out transform hover:scale-105 shadow-md">
+            Giải Hệ Phương Trình
+        </button>
+
+        <!-- Result Display Area -->
+        <div id="result" class="mt-8 p-4 rounded-lg result-box min-h-[6rem]">
+            <!-- Result will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const solveBtn = document.getElementById('solveBtn');
+        const resultDiv = document.getElementById('result');
+        const resultBox = document.querySelector('.result-box');
+
+        // Add Tailwind classes to input fields
+        document.querySelectorAll('.input-field').forEach(input => {
+            input.classList.add('shadow-sm', 'appearance-none', 'border', 'rounded-lg', 'w-full', 'py-2', 'px-3', 'leading-tight', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-400', 'focus:border-transparent', 'transition', 'duration-200');
+        });
+
+        // Function to calculate determinant of a 2x2 matrix
+        function calculateDeterminant2x2(a, b, c, d) {
+            return a * d - b * c;
+        }
+
+        // Function to solve 2x2 system using Cramer's Rule
+        function solve2x2() {
+            // Get coefficients from input fields
+            const a1 = parseFloat(document.getElementById('a1').value);
+            const b1 = parseFloat(document.getElementById('b1').value);
+            const c1 = parseFloat(document.getElementById('c1').value);
+            const a2 = parseFloat(document.getElementById('a2').value);
+            const b2 = parseFloat(document.getElementById('b2').value);
+            const c2 = parseFloat(document.getElementById('c2').value);
+
+            // Clear previous results and remove animation class
+            resultDiv.innerHTML = '';
+            resultDiv.classList.remove('text-red-600', 'text-green-600', 'text-blue-600');
+            resultBox.classList.remove('fade-in'); // Remove fade-in to re-trigger animation
+
+            // Validate inputs
+            if (isNaN(a1) || isNaN(b1) || isNaN(c1) || isNaN(a2) || isNaN(b2) || isNaN(c2)) {
+                resultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập tất cả các hệ số hợp lệ (là số).</span>';
+                resultBox.classList.add('fade-in'); // Add fade-in for error message
+                return;
+            }
+
+            // Calculate main determinant (D)
+            const D = calculateDeterminant2x2(a1, b1, a2, b2);
+
+            // If D is 0, system might have no solution or infinite solutions
+            if (Math.abs(D) < 1e-9) { // Use a small epsilon for floating point comparison
+                const Dx = calculateDeterminant2x2(c1, b1, c2, b2);
+                const Dy = calculateDeterminant2x2(a1, c1, a2, c2);
+
+                if (Math.abs(Dx) < 1e-9 && Math.abs(Dy) < 1e-9) {
+                    resultDiv.innerHTML = '<span class="text-green-600">Hệ phương trình có vô số nghiệm.</span>';
+                } else {
+                    resultDiv.innerHTML = '<span class="text-red-600">Hệ phương trình vô nghiệm.</span>';
+                }
+                resultBox.classList.add('fade-in'); // Add fade-in for result
+                return;
+            }
+
+            // Calculate determinants for x (Dx) and y (Dy)
+            const Dx = calculateDeterminant2x2(c1, b1, c2, b2);
+            const Dy = calculateDeterminant2x2(a1, c1, a2, c2);
+
+            // Calculate x and y
+            const x = Dx / D;
+            const y = Dy / D;
+
+            resultDiv.innerHTML = `<span class="text-blue-600">Nghiệm của hệ phương trình:<br>x = ${x.toFixed(4)}<br>y = ${y.toFixed(4)}</span>`;
+            resultBox.classList.add('fade-in'); // Add fade-in for successful result
+
+            // Add a pulse effect to the container on calculation
+            const container = document.querySelector('.container');
+            container.classList.remove('pulse'); // Remove to allow re-triggering animation
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add('pulse');
+        }
+
+        // Add event listener to the solve button
+        solveBtn.addEventListener('click', solve2x2);
+
+        // Clear input fields and result box on initial load
+        window.onload = function() {
+            document.getElementById('a1').value = '';
+            document.getElementById('b1').value = '';
+            document.getElementById('c1').value = '';
+            document.getElementById('a2').value = '';
+            document.getElementById('b2').value = '';
+            document.getElementById('c2').value = '';
+            document.getElementById('result').innerHTML = '';
+            document.querySelector('.result-box').classList.remove('fade-in'); // Ensure result box is hidden initially
+        };
+    </script>
+    <!-- MathJax CDN for rendering mathematical equations -->
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+        // Configure MathJax to process TeX in HTML
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            chtml: {
+                // Ensure MathJax output respects the dark theme colors
+                scale: 1,
+                displayAlign: 'center',
+                displayIndent: '0em',
+                matchFontHeight: true,
+                linebreaks: {
+                    automatic: true,
+                    width: "container"
+                },
+                styles: {
+                    '.mjx-chtml': {
+                        color: '#ecf0f1 !important', /* Override MathJax default text color */
+                    },
+                    '.mjx-chtml span': {
+                        color: '#ecf0f1 !important', /* Override MathJax default span text color */
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>

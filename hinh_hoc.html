@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy Tính Chu Vi, Diện Tích & Thể Tích</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deeper, more subtle dark gradient background */
+            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1; /* Default light text color for body */
+            perspective: 1000px; /* For 3D transforms */
+        }
+        .container {
+            background-color: #2c3e50; /* Slightly lighter dark container background */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 650px; /* Adjusted max-width for better layout */
+            width: 100%;
+            text-align: center;
+            border: 1px solid #3d5a73; /* Subtle border for depth */
+            backdrop-filter: blur(5px); /* Subtle blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            transform-style: preserve-3d; /* For potential 3D effects later */
+        }
+        /* General input field and select styling */
+        .input-field {
+            background-color: #34495e; /* Darker input background */
+            border: 1px solid #4a627a; /* Darker muted border for inputs */
+            transition: all 0.3s ease; /* Smooth transitions */
+            color: #ecf0f1; /* Light text for inputs */
+            border-radius: 10px; /* More rounded inputs */
+            padding: 14px; /* Increased padding */
+            font-size: 1.05rem; /* Slightly larger font */
+            width: 100%; /* Ensure full width */
+            appearance: none; /* Remove default browser styling for select */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            transition: all 0.3s ease-in-out; /* Smoother transition for focus */
+        }
+        .input-field::placeholder {
+            color: #bdc3c7; /* Lighter placeholder text */
+            opacity: 0.7; /* Slightly transparent */
+        }
+        .input-field:focus {
+            border-color: #3498db; /* Bright blue focus ring */
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.6), 0 2px 10px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+            background-color: #3d5a73; /* Slightly lighter on focus */
+            transform: translateY(-2px); /* Subtle lift */
+        }
+        .label-text {
+            color: #bdc3c7; /* Lighter muted label text */
+            font-weight: 600;
+            display: block; /* Ensure label is block for proper spacing */
+            margin-bottom: 8px; /* Add some space below label */
+            text-align: left; /* Align label text to left */
+        }
+        .hidden {
+            display: none;
+        }
+        /* Button styling */
+        button {
+            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
+            color: white;
+            cursor: pointer;
+            font-weight: 700; /* Bolder text */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for button text */
+            border-radius: 10px; /* More rounded */
+            padding: 18px 24px; /* Increased padding for a much larger button */
+            font-size: 1.3rem; /* Larger font size */
+            margin-top: 25px; /* More margin above button */
+            border: none; /* Remove default border */
+            transition: all 0.3s ease-out; /* Smoother transition */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
+        }
+        button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
+            transform: translateY(-3px) scale(1.01); /* Gentle lift and slight scale */
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6); /* Larger shadow on hover */
+        }
+        button:active {
+            transform: translateY(0) scale(0.98); /* Gentle press effect */
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3); /* Smaller shadow on press */
+            background: #2471a3; /* Solid darker blue on active */
+        }
+        /* Result display area */
+        #result {
+            background-color: #34495e; /* Darker gray for result */
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            margin-top: 25px; /* More space */
+            min-height: 9rem;
+            color: #ecf0f1; /* Light text for result */
+            border: 1px solid #4a627a; /* Solid, muted border for result box */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+            text-align: left; /* Align result text to left */
+            opacity: 0; /* Start with opacity 0 for animation */
+            transform: scale(0.95); /* Start slightly smaller for animation */
+        }
+
+        /* New animation for result box: fadeInGrow */
+        #result.show-result {
+            animation: fadeInGrow 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInGrow {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Optional: Add a subtle pulse to the entire container on initial load or interaction */
+        .container.pulse {
+            animation: pulseEffect 1s ease-in-out forwards;
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: scale(1.005); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        }
+
+        #result h2 {
+            color: #ecf0f1; /* Light heading color for result */
+            text-align: center;
+            margin-bottom: 15px; /* More space below result heading */
+            font-size: 1.25rem; /* Larger result heading */
+        }
+        #perimeterAreaResult, #surfaceVolumeResult {
+            margin-bottom: 15px; /* Space between 2D and 3D results */
+            font-size: 1.1rem; /* Slightly larger result text */
+        }
+        #perimeterAreaResult span, #surfaceVolumeResult span {
+            display: block; /* Ensure each line breaks */
+            margin-bottom: 8px; /* Spacing between result lines */
+        }
+        #perimeterAreaResult span:last-child, #surfaceVolumeResult span:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Colors for specific feedback */
+        .text-red-600 {
+            color: #e74c3c; /* Brighter red for visibility */
+            font-weight: 600;
+        }
+        .text-green-600 {
+            color: #2ecc71; /* Brighter green for visibility */
+            font-weight: 600;
+        }
+        .text-blue-600 {
+            color: #3498db; /* Brighter blue for visibility */
+            font-weight: 600;
+        }
+        h1 {
+            color: #ecf0f1; /* Light heading color */
+            margin-bottom: 1.5rem; /* More space below headings */
+        }
+        p {
+            color: #bdc3c7; /* Lighter muted paragraph text */
+        }
+        /* Input group for dynamic fields */
+        .input-group {
+            margin-bottom: 18px; /* Spacing between input groups */
+        }
+        /* Custom styling for number input spin buttons (to remove them) */
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefox */
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Chrome, Safari, Edge */
+            margin: 0;
+        }
+        /* Adjust grid gap for input fields */
+        #inputFields {
+            gap: 1.25rem; /* Slightly larger gap between input fields in grid */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6">Máy Tính Chu Vi, Diện Tích & Thể Tích</h1>
+
+        <!-- Shape Type Selection -->
+        <div class="mb-6">
+            <label for="shapeType" class="label-text mb-2">Chọn loại hình:</label>
+            <select id="shapeType" class="input-field">
+                <option value="2D">Hình 2D</option>
+                <option value="3D">Hình 3D</option>
+            </select>
+        </div>
+
+        <!-- Specific Shape Selection (2D) -->
+        <div id="2dShapes" class="mb-6">
+            <label for="2dShapeSelect" class="label-text mb-2">Chọn hình 2D:</label>
+            <select id="2dShapeSelect" class="input-field">
+                <option value="square">Hình Vuông</option>
+                <option value="rectangle">Hình Chữ Nhật</option>
+                <option value="circle">Hình Tròn</option>
+                <option value="triangle">Hình Tam Giác (cạnh đáy, chiều cao & 3 cạnh)</option>
+                <option value="parallelogram">Hình Bình Hành</option>
+                <option value="trapezoid">Hình Thang</option>
+                <option value="rhombus">Hình Thoi</option>
+            </select>
+        </div>
+
+        <!-- Specific Shape Selection (3D) -->
+        <div id="3dShapes" class="mb-6 hidden">
+            <label for="3dShapeSelect" class="label-text mb-2">Chọn hình 3D:</label>
+            <select id="3dShapeSelect" class="input-field">
+                <option value="cube">Hình Lập Phương</option>
+                <option value="sphere">Hình Cầu</option>
+                <option value="cylinder">Hình Trụ</option>
+                <option value="cone">Hình Nón</option>
+                <option value="rectangularPyramid">Hình Chóp Tứ Giác Đều</option>
+                <option value="rectangularPrism">Hình Lăng Trụ Đứng Đáy Chữ Nhật</option>
+            </select>
+        </div>
+
+        <!-- Input Fields - Dynamically shown/hidden -->
+        <div id="inputFields" class="mb-6 grid grid-cols-1 md:grid-cols-2">
+            <!-- Square/Cube -->
+            <div id="sideInput" class="input-group">
+                <label for="side" class="label-text">Cạnh (s):</label>
+                <input type="number" id="side" placeholder="Nhập độ dài cạnh" class="input-field">
+            </div>
+
+            <!-- Rectangle/Rectangular Prism -->
+            <div id="lengthInput" class="input-group hidden">
+                <label for="length" class="label-text">Chiều dài (l):</label>
+                <input type="number" id="length" placeholder="Nhập chiều dài" class="input-field">
+            </div>
+            <div id="widthInput" class="input-group hidden">
+                <label for="width" class="label-text">Chiều rộng (w):</label>
+                <input type="number" id="width" placeholder="Nhập chiều rộng" class="input-field">
+            </div>
+
+            <!-- Circle/Sphere/Cylinder/Cone -->
+            <div id="radiusInput" class="input-group hidden">
+                <label for="radius" class="label-text">Bán kính (r):</label>
+                <input type="number" id="radius" placeholder="Nhập bán kính" class="input-field">
+            </div>
+
+            <!-- Triangle -->
+            <div id="triangleBaseInput" class="input-group hidden">
+                <label for="triangleBase" class="label-text">Cạnh đáy (b):</label>
+                <input type="number" id="triangleBase" placeholder="Nhập cạnh đáy" class="input-field">
+            </div>
+            <div id="triangleHeightInput" class="input-group hidden">
+                <label for="triangleHeight" class="label-text">Chiều cao (h):</label>
+                <input type="number" id="triangleHeight" placeholder="Nhập chiều cao" class="input-field">
+            </div>
+            <div id="triangleSideAInput" class="input-group hidden">
+                <label for="triangleSideA" class="label-text">Cạnh a:</label>
+                <input type="number" id="triangleSideA" placeholder="Nhập cạnh a" class="input-field">
+            </div>
+            <div id="triangleSideBInput" class="input-group hidden">
+                <label for="triangleSideB" class="label-text">Cạnh b:</label>
+                <input type="number" id="triangleSideB" placeholder="Nhập cạnh b" class="input-field">
+            </div>
+            <div id="triangleSideCInput" class="input-group hidden">
+                <label for="triangleSideC" class="label-text">Cạnh c:</label>
+                <input type="number" id="triangleSideC" placeholder="Nhập cạnh c" class="input-field">
+            </div>
+
+            <!-- Parallelogram -->
+            <div id="parallelogramBaseInput" class="input-group hidden">
+                <label for="parallelogramBase" class="label-text">Cạnh đáy (b):</label>
+                <input type="number" id="parallelogramBase" placeholder="Nhập cạnh đáy" class="input-field">
+            </div>
+            <div id="parallelogramHeightInput" class="input-group hidden">
+                <label for="parallelogramHeight" class="label-text">Chiều cao (h):</label>
+                <input type="number" id="parallelogramHeight" placeholder="Nhập chiều cao" class="input-field">
+            </div>
+            <div id="parallelogramSideInput" class="input-group hidden">
+                <label for="parallelogramSide" class="label-text">Cạnh bên (s):</label>
+                <input type="number" id="parallelogramSide" placeholder="Nhập cạnh bên" class="input-field">
+            </div>
+
+            <!-- Trapezoid -->
+            <div id="trapezoidBase1Input" class="input-group hidden">
+                <label for="trapezoidBase1" class="label-text">Đáy lớn (b1):</label>
+                <input type="number" id="trapezoidBase1" placeholder="Nhập đáy lớn" class="input-field">
+            </div>
+            <div id="trapezoidBase2Input" class="input-group hidden">
+                <label for="trapezoidBase2" class="label-text">Đáy bé (b2):</label>
+                <input type="number" id="trapezoidBase2" placeholder="Nhập đáy bé" class="input-field">
+            </div>
+            <div id="trapezoidHeightInput" class="input-group hidden">
+                <label for="trapezoidHeight" class="label-text">Chiều cao (h):</label>
+                <input type="number" id="trapezoidHeight" placeholder="Nhập chiều cao" class="input-field">
+            </div>
+            <div id="trapezoidSide1Input" class="input-group hidden">
+                <label for="trapezoidSide1" class="label-text">Cạnh bên 1 (s1):</label>
+                <input type="number" id="trapezoidSide1" placeholder="Nhập cạnh bên 1" class="input-field">
+            </div>
+            <div id="trapezoidSide2Input" class="input-group hidden">
+                <label for="trapezoidSide2" class="label-text">Cạnh bên 2 (s2):</label>
+                <input type="number" id="trapezoidSide2" placeholder="Nhập cạnh bên 2" class="input-field">
+            </div>
+
+            <!-- Rhombus -->
+            <div id="rhombusDiagonal1Input" class="input-group hidden">
+                <label for="rhombusDiagonal1" class="label-text">Đường chéo 1 (d1):</label>
+                <input type="number" id="rhombusDiagonal1" placeholder="Nhập đường chéo 1" class="input-field">
+            </div>
+            <div id="rhombusDiagonal2Input" class="input-group hidden">
+                <label for="rhombusDiagonal2" class="label-text">Đường chéo 2 (d2):</label>
+                <input type="number" id="rhombusDiagonal2" placeholder="Nhập đường chéo 2" class="input-field">
+            </div>
+            <div id="rhombusSideInput" class="input-group hidden">
+                <label for="rhombusSide" class="label-text">Cạnh (s):</label>
+                <input type="number" id="rhombusSide" placeholder="Nhập độ dài cạnh" class="input-field">
+            </div>
+
+
+            <!-- Cylinder/Cone/Pyramid/Prism -->
+            <div id="heightInput" class="input-group hidden">
+                <label for="height" class="label-text">Chiều cao (h):</label>
+                <input type="number" id="height" placeholder="Nhập chiều cao" class="input-field">
+            </div>
+            <!-- Cone -->
+            <div id="slantHeightInput" class="input-group hidden">
+                <label for="slantHeight" class="label-text">Đường sinh (l) (tùy chọn):</label>
+                <input type="number" id="slantHeight" placeholder="Nhập đường sinh (nếu có)" class="input-field">
+            </div>
+
+            <!-- Rectangular Pyramid -->
+            <div id="pyramidBaseSideInput" class="input-group hidden">
+                <label for="pyramidBaseSide" class="label-text">Cạnh đáy hình chóp (s):</label>
+                <input type="number" id="pyramidBaseSide" placeholder="Nhập cạnh đáy" class="input-field">
+            </div>
+
+            <!-- Rectangular Prism (uses length, width, height) -->
+        </div>
+
+        <!-- Calculate Button -->
+        <button id="calculateBtn">
+            Tính Toán
+        </button>
+
+        <!-- Result Display Area -->
+        <div id="result" class="mt-8 p-6 min-h-[6rem]">
+            <h2 class="text-xl font-semibold text-center mb-3">Kết Quả:</h2>
+            <div id="perimeterAreaResult" class="mb-2"></div>
+            <div id="surfaceVolumeResult"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const shapeTypeSelect = document.getElementById('shapeType');
+        const d2ShapesDiv = document.getElementById('2dShapes');
+        const d3ShapesDiv = document.getElementById('3dShapes');
+        const d2ShapeSelect = document.getElementById('2dShapeSelect');
+        const d3ShapeSelect = document.getElementById('3dShapeSelect');
+        const inputFieldsDiv = document.getElementById('inputFields');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const perimeterAreaResultDiv = document.getElementById('perimeterAreaResult');
+        const surfaceVolumeResultDiv = document.getElementById('surfaceVolumeResult');
+        const resultBox = document.getElementById('result');
+
+        // Input field references (updated to include new shapes)
+        const inputGroups = {
+            side: document.getElementById('sideInput'),
+            length: document.getElementById('lengthInput'),
+            width: document.getElementById('widthInput'),
+            radius: document.getElementById('radiusInput'),
+            triangleBase: document.getElementById('triangleBaseInput'),
+            triangleHeight: document.getElementById('triangleHeightInput'),
+            triangleSideA: document.getElementById('triangleSideAInput'),
+            triangleSideB: document.getElementById('triangleSideBInput'),
+            triangleSideC: document.getElementById('triangleSideCInput'),
+            parallelogramBase: document.getElementById('parallelogramBaseInput'),
+            parallelogramHeight: document.getElementById('parallelogramHeightInput'),
+            parallelogramSide: document.getElementById('parallelogramSideInput'),
+            trapezoidBase1: document.getElementById('trapezoidBase1Input'),
+            trapezoidBase2: document.getElementById('trapezoidBase2Input'),
+            trapezoidHeight: document.getElementById('trapezoidHeightInput'),
+            trapezoidSide1: document.getElementById('trapezoidSide1Input'),
+            trapezoidSide2: document.getElementById('trapezoidSide2Input'),
+            rhombusDiagonal1: document.getElementById('rhombusDiagonal1Input'),
+            rhombusDiagonal2: document.getElementById('rhombusDiagonal2Input'),
+            rhombusSide: document.getElementById('rhombusSideInput'),
+            height: document.getElementById('heightInput'),
+            slantHeight: document.getElementById('slantHeightInput'),
+            pyramidBaseSide: document.getElementById('pyramidBaseSideInput')
+        };
+
+        const inputElements = {
+            side: document.getElementById('side'),
+            length: document.getElementById('length'),
+            width: document.getElementById('width'),
+            radius: document.getElementById('radius'),
+            triangleBase: document.getElementById('triangleBase'),
+            triangleHeight: document.getElementById('triangleHeight'),
+            triangleSideA: document.getElementById('triangleSideA'),
+            triangleSideB: document.getElementById('triangleSideB'),
+            triangleSideC: document.getElementById('triangleSideC'),
+            parallelogramBase: document.getElementById('parallelogramBase'),
+            parallelogramHeight: document.getElementById('parallelogramHeight'),
+            parallelogramSide: document.getElementById('parallelogramSide'),
+            trapezoidBase1: document.getElementById('trapezoidBase1'),
+            trapezoidBase2: document.getElementById('trapezoidBase2'),
+            trapezoidHeight: document.getElementById('trapezoidHeight'),
+            trapezoidSide1: document.getElementById('trapezoidSide1'),
+            trapezoidSide2: document.getElementById('trapezoidSide2'),
+            rhombusDiagonal1: document.getElementById('rhombusDiagonal1'),
+            rhombusDiagonal2: document.getElementById('rhombusDiagonal2'),
+            rhombusSide: document.getElementById('rhombusSide'),
+            height: document.getElementById('height'),
+            slantHeight: document.getElementById('slantHeight'),
+            pyramidBaseSide: document.getElementById('pyramidBaseSide')
+        };
+
+        // Function to show/hide input fields based on selected shape
+        function updateInputFields() {
+            // Hide all input groups first
+            Object.values(inputGroups).forEach(group => group.classList.add('hidden'));
+            // Clear all input values
+            Object.values(inputElements).forEach(input => input.value = '');
+
+
+            const shapeType = shapeTypeSelect.value;
+            let selectedShape;
+
+            if (shapeType === '2D') {
+                d2ShapesDiv.classList.remove('hidden');
+                d3ShapesDiv.classList.add('hidden');
+                selectedShape = d2ShapeSelect.value;
+            } else { // 3D
+                d3ShapesDiv.classList.remove('hidden');
+                d2ShapesDiv.classList.add('hidden');
+                selectedShape = d3ShapeSelect.value;
+            }
+
+            // Show relevant input fields for the selected shape
+            switch (selectedShape) {
+                case 'square':
+                case 'cube':
+                    inputGroups.side.classList.remove('hidden');
+                    break;
+                case 'rectangle':
+                    inputGroups.length.classList.remove('hidden');
+                    inputGroups.width.classList.remove('hidden');
+                    break;
+                case 'circle':
+                case 'sphere':
+                    inputGroups.radius.classList.remove('hidden');
+                    break;
+                case 'triangle':
+                    inputGroups.triangleBase.classList.remove('hidden');
+                    inputGroups.triangleHeight.classList.remove('hidden');
+                    inputGroups.triangleSideA.classList.remove('hidden');
+                    inputGroups.triangleSideB.classList.remove('hidden');
+                    inputGroups.triangleSideC.classList.remove('hidden');
+                    break;
+                case 'parallelogram':
+                    inputGroups.parallelogramBase.classList.remove('hidden');
+                    inputGroups.parallelogramHeight.classList.remove('hidden');
+                    inputGroups.parallelogramSide.classList.remove('hidden');
+                    break;
+                case 'trapezoid':
+                    inputGroups.trapezoidBase1.classList.remove('hidden');
+                    inputGroups.trapezoidBase2.classList.remove('hidden');
+                    inputGroups.trapezoidHeight.classList.remove('hidden');
+                    inputGroups.trapezoidSide1.classList.remove('hidden');
+                    inputGroups.trapezoidSide2.classList.remove('hidden');
+                    break;
+                case 'rhombus':
+                    inputGroups.rhombusDiagonal1.classList.remove('hidden');
+                    inputGroups.rhombusDiagonal2.classList.remove('hidden');
+                    inputGroups.rhombusSide.classList.remove('hidden');
+                    break;
+                case 'cylinder':
+                    inputGroups.radius.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
+                case 'cone':
+                    inputGroups.radius.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    inputGroups.slantHeight.classList.remove('hidden');
+                    break;
+                case 'rectangularPyramid':
+                    inputGroups.pyramidBaseSide.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
+                case 'rectangularPrism':
+                    inputGroups.length.classList.remove('hidden');
+                    inputGroups.width.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
+            }
+            // Clear results when shape changes
+            perimeterAreaResultDiv.innerHTML = '';
+            surfaceVolumeResultDiv.innerHTML = '';
+            resultBox.classList.remove('show-result'); // Hide result box animation
+        }
+
+        // Function to validate input values
+        function validateInputs(inputs) {
+            for (const input of inputs) {
+                if (isNaN(input) || input <= 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Calculation functions for 2D shapes
+        function calculateSquare() {
+            const s = parseFloat(inputElements.side.value);
+            if (!validateInputs([s])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập độ dài cạnh hợp lệ.</span>';
+                return;
+            }
+            const perimeter = 4 * s;
+            const area = s * s;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
+
+        function calculateRectangle() {
+            const l = parseFloat(inputElements.length.value);
+            const w = parseFloat(inputElements.width.value);
+            if (!validateInputs([l, w])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập chiều dài và chiều rộng hợp lệ.</span>';
+                return;
+            }
+            const perimeter = 2 * (l + w);
+            const area = l * w;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
+
+        function calculateCircle() {
+            const r = parseFloat(inputElements.radius.value);
+            if (!validateInputs([r])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính hợp lệ.</span>';
+                return;
+            }
+            const circumference = 2 * Math.PI * r;
+            const area = Math.PI * r * r;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${circumference.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
+
+        function calculateTriangle() {
+            const b = parseFloat(inputElements.triangleBase.value);
+            const h = parseFloat(inputElements.triangleHeight.value);
+            const a = parseFloat(inputElements.triangleSideA.value);
+            const sB = parseFloat(inputElements.triangleSideB.value); // Renamed to sB to avoid conflict with base 'b'
+            const c = parseFloat(inputElements.triangleSideC.value);
+
+            let resultHtml = '';
+
+            // Calculate Area (requires base and height)
+            if (validateInputs([b, h])) {
+                const area = 0.5 * b * h;
+                resultHtml += `<span class="text-green-600">Diện tích (dùng cạnh đáy & chiều cao): ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span><br>';
+            }
+
+            // Calculate Perimeter (requires 3 sides)
+            if (validateInputs([a, sB, c])) {
+                // Check triangle inequality
+                if (a + sB > c && a + c > sB && sB + c > a) {
+                    const perimeter = a + sB + c;
+                    resultHtml += `<span class="text-blue-600">Chu vi (dùng 3 cạnh): ${perimeter.toFixed(2)}</span>`;
+                } else {
+                    resultHtml += '<span class="text-red-600">Ba cạnh không tạo thành một tam giác hợp lệ.</span>';
+                }
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập 3 cạnh hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        function calculateParallelogram() {
+            const base = parseFloat(inputElements.parallelogramBase.value);
+            const height = parseFloat(inputElements.parallelogramHeight.value);
+            const side = parseFloat(inputElements.parallelogramSide.value);
+
+            let resultHtml = '';
+
+            if (validateInputs([base, height])) {
+                const area = base * height;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([base, side])) {
+                const perimeter = 2 * (base + side);
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập cạnh đáy và cạnh bên hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        function calculateTrapezoid() {
+            const base1 = parseFloat(inputElements.trapezoidBase1.value);
+            const base2 = parseFloat(inputElements.trapezoidBase2.value);
+            const height = parseFloat(inputElements.trapezoidHeight.value);
+            const side1 = parseFloat(inputElements.trapezoidSide1.value);
+            const side2 = parseFloat(inputElements.trapezoidSide2.value);
+
+            let resultHtml = '';
+
+            if (validateInputs([base1, base2, height])) {
+                const area = 0.5 * (base1 + base2) * height;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập hai đáy và chiều cao hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([base1, base2, side1, side2])) {
+                const perimeter = base1 + base2 + side1 + side2;
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập hai đáy và hai cạnh bên hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        function calculateRhombus() {
+            const d1 = parseFloat(inputElements.rhombusDiagonal1.value);
+            const d2 = parseFloat(inputElements.rhombusDiagonal2.value);
+            const s = parseFloat(inputElements.rhombusSide.value);
+
+            let resultHtml = '';
+
+            if (validateInputs([d1, d2])) {
+                const area = 0.5 * d1 * d2;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập hai đường chéo hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([s])) {
+                const perimeter = 4 * s;
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập độ dài cạnh hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        // Calculation functions for 3D shapes
+        function calculateCube() {
+            const s = parseFloat(inputElements.side.value);
+            if (!validateInputs([s])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập độ dài cạnh hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 6 * s * s;
+            const volume = s * s * s;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateSphere() {
+            const r = parseFloat(inputElements.radius.value);
+            if (!validateInputs([r])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 4 * Math.PI * r * r;
+            const volume = (4 / 3) * Math.PI * r * r * r;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateCylinder() {
+            const r = parseFloat(inputElements.radius.value);
+            const h = parseFloat(inputElements.height.value);
+            if (!validateInputs([r, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính và chiều cao hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 2 * Math.PI * r * (r + h);
+            const volume = Math.PI * r * r * h;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateCone() {
+            const r = parseFloat(inputElements.radius.value);
+            const h = parseFloat(inputElements.height.value);
+            let l = parseFloat(inputElements.slantHeight.value); // Slant height
+
+            if (!validateInputs([r, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính và chiều cao hợp lệ.</span>';
+                return;
+            }
+
+            // If slant height is not provided or invalid, calculate it
+            if (isNaN(l) || l <= 0) {
+                l = Math.sqrt(r * r + h * h);
+                // Optionally inform user that slant height was calculated
+                // console.log(`Slant height calculated: ${l.toFixed(2)}`);
+            }
+
+            const surfaceArea = Math.PI * r * (r + l);
+            const volume = (1 / 3) * Math.PI * r * r * h;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateRectangularPyramid() {
+            const baseSide = parseFloat(inputElements.pyramidBaseSide.value);
+            const height = parseFloat(inputElements.height.value);
+
+            if (!validateInputs([baseSide, height])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span>';
+                return;
+            }
+
+            const baseArea = baseSide * baseSide;
+            const volume = (1 / 3) * baseArea * height;
+
+            // Calculate slant height for surface area
+            const slantHeight = Math.sqrt(height * height + (baseSide / 2) * (baseSide / 2));
+            const lateralArea = 2 * baseSide * slantHeight; // Sum of 4 triangular faces
+            const totalSurfaceArea = baseArea + lateralArea;
+
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${totalSurfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateRectangularPrism() {
+            const l = parseFloat(inputElements.length.value);
+            const w = parseFloat(inputElements.width.value);
+            const h = parseFloat(inputElements.height.value);
+
+            if (!validateInputs([l, w, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập chiều dài, chiều rộng và chiều cao hợp lệ.</span>';
+                return;
+            }
+
+            const volume = l * w * h;
+            const surfaceArea = 2 * (l * w + l * h + w * h);
+
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+
+        // Main calculation handler
+        function handleCalculate() {
+            perimeterAreaResultDiv.innerHTML = '';
+            surfaceVolumeResultDiv.innerHTML = '';
+            resultBox.classList.remove('show-result'); // Remove class to re-trigger animation
+
+            const shapeType = shapeTypeSelect.value;
+            let selectedShape;
+
+            if (shapeType === '2D') {
+                selectedShape = d2ShapeSelect.value;
+                switch (selectedShape) {
+                    case 'square': calculateSquare(); break;
+                    case 'rectangle': calculateRectangle(); break;
+                    case 'circle': calculateCircle(); break;
+                    case 'triangle': calculateTriangle(); break;
+                    case 'parallelogram': calculateParallelogram(); break;
+                    case 'trapezoid': calculateTrapezoid(); break;
+                    case 'rhombus': calculateRhombus(); break;
+                }
+            } else { // 3D
+                selectedShape = d3ShapeSelect.value;
+                switch (selectedShape) {
+                    case 'cube': calculateCube(); break;
+                    case 'sphere': calculateSphere(); break;
+                    case 'cylinder': calculateCylinder(); break;
+                    case 'cone': calculateCone(); break;
+                    case 'rectangularPyramid': calculateRectangularPyramid(); break;
+                    case 'rectangularPrism': calculateRectangularPrism(); break;
+                }
+            }
+
+            // Check if any result was set, then add animation class
+            if (perimeterAreaResultDiv.innerHTML !== '' || surfaceVolumeResultDiv.innerHTML !== '') {
+                void resultBox.offsetWidth; // Trigger reflow
+                resultBox.classList.add('show-result');
+            }
+
+            // Add a pulse effect to the container on calculation
+            const container = document.querySelector('.container');
+            container.classList.remove('pulse'); // Remove to allow re-triggering animation
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add('pulse');
+        }
+
+        // Event Listeners
+        shapeTypeSelect.addEventListener('change', updateInputFields);
+        d2ShapeSelect.addEventListener('change', updateInputFields);
+        d3ShapeSelect.addEventListener('change', updateInputFields);
+        calculateBtn.addEventListener('click', handleCalculate);
+
+        // Initial setup on page load: clear inputs and results
+        window.onload = () => {
+            updateInputFields(); // This will also clear inputs and results
+            // Ensure result box is hidden initially
+            resultBox.classList.remove('show-result');
+        };
+    </script>
+</body>
+</html>

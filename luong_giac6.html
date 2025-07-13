@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính 6 Tỉ Số Lượng Giác</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deeper, more subtle dark gradient background */
+            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1; /* Default light text color for body */
+            perspective: 1000px; /* For 3D transforms */
+        }
+        .container {
+            background-color: #2c3e50; /* Slightly lighter dark container background */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 550px; /* Slightly wider container */
+            width: 100%;
+            text-align: center;
+            border: 1px solid #3d5a73; /* Subtle border for depth */
+            backdrop-filter: blur(5px); /* Subtle blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            transform-style: preserve-3d; /* For potential 3D effects later */
+        }
+        input[type="number"], button {
+            border-radius: 10px; /* More rounded inputs and buttons */
+            padding: 14px; /* Increased padding */
+            margin-bottom: 18px; /* More space between elements */
+            font-size: 1.05rem; /* Slightly larger font */
+            transition: all 0.3s ease; /* Smooth transitions for all elements */
+        }
+        input[type="number"] {
+            background-color: #34495e; /* Darker input background */
+            border: 1px solid #4a627a; /* Darker muted border for inputs */
+            color: #ecf0f1; /* Light text for inputs */
+            width: 100%; /* Ensure inputs take full width */
+            transition: all 0.4s ease-in-out; /* Slower, smoother transition */
+        }
+        input[type="number"]::placeholder {
+            color: #bdc3c7; /* Lighter placeholder text */
+            opacity: 0.7; /* Slightly transparent */
+        }
+        input[type="number"]:focus {
+            border-color: #3498db; /* Bright blue focus ring */
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.6), 0 2px 10px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+            background-color: #3d5a73; /* Slightly lighter on focus */
+            transform: translateY(-2px); /* Slight lift */
+        }
+        button {
+            background-color: #3498db; /* Vibrant blue button */
+            color: white;
+            cursor: pointer;
+            font-weight: 700; /* Bolder text */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for button text */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy effect */
+        }
+        button:hover {
+            background-color: #2980b9; /* Slightly darker blue on hover */
+            transform: translateY(-3px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6); /* Larger shadow on hover */
+        }
+        button:active {
+            transform: translateY(0) scale(0.98); /* Press down effect, slight shrink */
+            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3); /* Smaller shadow on press */
+            background-color: #2471a3; /* Even darker on active */
+        }
+        .result-container {
+            background-color: #34495e; /* Darker gray for result container */
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            margin-top: 25px; /* More space */
+            border: 1px solid #4a627a; /* Solid, muted border */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+            position: relative; /* For potential overlay effects */
+            overflow: hidden; /* Important for animation of content within */
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0; /* More padding for rows */
+            border-bottom: 1px solid #4a627a; /* Solid, slightly darker border for rows */
+            color: #ecf0f1; /* Light text for results */
+            font-size: 1.1rem; /* Slightly larger font for results */
+            opacity: 0; /* Start with opacity 0 for fade-in */
+            transform: translateY(10px); /* Start slightly below for slide-up */
+        }
+        .result-row:last-child {
+            border-bottom: none; /* No border for the last row */
+        }
+        .result-label {
+            color: #bdc3c7; /* Lighter muted label text */
+            font-weight: 500;
+        }
+        .result-value {
+            color: #ecf0f1; /* Light text for values */
+            font-weight: 600;
+        }
+        /* Keep original Tailwind colors for distinct feedback, adjusted for dark background */
+        .text-red-600 {
+            color: #e74c3c; /* Brighter red for visibility */
+            font-weight: 600;
+        }
+        .text-green-600 {
+            color: #2ecc71; /* Brighter green for visibility */
+            font-weight: 600;
+        }
+        .text-blue-600 {
+            color: #3498db; /* Brighter blue for visibility */
+            font-weight: 600;
+        }
+        h1, h2 {
+            color: #ecf0f1; /* Light heading color */
+            margin-bottom: 1.5rem; /* More space below headings */
+        }
+        .label-text {
+            color: #bdc3c7; /* Lighter muted label text */
+            font-weight: 600;
+            margin-bottom: 8px; /* Space below label */
+        }
+        .radio-label {
+            color: #bdc3c7; /* Lighter muted radio label text */
+            font-weight: 500;
+        }
+        /* Custom radio button styling */
+        .form-radio {
+            background-color: #34495e; /* Darker radio background */
+            border: 1px solid #4a627a; /* Darker radio border */
+            appearance: none; /* Remove default browser styling */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px; /* Larger radio button */
+            height: 20px; /* Larger radio button */
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .form-radio:checked {
+            background-color: #3498db; /* Blue when checked */
+            border-color: #3498db;
+            transform: scale(1.1); /* Slightly grow when checked */
+        }
+        .form-radio:checked::before {
+            content: '';
+            display: block;
+            width: 10px; /* Larger inner dot */
+            height: 10px; /* Larger inner dot */
+            background-color: white; /* White dot inside when checked */
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1); /* Ensure dot scales correctly */
+            transition: all 0.3s ease-in-out;
+        }
+        .form-radio:not(:checked):hover {
+            border-color: #3498db; /* Highlight border on hover when unchecked */
+        }
+        .form-radio:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Focus shadow for radio */
+        }
+
+        /* Animation for results when they appear/change */
+        .result-row.fade-in {
+            animation: fadeInSlide 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Optional: Add a subtle pulse to the entire container on initial load or interaction */
+        .container.pulse {
+            animation: pulseEffect 1s ease-in-out forwards;
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: scale(1.005); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6">Tính 6 Tỉ Số Lượng Giác</h1>
+
+        <div class="mb-4">
+            <label for="angleInput" class="block text-left text-sm label-text">Nhập giá trị góc:</label>
+            <input type="number" id="angleInput" placeholder="Ví dụ: 45 hoặc 3.14" value=""
+                   class="input-field w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200">
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-left text-sm label-text">Đơn vị:</label>
+            <div class="flex items-center space-x-6 mt-2">
+                <label class="inline-flex items-center radio-label">
+                    <input type="radio" name="angleUnit" value="degrees" checked
+                           class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 rounded-full">
+                    <span class="ml-2">Độ</span>
+                </label>
+                <label class="inline-flex items-center radio-label">
+                    <input type="radio" name="angleUnit" value="radians"
+                           class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 rounded-full">
+                    <span class="ml-2">Radian</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Button to calculate -->
+        <button id="calculateBtn"
+                class="w-full text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out transform hover:scale-105 shadow-md">
+            Tính Toán
+        </button>
+
+        <!-- Display area for results -->
+        <div class="mt-8 p-4 rounded-lg result-container">
+            <h2 class="text-xl font-semibold mb-4 text-center">Kết Quả:</h2>
+            <div id="resultContainer">
+                <!-- Results will be dynamically inserted here -->
+                <div class="result-row">
+                    <span class="result-label">sin(x):</span>
+                    <span id="sinResult" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">cos(x):</span>
+                    <span id="cosResult" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">tan(x):</span>
+                    <span id="tanResult" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">cot(x):</span>
+                    <span id="cotResult" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">sec(x):</span>
+                    <span id="secResult" class="result-value"></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">csc(x):</span>
+                    <span id="cscResult" class="result-value"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', calculateTrigRatios);
+
+        function calculateTrigRatios() {
+            const angleInput = parseFloat(document.getElementById('angleInput').value);
+            const unit = document.querySelector('input[name="angleUnit"]:checked').value;
+
+            // Get result display elements
+            const sinResult = document.getElementById('sinResult');
+            const cosResult = document.getElementById('cosResult');
+            const tanResult = document.getElementById('tanResult');
+            const cotResult = document.getElementById('cotResult');
+            const secResult = document.getElementById('secResult');
+            const cscResult = document.getElementById('cscResult');
+
+            // Array of result elements for easier iteration
+            const resultElements = [sinResult, cosResult, tanResult, cotResult, secResult, cscResult];
+
+            // Clear previous results and reset colors, and remove animation class
+            resultElements.forEach(el => {
+                el.textContent = '';
+                el.classList.remove('text-red-600', 'text-green-600', 'text-blue-600');
+                // Remove fade-in class from the parent result-row to re-trigger animation
+                el.parentNode.classList.remove('fade-in');
+            });
+
+            if (isNaN(angleInput)) {
+                // Only display error message for the first result row, others remain empty
+                setResult(sinResult, 'Vui lòng nhập một số hợp lệ.', true);
+                return;
+            }
+
+            let angleRadians;
+            if (unit === 'degrees') {
+                angleRadians = angleInput * (Math.PI / 180); // Convert degrees to radians
+            } else {
+                angleRadians = angleInput; // Already in radians
+            }
+
+            // Calculate primary ratios
+            const sinVal = Math.sin(angleRadians);
+            const cosVal = Math.cos(angleRadians);
+            const tanVal = Math.tan(angleRadians);
+
+            // Function to set text and add animation
+            function setResult(element, value, isError = false) {
+                element.textContent = value;
+                if (isError) {
+                    element.classList.add('text-red-600');
+                } else {
+                    // Optional: add a class for successful results if needed for different styling
+                    // element.classList.add('text-green-600');
+                }
+                // Add fade-in class to the parent result-row after a small delay for staggered effect
+                setTimeout(() => {
+                    element.parentNode.classList.add('fade-in');
+                }, 50); // Small delay for each row
+            }
+
+            // Display results with fixed precision and animations
+            setResult(sinResult, sinVal.toFixed(6));
+            setResult(cosResult, cosVal.toFixed(6));
+
+            // Handle tangent (tan(90 + n*180) degrees is undefined)
+            // Check if cosine is very close to zero to avoid division by zero
+            if (Math.abs(cosVal) < 1e-9) { // Using a small epsilon for floating point comparison
+                setResult(tanResult, 'Không xác định', true);
+            } else {
+                setResult(tanResult, tanVal.toFixed(6));
+            }
+
+            // Handle cotangent (cot(0 + n*180) degrees is undefined)
+            // Check if sine is very close to zero
+            if (Math.abs(sinVal) < 1e-9) {
+                setResult(cotResult, 'Không xác định', true);
+            } else {
+                setResult(cotResult, (1 / tanVal).toFixed(6));
+            }
+
+            // Handle secant (1/cos)
+            if (Math.abs(cosVal) < 1e-9) {
+                setResult(secResult, 'Không xác định', true);
+            } else {
+                setResult(secResult, (1 / cosVal).toFixed(6));
+            }
+
+            // Handle cosecant (1/sin)
+            if (Math.abs(sinVal) < 1e-9) {
+                setResult(cscResult, 'Không xác định', true);
+            } else {
+                setResult(cscResult, (1 / sinVal).toFixed(6));
+            }
+
+            // Add a pulse effect to the container on calculation
+            const container = document.querySelector('.container');
+            container.classList.remove('pulse'); // Remove to allow re-triggering animation
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add('pulse');
+        }
+
+        // Removed initial calculation on window load
+        // window.onload = calculateTrigRatios; 
+        
+        // Clear results on initial load
+        window.onload = function() {
+            document.getElementById('angleInput').value = ''; // Clear the input field
+            const resultElements = [
+                document.getElementById('sinResult'),
+                document.getElementById('cosResult'),
+                document.getElementById('tanResult'),
+                document.getElementById('cotResult'),
+                document.getElementById('secResult'),
+                document.getElementById('cscResult')
+            ];
+            resultElements.forEach(el => {
+                el.textContent = '';
+                el.classList.remove('text-red-600', 'text-green-600', 'text-blue-600');
+                el.parentNode.classList.remove('fade-in');
+            });
+        };
+    </script>
+</body>
+</html>

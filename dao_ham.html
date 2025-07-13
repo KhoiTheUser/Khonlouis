@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Hàm</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deeper, more subtle dark gradient background */
+            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1; /* Default light text color for body */
+            perspective: 1000px; /* For 3D transforms */
+        }
+        .container {
+            background-color: #2c3e50; /* Slightly lighter dark container background */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 550px; /* Slightly wider container */
+            width: 100%;
+            text-align: center;
+            border: 1px solid #3d5a73; /* Subtle border for depth */
+            backdrop-filter: blur(5px); /* Subtle blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            transform-style: preserve-3d; /* For potential 3D effects later */
+        }
+        input[type="text"], input[type="number"], button {
+            border-radius: 10px; /* More rounded inputs and buttons */
+            padding: 14px; /* Increased padding */
+            margin-bottom: 18px; /* More space between elements */
+            font-size: 1.05rem; /* Slightly larger font */
+            transition: all 0.3s ease; /* Smooth transitions for all elements */
+        }
+        input[type="text"], input[type="number"] {
+            background-color: #34495e; /* Darker input background */
+            border: 1px solid #4a627a; /* Darker muted border for inputs */
+            color: #ecf0f1; /* Light text for inputs */
+            width: 100%; /* Ensure inputs take full width */
+            transition: all 0.4s ease-in-out; /* Slower, smoother transition */
+        }
+        input[type="text"]::placeholder, input[type="number"]::placeholder {
+            color: #bdc3c7; /* Lighter placeholder text */
+            opacity: 0.7; /* Slightly transparent */
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #3498db; /* Bright blue focus ring */
+            outline: none;
+            box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.7), 0 4px 15px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+            background-color: #3d5a73; /* Slightly lighter on focus */
+            transform: scale(1.01) translateY(-2px); /* Subtle scale and lift */
+        }
+        button {
+            background-color: #3498db; /* Vibrant blue button */
+            color: white;
+            cursor: pointer;
+            font-weight: 700; /* Bolder text */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for button text */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy effect */
+        }
+        button:hover {
+            background-color: #2980b9; /* Slightly darker blue on hover */
+            transform: translateY(-5px) scale(1.02) rotate(1deg); /* More pronounced lift, scale, and slight rotation */
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.7); /* Larger shadow on hover */
+        }
+        button:active {
+            transform: translateY(0) scale(0.95); /* More pronounced press effect, slight shrink */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* Smaller shadow on press */
+            background-color: #1a608d; /* Even darker on active */
+        }
+        .result-box {
+            background-color: #34495e; /* Darker gray for result */
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            margin-top: 25px; /* More space */
+            min-height: 9rem; /* Ensure enough space for results */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            text-align: center;
+            font-size: 1.15rem; /* Slightly larger font */
+            color: #ecf0f1; /* Light text for result */
+            border: 1px solid #4a627a; /* Solid, muted border for result box */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+            opacity: 0; /* Start with opacity 0 for fade-in */
+            transform: translateY(10px); /* Start slightly below for slide-up */
+        }
+        .result-box.fade-in {
+            animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* New popIn animation */
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px); /* Overshoot slightly */
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Optional: Add a subtle pulse to the entire container on initial load or interaction */
+        .container.pulse {
+            animation: pulseEffect 1s ease-in-out forwards;
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: scale(1.005); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        }
+
+        .result-box span {
+            display: block;
+            margin-bottom: 8px; /* More space between lines in result */
+        }
+        .result-box span:last-child {
+            margin-bottom: 0;
+        }
+        /* MathJax styling for better display in dark mode */
+        .MathJax_Display {
+            overflow-x: auto; /* Allow horizontal scrolling for long equations */
+            padding: 12px 15px; /* More padding around equations */
+            background-color: #4a627a; /* Darker background for equations */
+            border-radius: 0.75rem; /* More rounded corners for equation box */
+            margin-top: 1.25rem; /* More margin */
+            color: #ecf0f1 !important; /* Ensure MathJax text is light */
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15); /* Subtle inner shadow for equation box */
+        }
+        /* Adjust MathJax text color for inline math as well */
+        .MathJax_CHTML {
+            color: #ecf0f1 !important;
+        }
+        .MathJax_CHTML span {
+            color: #ecf0f1 !important;
+        }
+        .text-red-600 {
+            color: #e74c3c; /* Brighter red for visibility */
+            font-weight: 600;
+        }
+        .text-green-600 {
+            color: #2ecc71; /* Brighter green for visibility */
+            font-weight: 600;
+        }
+        .text-blue-600 {
+            color: #3498db; /* Brighter blue for visibility */
+            font-weight: 600;
+        }
+        h1, h2 {
+            color: #ecf0f1; /* Light heading color */
+            margin-bottom: 1.5rem; /* More space below headings */
+        }
+        .label-text {
+            color: #bdc3c7; /* Lighter muted label text */
+            font-weight: 600;
+            margin-bottom: 8px; /* Space below label */
+        }
+        .hint-text {
+            color: #bdc3c7; /* Lighter hint text */
+            font-size: 0.85rem; /* Slightly larger hint text */
+            margin-top: -10px; /* Pull hint text closer to input */
+            margin-bottom: 15px; /* Space below hint text */
+            opacity: 0.8;
+        }
+    </style>
+    <!-- Math.js CDN for symbolic differentiation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
+    <!-- MathJax CDN for rendering mathematical equations -->
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+        // Configure MathJax to process TeX in HTML
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            chtml: {
+                // Ensure MathJax output respects the dark theme colors
+                scale: 1,
+                displayAlign: 'center',
+                displayIndent: '0em',
+                matchFontHeight: true,
+                linebreaks: {
+                    automatic: true,
+                    width: "container"
+                },
+                styles: {
+                    '.mjx-chtml': {
+                        color: '#ecf0f1 !important', /* Override MathJax default text color */
+                    },
+                    '.mjx-chtml span': {
+                        color: '#ecf0f1 !important', /* Override MathJax default span text color */
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6">Ứng Dụng Tính Đạo Hàm</h1>
+
+        <div class="mb-4">
+            <label for="functionInput" class="block text-left text-sm label-text">Nhập hàm số f(x):</label>
+            <input type="text" id="functionInput" placeholder="Ví dụ: x^3 + 2*x - sin(x)" value="" class="input-field">
+            <p class="hint-text text-left">Sử dụng '*' cho phép nhân, '^' cho lũy thừa. Ví dụ: `2*x`, `x^2`.</p>
+        </div>
+
+        <div class="mb-4">
+            <label for="variableInput" class="block text-left text-sm label-text">Biến đạo hàm (ví dụ: x):</label>
+            <input type="text" id="variableInput" placeholder="x" value="" class="input-field">
+        </div>
+
+        <div class="mb-6">
+            <label for="orderInput" class="block text-left text-sm label-text">Bậc đạo hàm (ví dụ: 1 cho sơ cấp, 2 cho cao cấp):</label>
+            <input type="number" id="orderInput" placeholder="1" value="" min="1" class="input-field">
+        </div>
+
+        <!-- Button to calculate derivative -->
+        <button id="calculateBtn"
+                class="w-full text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out transform hover:scale-105 shadow-md">
+            Tính Đạo Hàm
+        </button>
+
+        <!-- Display area for results -->
+        <div class="mt-8 p-4 rounded-lg result-box">
+            <h2 class="text-xl font-semibold mb-2">Kết Quả Đạo Hàm:</h2>
+            <div id="result" class="text-gray-900">
+                <!-- Result will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', calculateDerivative);
+
+        async function calculateDerivative() {
+            const functionStr = document.getElementById('functionInput').value;
+            const variable = document.getElementById('variableInput').value;
+            const order = parseInt(document.getElementById('orderInput').value);
+            const resultDiv = document.getElementById('result');
+            const resultBox = document.querySelector('.result-box');
+
+            // Clear previous results and remove animation class
+            resultDiv.innerHTML = '';
+            resultDiv.classList.remove('text-red-600', 'text-green-600', 'text-blue-600', 'text-gray-900');
+            resultBox.classList.remove('fade-in'); // Remove fade-in to re-trigger animation
+
+            if (!functionStr || !variable) {
+                resultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập đầy đủ hàm số và biến đạo hàm.</span>';
+                resultBox.classList.add('fade-in'); // Add fade-in for error message
+                return;
+            }
+            if (isNaN(order) || order < 1) {
+                resultDiv.innerHTML = '<span class="text-red-600">Bậc đạo hàm phải là một số nguyên dương.</span>';
+                resultBox.classList.add('fade-in'); // Add fade-in for error message
+                return;
+            }
+
+            try {
+                let expr = math.parse(functionStr);
+                let derivativeResult = expr;
+
+                // Calculate higher-order derivatives
+                for (let i = 0; i < order; i++) {
+                    derivativeResult = math.derivative(derivativeResult, variable);
+                }
+
+                // Format the result for display
+                const formattedResult = derivativeResult.toTex({parenthesis: 'auto'}); // Convert to LaTeX string
+
+                resultDiv.innerHTML = `<span class="text-blue-600">Đạo hàm bậc ${order} của $f(${variable})$ là:</span><br>$$${formattedResult}$$`;
+                resultBox.classList.add('fade-in'); // Add fade-in for successful result
+
+                // Re-render MathJax after updating content
+                await MathJax.typesetPromise([resultDiv]);
+
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="text-red-600">Lỗi: ${error.message}. Vui lòng kiểm tra lại cú pháp hàm số.</span>`;
+                resultBox.classList.add('fade-in'); // Add fade-in for error message
+                console.error("Derivative calculation error:", error);
+            }
+
+            // Add a pulse effect to the container on calculation
+            const container = document.querySelector('.container');
+            container.classList.remove('pulse'); // Remove to allow re-triggering animation
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add('pulse');
+        }
+
+        // Clear input fields and result box on initial load
+        window.onload = function() {
+            document.getElementById('functionInput').value = '';
+            document.getElementById('variableInput').value = '';
+            document.getElementById('orderInput').value = '';
+            document.getElementById('result').innerHTML = '';
+            document.querySelector('.result-box').classList.remove('fade-in'); // Ensure result box is hidden initially
+        };
+    </script>
+</body>
+</html>
