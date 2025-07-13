@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deeper, more subtle dark gradient background */
+            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1; /* Default light text color for body */
+            perspective: 1000px; /* For 3D transforms */
+        }
+        .container {
+            background-color: #2c3e50; /* Slightly lighter dark container background */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 650px; /* Adjusted max-width for homepage content to allow more space for buttons */
+            width: 100%;
+            text-align: center;
+            border: 1px solid #3d5a73; /* Subtle border for depth */
+            backdrop-filter: blur(5px); /* Subtle blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            transform-style: preserve-3d; /* For potential 3D effects later */
+        }
+        h1 {
+            color: #ecf0f1; /* Light heading color */
+            font-size: 3.2rem; /* Slightly larger main title */
+            font-weight: 700;
+            margin-bottom: 2.2rem; /* More space below heading for better flow */
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4); /* Slightly deeper text shadow for more prominence */
+        }
+        p {
+            color: #bdc3c7; /* Lighter muted paragraph text */
+            font-size: 1.15rem; /* Slightly larger paragraph text */
+            line-height: 1.7; /* Increased line height for better readability */
+            margin-bottom: 3.5rem; /* More space below paragraph for clear separation */
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically by default */
+            gap: 1.5rem; /* Increased space between buttons */
+            margin-top: 3rem; /* More space above button group */
+            margin-bottom: 3rem; /* More space below button group before author */
+        }
+        .app-button {
+            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
+            color: white;
+            cursor: pointer;
+            font-weight: 700; /* Bolder text */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for button text */
+            border-radius: 10px; /* More rounded */
+            padding: 18px 28px; /* Increased padding for a larger feel */
+            font-size: 1.2rem; /* Larger font size */
+            border: none; /* Remove default border */
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
+            display: block; /* Ensure button takes full width in column layout */
+            width: 100%;
+        }
+        .app-button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
+            transform: translateY(-4px) scale(1.015); /* Gentle lift and slight scale */
+            box-shadow: 0 12px 28px rgba(52, 152, 219, 0.7); /* Larger, more vibrant shadow on hover */
+        }
+        .app-button:active {
+            transform: translateY(0) scale(0.97); /* Gentle press effect, slightly more pronounced shrink */
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3); /* Smaller shadow on press */
+            background: #2471a3; /* Solid darker blue on active */
+        }
+
+        /* Optional: Add a subtle pulse to the entire container on initial load */
+        .container.pulse {
+            animation: pulseEffect 1.2s ease-in-out forwards; /* Slower pulse for more grand feel */
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: scale(1.008); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5); } /* More pronounced pulse */
+            100% { transform: scale(1); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        }
+
+        .author-text {
+            color: #8c9ba5; /* Slightly darker, more subtle text for author */
+            font-size: 1rem; /* Slightly larger author text */
+            margin-top: 2rem; /* More space above author text */
+        }
+
+        /* Responsive adjustments for larger screens (desktop) */
+        @media (min-width: 768px) {
+            .button-group {
+                display: grid; /* Change to grid for better control */
+                grid-template-columns: repeat(2, 1fr); /* Two columns, equal width */
+                gap: 2rem; /* Larger gap for more breathing room */
+                max-width: 550px; /* Constrain grid width to align with content */
+                margin-left: auto; /* Center the grid */
+                margin-right: auto; /* Center the grid */
+            }
+            .app-button {
+                width: auto; /* Let grid handle width */
+                max-width: none; /* Remove previous max-width constraint */
+                padding: 22px; /* Even more padding for a grander feel */
+                font-size: 1.3rem; /* Larger font */
+            }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="container" id="homepageContainer">
+        <h1>Chào mừng đến với các công cụ hay ho của Khonlouis!</h1>
+        <p>Khám phá các công cụ tính toán mạnh mẽ cho hình học, đạo hàm và hệ phương trình tuyến tính. Giao diện trực quan và dễ sử dụng, giúp bạn giải quyết các bài toán phức tạp một cách hiệu quả.</p>
+
+        <div class="button-group">
+            <a href="luong_giac6.html" class="app-button">Tỉ Số Lượng Giác</a>
+            <a href="dao_ham.html" class="app-button">Tính Đạo Hàm</a>
+            <a href="hpt.html" class="app-button">Giải Hệ Phương Trình</a>
+            <a href="pt_bac_2.html" class="app-button">Phương Trình Bậc Hai</a>
+            <a href="hinh_hoc.html" class="app-button">Hình Học</a>
+        </div>
+
+        <p class="author-text">Tác giả: khonlouis</p>
+    </div>
+
+    <script>
+        // Add pulse effect to the container on initial load
+        window.onload = function() {
+            const container = document.getElementById('homepageContainer');
+            container.classList.add('pulse');
+        };
+    </script>
+</body>
+</html>
