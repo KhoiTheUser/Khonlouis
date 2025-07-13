@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Custom font for better aesthetics */
         body {
@@ -33,6 +35,7 @@
             -webkit-backdrop-filter: blur(5px); /* For Safari */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
             transform-style: preserve-3d; /* For potential 3D effects later */
+            /* Removed position: relative; as the music button will be fixed to viewport */
         }
         h1 {
             color: #ecf0f1; /* Light heading color */
@@ -99,6 +102,37 @@
             margin-top: 2rem; /* More space above author text */
         }
 
+        /* Music Player Floating Button */
+        .music-player-floating-button {
+            position: fixed; /* Fixed position relative to the viewport */
+            bottom: 30px; /* 30px from the bottom */
+            left: 30px; /* 30px from the left */
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            width: 60px; /* Smaller size */
+            height: 60px; /* Smaller size */
+            border-radius: 50%; /* Circular button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Icon size */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1000; /* Ensure it's above all other content */
+        }
+
+        .music-player-floating-button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-3px) scale(1.05); /* Gentle lift and slight scale */
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        .music-player-floating-button:active {
+            transform: translateY(0) scale(0.95); /* Gentle press effect */
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+            background: #2471a3;
+        }
+
         /* Responsive adjustments for larger screens (desktop) */
         @media (min-width: 768px) {
             .button-group {
@@ -124,15 +158,20 @@
         <p>Khám phá các công cụ tính toán mạnh mẽ cho hình học, đạo hàm và hệ phương trình tuyến tính. Giao diện trực quan và dễ sử dụng, giúp bạn giải quyết các bài toán phức tạp một cách hiệu quả.</p>
 
         <div class="button-group">
-            <a href="luong_giac6.html" class="app-button">Tỉ Số Lượng Giác</a>
-            <a href="dao_ham.html" class="app-button">Tính Đạo Hàm</a>
-            <a href="hpt.html" class="app-button">Giải Hệ Phương Trình</a>
-            <a href="pt_bac_2.html" class="app-button">Phương Trình Bậc Hai</a>
-            <a href="hinh_hoc.html" class="app-button">Hình Học</a>
+            <a href="domain/6 tỉ số lượng giác.html" class="app-button">Tỉ Số Lượng Giác</a>
+            <a href="domain/đạo hàm.html" class="app-button">Tính Đạo Hàm</a>
+            <a href="domain/hpt.html" class="app-button">Giải Hệ Phương Trình</a>
+            <a href="domain/phuong_trinh_bac_hai.html" class="app-button">Phương Trình Bậc Hai</a>
+            <a href="domain/tính chu vi, diện tích, thể tích hình thcs, thpt.html" class="app-button">Hình Học</a>
         </div>
 
         <p class="author-text">Tác giả: khonlouis</p>
     </div>
+
+    <!-- Music Player Button (moved outside .container for fixed positioning) -->
+    <a href="music.html" class="music-player-floating-button" title="Trình Phát Nhạc">
+        <i class="fas fa-music"></i>
+    </a>
 
     <script>
         // Add pulse effect to the container on initial load
