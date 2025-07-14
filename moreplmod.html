@@ -76,6 +76,33 @@
             100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
         }
 
+        /* Page Transition Animations - Changed to Fade In/Out with subtle timing */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .page-transition-in {
+            animation: fadeIn 0.4s ease-out forwards; /* Shorter duration for subtlety */
+        }
+
+        .page-transition-out {
+            animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
+        }
+
         /* Main content container */
         .article-container {
             background-color: rgba(44, 62, 80, 0.8);
@@ -90,9 +117,9 @@
             -webkit-backdrop-filter: blur(10px);
             position: relative;
             z-index: 1;
-            /* Enhanced entrance animation */
-            animation: fadeInSlideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            opacity: 0; /* Start hidden for animation */
+            /* Enhanced entrance animation - removed as page-transition-in will handle it */
+            /* animation: fadeInSlideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards; */
+            /* opacity: 0; */ /* Start hidden for animation - removed as page-transition-in will handle it */
             margin-top: 50px; /* Space from top for back button */
             margin-bottom: 50px; /* Space at bottom */
         }
@@ -148,7 +175,7 @@
         }
         .back-button:active {
             transform: translateY(0) scale(0.92); /* Slightly more pronounced press effect */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         .back-button svg {
             width: 1.2em;
@@ -359,86 +386,455 @@
                 font-size: 1.2rem;
             }
         }
+
+        /* Music Player Floating Button - Copied from index.html */
+        .music-player-floating-button-wrapper {
+            position: fixed; /* Fixed position relative to the viewport */
+            bottom: 30px; /* 30px from the bottom */
+            left: 30px; /* 30px from the left */
+            z-index: 1000; /* Ensure it's above all other content */
+            display: flex;
+            align-items: flex-end; /* Align tooltip to the bottom of the button */
+            justify-content: flex-start; /* Align tooltip to the left of the button */
+        }
+
+        .music-player-floating-button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            width: 60px; /* Smaller size */
+            height: 60px; /* Smaller size */
+            border-radius: 50%; /* Circular button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Icon size */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative; /* For tooltip positioning */
+            z-index: 1; /* Ensure button is above tooltip when active */
+        }
+
+        .music-player-floating-button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-3px) scale(1.05); /* Gentle lift and slight scale */
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        .music-player-floating-button:active {
+            transform: translateY(0) scale(0.95); /* Gentle press effect */
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+            background: #2471a3;
+        }
+
+        /* Pulse effect for the music button when playing */
+        @keyframes pulseMusicButton {
+            0% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(52, 152, 219, 0.8), 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+        }
+
+        .music-player-floating-button.playing {
+            animation: pulseMusicButton 1.5s infinite ease-in-out;
+        }
+
+
+        /* Custom Tooltip Styles - Copied from index.html */
+        .music-tooltip {
+            position: absolute;
+            left: 70px; /* Position to the right of the button */
+            bottom: 50%; /* Vertically center with the button */
+            transform: translateY(50%); /* Adjust for vertical centering */
+            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency */
+            color: #ecf0f1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            white-space: nowrap; /* Prevent text wrapping */
+            opacity: 0; /* Hidden by default */
+            visibility: hidden; /* Hidden by default */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-size: 0.95rem;
+            pointer-events: none; /* Allow clicks to pass through */
+            border: 1px solid #3d5a73; /* Subtle border */
+            backdrop-filter: blur(3px); /* Subtle blur for the tooltip */
+            -webkit-backdrop-filter: blur(3px); /* For Safari */
+            display: flex; /* Use flexbox for layout inside tooltip */
+            align-items: center; /* Vertically align items */
+            gap: 10px; /* Space between image and text */
+        }
+
+        .music-tooltip img {
+            width: 50px; /* Size of the album cover */
+            height: 50px;
+            border-radius: 4px; /* Slightly rounded corners for the image */
+            object-fit: cover; /* Ensure the image covers the area without distortion */
+            flex-shrink: 0; /* Prevent image from shrinking */
+        }
+
+        .music-tooltip-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .music-tooltip-content .song-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #ecf0f1;
+        }
+
+        .music-tooltip-content .song-details {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        .music-player-floating-button-wrapper:hover .music-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
-    <!-- Back button positioned outside the article container -->
-    <a href="index.html" class="back-button" title="Quay lại Trang Chủ">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </a>
+    <!-- Page Content Wrapper for Transitions -->
+    <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-start">
+        <!-- Back button positioned outside the article container -->
+        <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
 
-    <div class="aurora-background">
-        <div class="aurora-layer"></div>
-        <div class="aurora-layer"></div>
-        <div class="aurora-layer"></div>
-        <div class="aurora-layer"></div>
+        <div class="aurora-background">
+            <div class="aurora-layer"></div>
+            <div class="aurora-layer"></div>
+            <div class="aurora-layer"></div>
+            <div class="aurora-layer"></div>
+        </div>
+
+        <div class="article-container">
+            <h1>GTA San Andreas: More Police Mod v1.1</h1>
+
+            <p>Grand Theft Auto: San Andreas vẫn là một trong những tựa game được yêu thích nhất mọi thời đại, và cộng đồng modding của nó vẫn hoạt động mạnh mẽ.</p>
+
+           <div class="image-gallery">
+                <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
+                <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
+                <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
+            </div>
+
+            <h2>Mod này làm gì?</h2>
+            <p>"More Police Mod v1.1" tập trung vào việc tăng cường sự hiện diện và hành vi của cảnh sát trong game. Nếu bạn đã từng cảm thấy cảnh sát trong GTA San Andreas hơi "hiền" hoặc dễ dàng bị cắt đuôi, bản mod này sẽ thay đổi điều đó. Mặc dù thông tin chi tiết về các tính năng cụ thể của phiên bản 1.1 không được công bố rộng rãi, nhưng các bản mod cảnh sát tương tự thường bao gồm:</p>
+            <ul>
+                <li><strong>Tăng cường số lượng cảnh sát:</strong> Bạn sẽ thấy nhiều xe cảnh sát và sĩ quan hơn tuần tra trên đường, đặc biệt là khi bạn có mức độ truy nã cao.</li>
+                <li><strong>Hành vi cảnh sát thông minh hơn:</strong> Cảnh sát có thể trở nên hung hãn hơn, sử dụng chiến thuật truy đuổi hiệu quả hơn, và khó cắt đuôi hơn.</li>
+                <li><strong>Phản ứng nhanh hơn:</strong> Lực lượng cảnh sát sẽ phản ứng nhanh chóng hơn với các hành vi phạm tội của bạn.</li>
+                <li><strong>Các loại phương tiện cảnh sát đa dạng hơn:</strong> Có thể bao gồm sự xuất hiện của các loại xe cảnh sát đặc biệt hơn như Ranger hoặc Enforcer, tùy thuộc vào mức độ truy nã và khu vực.</li>
+            </ul>
+            <p>Mục tiêu chính của bản mod là làm cho hệ thống truy nã trở nên thử thách và hấp dẫn hơn, buộc người chơi phải suy nghĩ kỹ hơn về hành vi của mình và tìm kiếm những cách trốn thoát sáng tạo hơn.</p>
+
+            <div class="image-gallery">
+                <img src="image/1717791649_abcdef.jpg" alt="Cảnh sát bao vây trong GTA San Andreas">
+                <img src="image/1717791649_abcdefgsi.jpg" alt="Xe cảnh sát đang đuổi theo">
+            </div>
+
+            <h2>Tại sao bạn nên thử?</h2>
+            <p>Nếu bạn là một fan hâm mộ lâu năm của GTA San Andreas và muốn làm mới trải nghiệm chơi game, "More Police Mod v1.1" là một lựa chọn tuyệt vời. Nó mang lại:</p>
+            <ul>
+                <li><strong>Tăng tính thử thách:</strong> Đối với những người chơi muốn một thử thách cao hơn, bản mod này sẽ làm cho việc thoát khỏi cảnh sát trở nên khó khăn và thú vị hơn.</li>
+                <li><strong>Trải nghiệm nhập vai:</strong> Cảm giác bị truy đuổi bởi một lực lượng cảnh sát đông đảo và quyết liệt sẽ tăng cường tính nhập vai, khiến bạn cảm thấy như đang thực sự là một tên tội phạm bị săn lùng.</li>
+                <li><strong>Kịch tính hơn:</strong> Những cuộc rượt đuổi tốc độ cao sẽ trở nên căng thẳng và mãn nhãn hơn rất nhiều.</li>
+            </ul>
+
+           <div class="image-gallery">
+                <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
+                <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
+                <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
+            </div>
+
+            <h2>Lưu ý khi cài đặt</h2>
+            <p>Việc cài đặt các bản mod cho GTA San Andreas thường yêu cầu một số công cụ hỗ trợ như ModLoader, Cleo(cụ thể hơn là ASI loader), tùy thuộc vào loại mod. Đối với các bản mod thay đổi hành vi hoặc thêm phương tiện, bạn có thể cần:</p>
+            <ol class="list-decimal list-inside ml-5">
+                <li><strong>Tải xuống mod:</strong> Bản mod thường ở định dạng RAR. "1722115496_More Police mod v1.1.rar"</li>
+                <li><strong>Sử dụng công cụ cài đặt mod:</strong> Các công cụ như Cleo 4.4, ModLoader có thể tự động phát hiện thư mục game của bạn, tùy theo bạn cài đặt và giúp bạn cài đặt mod một cách dễ dàng bằng cách chọn file RAR.</li>
+                <li><strong>Thay thế hoặc thêm file:</strong> Một số mod có thể yêu cầu bạn thay thế các file game hiện có (ví dụ: một số mod như cài skin, chỉnh file hệ thống game,...). Luôn sao lưu các file gốc trước khi cài đặt mod để tránh lỗi.</li>
+            </ol>
+            <div class="important-note">
+                <strong>Quan trọng:</strong> luôn cài AsiLoader và Cleo 4.4 đầy đủ, có thể tải mod <a href="https://www.gtainside.com/en/sanandreas/mods/200093-more-police-mod-v1-1/" target="_blank"><span class="highlight-glow">tại đây</span></a>.
+            </div>
+            <p>"More Police Mod v1.1" hứa hẹn sẽ thổi một luồng gió mới vào những cuộc phiêu lưu của bạn tại San Andreas, biến mỗi lần truy nã thành một cuộc chiến sinh tồn đầy cam go và hấp dẫn.</p>
+        </div>
+
+        <!-- Image Modal -->
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <img id="modalImage" src="" alt="Full size image">
+                <span class="close-modal-btn" id="closeModalBtn">&times;</span>
+            </div>
+        </div>
     </div>
 
-    <div class="article-container">
-        <h1>GTA San Andreas: More Police Mod v1.1</h1>
-
-        <p>Grand Theft Auto: San Andreas vẫn là một trong những tựa game được yêu thích nhất mọi thời đại, và cộng đồng modding của nó vẫn hoạt động mạnh mẽ.</p>
-
-       <div class="image-gallery">
-            <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
-            <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
-            <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
-        </div>
-
-        <h2>Mod này làm gì?</h2>
-        <p>"More Police Mod v1.1" tập trung vào việc tăng cường sự hiện diện và hành vi của cảnh sát trong game. Nếu bạn đã từng cảm thấy cảnh sát trong GTA San Andreas hơi "hiền" hoặc dễ dàng bị cắt đuôi, bản mod này sẽ thay đổi điều đó. Mặc dù thông tin chi tiết về các tính năng cụ thể của phiên bản 1.1 không được công bố rộng rãi, nhưng các bản mod cảnh sát tương tự thường bao gồm:</p>
-        <ul>
-            <li><strong>Tăng cường số lượng cảnh sát:</strong> Bạn sẽ thấy nhiều xe cảnh sát và sĩ quan hơn tuần tra trên đường, đặc biệt là khi bạn có mức độ truy nã cao.</li>
-            <li><strong>Hành vi cảnh sát thông minh hơn:</strong> Cảnh sát có thể trở nên hung hãn hơn, sử dụng chiến thuật truy đuổi hiệu quả hơn, và khó cắt đuôi hơn.</li>
-            <li><strong>Phản ứng nhanh hơn:</strong> Lực lượng cảnh sát sẽ phản ứng nhanh chóng hơn với các hành vi phạm tội của bạn.</li>
-            <li><strong>Các loại phương tiện cảnh sát đa dạng hơn:</strong> Có thể bao gồm sự xuất hiện của các loại xe cảnh sát đặc biệt hơn như Ranger hoặc Enforcer, tùy thuộc vào mức độ truy nã và khu vực.</li>
-        </ul>
-        <p>Mục tiêu chính của bản mod là làm cho hệ thống truy nã trở nên thử thách và hấp dẫn hơn, buộc người chơi phải suy nghĩ kỹ hơn về hành vi của mình và tìm kiếm những cách trốn thoát sáng tạo hơn.</p>
-
-        <div class="image-gallery">
-            <img src="image/1717791649_abcdef.jpg" alt="Cảnh sát bao vây trong GTA San Andreas">
-            <img src="image/1717791649_abcdefgsi.jpg" alt="Xe cảnh sát đang đuổi theo">
-        </div>
-
-        <h2>Tại sao bạn nên thử?</h2>
-        <p>Nếu bạn là một fan hâm mộ lâu năm của GTA San Andreas và muốn làm mới trải nghiệm chơi game, "More Police Mod v1.1" là một lựa chọn tuyệt vời. Nó mang lại:</p>
-        <ul>
-            <li><strong>Tăng tính thử thách:</strong> Đối với những người chơi muốn một thử thách cao hơn, bản mod này sẽ làm cho việc thoát khỏi cảnh sát trở nên khó khăn và thú vị hơn.</li>
-            <li><strong>Trải nghiệm nhập vai:</strong> Cảm giác bị truy đuổi bởi một lực lượng cảnh sát đông đảo và quyết liệt sẽ tăng cường tính nhập vai, khiến bạn cảm thấy như đang thực sự là một tên tội phạm bị săn lùng.</li>
-            <li><strong>Kịch tính hơn:</strong> Những cuộc rượt đuổi tốc độ cao sẽ trở nên căng thẳng và mãn nhãn hơn rất nhiều.</li>
-        </ul>
-
-       <div class="image-gallery">
-            <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
-            <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
-            <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
-        </div>
-
-        <h2>Lưu ý khi cài đặt</h2>
-        <p>Việc cài đặt các bản mod cho GTA San Andreas thường yêu cầu một số công cụ hỗ trợ như ModLoader, Cleo(cụ thể hơn là ASI loader), tùy thuộc vào loại mod. Đối với các bản mod thay đổi hành vi hoặc thêm phương tiện, bạn có thể cần:</p>
-        <ol class="list-decimal list-inside ml-5">
-            <li><strong>Tải xuống mod:</strong> Bản mod thường ở định dạng RAR. "1722115496_More Police mod v1.1.rar"</li>
-            <li><strong>Sử dụng công cụ cài đặt mod:</strong> Các công cụ như Cleo 4.4, ModLoader có thể tự động phát hiện thư mục game của bạn, tùy theo bạn cài đặt và giúp bạn cài đặt mod một cách dễ dàng bằng cách chọn file RAR.</li>
-            <li><strong>Thay thế hoặc thêm file:</strong> Một số mod có thể yêu cầu bạn thay thế các file game hiện có (ví dụ: một số mod như cài skin, chỉnh file hệ thống game,...). Luôn sao lưu các file gốc trước khi cài đặt mod để tránh lỗi.</li>
-        </ol>
-        <div class="important-note">
-            <strong>Quan trọng:</strong> luôn cài AsiLoader và Cleo 4.4 đầy đủ, có thể tải mod <a href="https://www.gtainside.com/en/sanandreas/mods/200093-more-police-mod-v1-1/" target="_blank"><span class="highlight-glow">tại đây</span></a>.
-        </div>
-        <p>"More Police Mod v1.1" hứa hẹn sẽ thổi một luồng gió mới vào những cuộc phiêu lưu của bạn tại San Andreas, biến mỗi lần truy nã thành một cuộc chiến sinh tồn đầy cam go và hấp dẫn.</p>
-    </div>
-
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal">
-        <div class="modal-content">
-            <img id="modalImage" src="" alt="Full size image">
-            <span class="close-modal-btn" id="closeModalBtn">&times;</span>
+    <!-- Music Player Button Wrapper for Tooltip - Copied from index.html -->
+    <div class="music-player-floating-button-wrapper">
+        <button class="music-player-floating-button" id="toggleMusicButton">
+            <!-- Font Awesome Play/Pause icon -->
+            <i class="fas fa-play" id="musicPlayPauseIcon"></i>
+        </button>
+        <div class="music-tooltip" id="musicTooltip">
+            <!-- Album cover image -->
+            <img id="albumCover" src="" alt="Album Cover">
+            <div class="music-tooltip-content">
+                <span class="song-title" id="songTitle"></span>
+                <span class="song-details" id="songDetails"></span>
+            </div>
         </div>
     </div>
+
+    <!-- Hidden Audio Player -->
+    <audio id="audioPlayer" src="" preload="auto"></audio>
 
     <script>
+        // --- Music Player Logic for Background Playback ---
+        let audioPlayer;
+        let toggleMusicButton;
+        let musicPlayPauseIcon;
+        let musicTooltip;
+        let albumCoverImg;
+        let songTitleSpan;
+        let songDetailsSpan;
+
+        const SONGS = [
+            {
+                id: 'song1',
+                title: "Die for you",
+                artist: "joji",
+                album: "SMITHEREENS",
+                url: "music/03. Die For You.mp3",
+                albumArtUrl: "albumcover/smithereens.jpeg"
+            },
+            {
+                id: 'song2',
+                title: "You suck Charlie",
+                artist: "joji",
+                album: "Chloe Burbank",
+                url: "music/you suck charlie.m4a",
+                albumArtUrl: "albumcover/chloe burbank.jpg"
+            },
+            {
+                id: 'song3',
+                title: "Come Thru",
+                artist: "Joji",
+                album: "BALLADS 1",
+                url: "music/09 Come Thru.mp3",
+                albumArtUrl: "albumcover/ballads1.png"
+            }
+        ];
+
+        let currentSongIndex = -1; // No song selected initially
+
+        function saveMusicState() {
+            const currentSongId = audioPlayer.dataset.currentSongId;
+            if (currentSongId) {
+                const state = {
+                    songId: currentSongId,
+                    currentTime: audioPlayer.currentTime,
+                    isPlaying: !audioPlayer.paused,
+                    volume: audioPlayer.volume
+                };
+                localStorage.setItem('musicPlayerState', JSON.stringify(state));
+            } else {
+                localStorage.removeItem('musicPlayerState');
+            }
+        }
+
+        function loadMusicState() {
+            const savedState = localStorage.getItem('musicPlayerState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const song = SONGS.find(s => s.id === state.songId);
+                if (song) {
+                    currentSongIndex = SONGS.indexOf(song); // Update currentSongIndex
+                    audioPlayer.src = song.url;
+                    audioPlayer.dataset.currentSongId = song.id;
+                    audioPlayer.volume = state.volume;
+
+                    if (state.isPlaying) {
+                        audioPlayer.currentTime = state.currentTime;
+                        audioPlayer.play().then(() => {
+                            updateTooltip(song);
+                            updatePlayPauseIcon(true); // Update icon to pause
+                            toggleMusicButton.classList.add('playing'); // Add playing class for visual feedback
+                        }).catch(error => {
+                            console.log("Autoplay prevented:", error);
+                            updateTooltip({
+                                title: "Nhấn nút nhạc để phát!",
+                                artist: "Trình duyệt đã chặn tự động phát.",
+                                album: "",
+                                albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                            });
+                            updatePlayPauseIcon(false); // Update icon to play
+                            toggleMusicButton.classList.remove('playing');
+                        });
+                    } else {
+                        updateTooltip(song); // Show current song info even if paused
+                        audioPlayer.currentTime = state.currentTime; // Set current time even if paused
+                        updatePlayPauseIcon(false); // Update icon to play
+                        toggleMusicButton.classList.remove('playing');
+                    }
+                } else {
+                    // If song not found, reset to default state
+                    resetMusicState();
+                }
+            } else {
+                // Default state if no music was previously playing
+                resetMusicState();
+            }
+        }
+
+        function resetMusicState() {
+            currentSongIndex = -1;
+            audioPlayer.src = "";
+            audioPlayer.dataset.currentSongId = '';
+            audioPlayer.currentTime = 0;
+            audioPlayer.volume = 1; // Default volume
+            localStorage.removeItem('musicPlayerState');
+            updateTooltip({
+                title: "Chưa có nhạc",
+                artist: "Hãy chọn bài hát từ trang nhạc",
+                album: "",
+                albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
+            });
+            updatePlayPauseIcon(false); // Ensure icon is play
+            toggleMusicButton.classList.remove('playing');
+        }
+
+        function updateTooltip(song) {
+            albumCoverImg.src = song.albumArtUrl;
+            albumCoverImg.alt = `Ảnh bìa album của ${song.title}`;
+            songTitleSpan.textContent = song.title;
+            songDetailsSpan.textContent = `${song.artist} ${song.album ? '(Album: "' + song.album + '")' : ''}`;
+        }
+
+        function updatePlayPauseIcon(isPlaying) {
+            if (isPlaying) {
+                musicPlayPauseIcon.classList.remove('fa-play');
+                musicPlayPauseIcon.classList.add('fa-pause');
+            } else {
+                musicPlayPauseIcon.classList.remove('fa-pause');
+                musicPlayPauseIcon.classList.add('fa-play');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            const pageContentWrapper = document.getElementById('pageContentWrapper');
+            const pageLinks = document.querySelectorAll('.page-link');
+
+            // Animate page in on load
+            pageContentWrapper.classList.add('page-transition-in');
+
+            // Attach music player DOM elements and event listeners
+            audioPlayer = document.getElementById('audioPlayer');
+            toggleMusicButton = document.getElementById('toggleMusicButton');
+            musicPlayPauseIcon = document.getElementById('musicPlayPauseIcon');
+            musicTooltip = document.getElementById('musicTooltip');
+            albumCoverImg = document.getElementById('albumCover');
+            songTitleSpan = document.getElementById('songTitle');
+            songDetailsSpan = document.getElementById('songDetails');
+
+            // The click event listener for the music button now controls play/pause directly
+            toggleMusicButton.addEventListener('click', () => {
+                if (currentSongIndex === -1) {
+                    // If no song is loaded, load the first one and play
+                    currentSongIndex = 0;
+                    audioPlayer.src = SONGS[currentSongIndex].url;
+                    audioPlayer.dataset.currentSongId = SONGS[currentSongIndex].id;
+                    updateTooltip(SONGS[currentSongIndex]);
+                    audioPlayer.play().then(() => {
+                        updatePlayPauseIcon(true); // Update icon to pause
+                        toggleMusicButton.classList.add('playing');
+                    }).catch(error => {
+                        console.error("Autoplay prevented on first play:", error);
+                        updateTooltip({
+                            title: "Nhấn nút nhạc để phát!",
+                            artist: "Trình duyệt đã chặn tự động phát.",
+                            album: "",
+                            albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                        });
+                        toggleMusicButton.classList.remove('playing');
+                        updatePlayPauseIcon(false); // Update icon to play
+                    });
+                } else if (audioPlayer.paused) {
+                    audioPlayer.play().then(() => {
+                        updatePlayPauseIcon(true); // Update icon to pause
+                        toggleMusicButton.classList.add('playing');
+                    }).catch(error => {
+                        console.error("Autoplay prevented on resume:", error);
+                        updateTooltip({
+                            title: "Nhấn nút nhạc để phát!",
+                            artist: "Trình duyệt đã chặn tự động phát.",
+                            album: "",
+                            albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                        });
+                        toggleMusicButton.classList.remove('playing');
+                        updatePlayPauseIcon(false); // Update icon to play
+                    });
+                } else {
+                    audioPlayer.pause();
+                    updatePlayPauseIcon(false); // Update icon to play
+                    toggleMusicButton.classList.remove('playing');
+                }
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('play', () => {
+                updatePlayPauseIcon(true);
+                toggleMusicButton.classList.add('playing');
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('pause', () => {
+                updatePlayPauseIcon(false);
+                toggleMusicButton.classList.remove('playing');
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('ended', () => {
+                currentSongIndex = (currentSongIndex + 1) % SONGS.length;
+                audioPlayer.src = SONGS[currentSongIndex].url;
+                audioPlayer.dataset.currentSongId = SONGS[currentSongIndex].id;
+                updateTooltip(SONGS[currentSongIndex]);
+                audioPlayer.play(); // Auto-play next song
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('timeupdate', saveMusicState);
+            audioPlayer.addEventListener('volumechange', saveMusicState);
+
+            loadMusicState(); // Load music state when the page loads
+
+            // Handle page link clicks for smooth transitions
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default navigation
+                    const targetPage = link.dataset.href; // Get target page from data-href
+
+                    // Add fade-out animation
+                    pageContentWrapper.classList.remove('page-transition-in');
+                    pageContentWrapper.classList.add('page-transition-out');
+
+                    // Wait for the animation to complete before navigating
+                    pageContentWrapper.addEventListener('animationend', () => {
+                        window.location.href = targetPage; // Navigate to the new page
+                    }, { once: true }); // Ensure the event listener is removed after it fires
+                });
+            });
+
+            // Image Modal Logic (already present, just ensuring it's within DOMContentLoaded)
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
             const closeModalBtn = document.getElementById('closeModalBtn');
