@@ -58,7 +58,7 @@
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 25s;
+            animation-duration: 30s; /* Adjusted duration for more subtle flow */
         }
 
         .aurora-layer:nth-child(2) {
@@ -67,8 +67,8 @@
             top: 50%;
             left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 5s;
-            animation-duration: 20s;
+            animation-delay: 8s; /* Adjusted delay */
+            animation-duration: 26s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(3) {
@@ -77,8 +77,8 @@
             top: 80%;
             left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 10s;
-            animation-duration: 30s;
+            animation-delay: 16s; /* Adjusted delay */
+            animation-duration: 34s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(4) {
@@ -87,8 +87,8 @@
             top: 20%;
             left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 15s;
-            animation-duration: 22s;
+            animation-delay: 24s; /* Adjusted delay */
+            animation-duration: 28s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
@@ -97,16 +97,16 @@
                 opacity: 0.5;
             }
             25% {
-                transform: translate(20px, -30px) scale(1.05);
-                opacity: 0.7;
+                transform: translate(25px, -35px) scale(1.06); /* More pronounced movement */
+                opacity: 0.75; /* Slightly higher opacity */
             }
             50% {
-                transform: translate(-10px, 40px) scale(0.95);
-                opacity: 0.6;
+                transform: translate(-15px, 45px) scale(0.94); /* More pronounced movement */
+                opacity: 0.65;
             }
             75% {
-                transform: translate(30px, -20px) scale(1.03);
-                opacity: 0.8;
+                transform: translate(35px, -25px) scale(1.04);
+                opacity: 0.85; /* Slightly higher opacity */
             }
             100% {
                 transform: translate(0, 0) scale(1);
@@ -135,6 +135,11 @@
                 transform: translateY(-100vh); /* Trượt lên khỏi khung nhìn */
                 opacity: 0;
             }
+        }
+
+        /* Initial state for page content wrapper to prevent flicker */
+        #pageContentWrapper {
+            opacity: 0; /* Start hidden */
         }
 
         .page-transition-in {
@@ -179,7 +184,7 @@
             padding: 25px; /* Padding inside each tool box */
             margin-bottom: 30px; /* Space between tool boxes */
             border: 1px solid #4a627a; /* Subtle border for inner boxes */
-            opacity: 0; /* Hidden initially for staggered animation */
+            opacity: 0; /* Start hidden for staggered animation */
             transform: translateY(20px); /* Start slightly below */
             animation: fadeInSlideUp 0.6s ease-out forwards; /* Staggered animation */
         }
@@ -361,15 +366,11 @@
             }
         }
 
-        /* Removed shake animation as it's not needed for this styling */
-        /* @keyframes shake { ... } */
-
         .error-message {
             color: #e74c3c; /* Brighter red for visibility */
             margin-top: 10px;
             font-weight: 600;
             font-size: 1rem;
-            /* Removed animation: shake */
         }
 
         /* Back Button Styling - Copied from music.html for consistency */
@@ -672,7 +673,6 @@
             // Validate inputs
             if (isNaN(a) || isNaN(b) || isNaN(c)) {
                 errorDiv.textContent = 'Lỗi: Vui lòng nhập tất cả các hệ số là số hợp lệ.';
-                // Removed shake animation, now just display text
                 resultDiv.classList.add('show'); // Show error with animation
                 return;
             }
@@ -1063,12 +1063,7 @@
             const toolBoxes = document.querySelectorAll('.tool-box');
             toolBoxes.forEach((box, index) => {
                 box.style.animationDelay = `${0.1 + index * 0.1}s`; // Stagger delay
-                box.style.opacity = 0; // Ensure they start hidden
-                box.style.transform = 'translateY(20px)'; // Start slightly below
-                setTimeout(() => {
-                    box.style.opacity = 1;
-                    box.style.transform = 'translateY(0)';
-                }, 100 + index * 100); // Staggered delay for each box
+                // No need to set opacity/transform here, CSS animation handles it with 'forwards'
             });
 
             // Attach event listeners for the tool functionalities
