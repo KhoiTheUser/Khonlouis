@@ -113,35 +113,31 @@
             }
         }
 
-        /* Page Transition Animations - Copied from index.html */
-        @keyframes slideInFromBottom {
+        /* Page Transition Animations - Changed to Fade In/Out with subtle timing */
+        @keyframes fadeIn {
             from {
-                transform: translateY(100vh); /* Bắt đầu từ dưới khung nhìn */
                 opacity: 0;
             }
             to {
-                transform: translateY(0);
                 opacity: 1;
             }
         }
 
-        @keyframes slideOutToTop {
+        @keyframes fadeOut {
             from {
-                transform: translateY(0);
                 opacity: 1;
             }
             to {
-                transform: translateY(-100vh); /* Trượt lên khỏi khung nhìn */
                 opacity: 0;
             }
         }
 
         .page-transition-in {
-            animation: slideInFromBottom 0.7s ease-out forwards;
+            animation: fadeIn 0.4s ease-out forwards; /* Shorter duration for subtlety */
         }
 
         .page-transition-out {
-            animation: slideOutToTop 0.7s ease-in forwards;
+            animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
         }
 
         /* New: Global entrance animation for the container - Copied from music.html */
@@ -860,7 +856,7 @@
                     e.preventDefault(); // Prevent default navigation
                     const targetPage = link.dataset.href; // Get target page from data-href
 
-                    // Add slide-out animation
+                    // Add fade-out animation
                     pageContentWrapper.classList.remove('page-transition-in');
                     pageContentWrapper.classList.add('page-transition-out');
 
