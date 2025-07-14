@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ</title>
+    <title>Chào mừng</title> <!-- Updated title -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -22,6 +22,7 @@
             box-sizing: border-box;
             color: #ecf0f1; /* Default light text color for body */
             position: relative; /* For positioning aurora layers */
+            /* Đã loại bỏ overflow: hidden; để cho phép cuộn trang */
         }
 
         /* Aurora Borealis Effect - Copied from music.html */
@@ -45,8 +46,8 @@
             );
             border-radius: 50%;
             filter: blur(80px); /* Soft blur for aurora effect */
-            opacity: 0;
-            animation: auroraMovement 20s infinite alternate ease-in-out;
+            opacity: 0.5; /* Keep it visible but static */
+            animation: auroraMovement 20s infinite alternate ease-in-out; /* Re-enabled animation */
         }
 
         .aurora-layer:nth-child(1) {
@@ -55,8 +56,6 @@
             top: 10%;
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
-            animation-delay: 0s;
-            animation-duration: 25s;
         }
 
         .aurora-layer:nth-child(2) {
@@ -65,8 +64,6 @@
             top: 50%;
             left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 5s;
-            animation-duration: 20s;
         }
 
         .aurora-layer:nth-child(3) {
@@ -75,8 +72,6 @@
             top: 80%;
             left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 10s;
-            animation-duration: 30s;
         }
 
         .aurora-layer:nth-child(4) {
@@ -85,8 +80,6 @@
             top: 20%;
             left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 15s;
-            animation-duration: 22s;
         }
 
         @keyframes auroraMovement {
@@ -112,166 +105,149 @@
             }
         }
 
-        /* New: Global entrance animation for the container */
-        @keyframes fadeInSlideUp {
+        /* Page Transition Animations - Changed to Fade In/Out with subtle timing */
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .page-transition-in {
+            animation: fadeIn 0.4s ease-out forwards; /* Shorter duration for subtlety */
+        }
+
+        .page-transition-out {
+            animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
+        }
+
 
         .container {
             background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
-            max-width: 900px; /* Increased max-width for better content flow */
+            max-width: 500px; /* Adjusted max-width for better layout */
             width: 100%;
-            text-align: center; /* Center align content by default */
+            text-align: center;
             border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
             backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
             -webkit-backdrop-filter: blur(10px); /* For Safari */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
-            opacity: 0; /* Start hidden for the animation */
-            animation: fadeInSlideUp 0.8s ease-out forwards; /* Apply on load */
             z-index: 1; /* Ensure container is above aurora effect */
+            position: relative; /* For positioning elements inside */
         }
         h1 {
-            color: #ecf0f1; /* Light heading color */
-            font-size: 2.2rem; /* Adjusted font size to match other pages */
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 2rem; /* Adjusted margin to match other pages */
-            text-shadow: 0 2px 6px rgba(0,0,0,0.4); /* Slightly deeper text shadow for more prominence */
-            text-align: center; /* Keep main title centered */
-        }
-        p {
-            color: #bdc3c7; /* Lighter muted paragraph text */
-            font-size: 1.05rem; /* Adjusted font size to match other pages */
-            line-height: 1.7; /* Increased line height for better readability */
-            margin-bottom: 2.5rem; /* Adjusted margin to match other pages */
-            text-align: center; /* Keep paragraphs centered */
+            color: #ecf0f1;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
 
-        /* Keyframes for the subtle, continuous glowing effect on the section title */
-        @keyframes subtleGlow {
+        /* Updated CSS for the glowing time (reduced intensity to ~15%) */
+        @keyframes whiteGlowPulse {
             0% {
-                text-shadow: 0 0 5px #3498db, 0 0 10px rgba(52, 152, 219, 0.5);
+                text-shadow: 0 0 0.5px #fff, 0 0 1px #fff, 0 0 1.5px #fff; /* Very subtle glow */
             }
             50% {
-                text-shadow: 0 0 8px #3498db, 0 0 15px rgba(52, 152, 219, 0.7);
+                text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff; /* Slightly more visible at peak */
             }
             100% {
-                text-shadow: 0 0 5px #3498db, 0 0 10px rgba(52, 152, 219, 0.5);
+                text-shadow: 0 0 0.5px #fff, 0 0 1px #fff, 0 0 1.5px #fff; /* Back to very subtle glow */
             }
         }
 
-        .section-title {
-            color: #ecf0f1;
-            font-size: 1.8rem; /* Slightly smaller than main title */
-            font-weight: 600;
-            margin-top: 3rem; /* Space above section title */
-            margin-bottom: 1.5rem; /* Space below section title */
-            border-bottom: 2px solid #3498db; /* Blue underline */
-            padding-bottom: 8px; /* Space between text and underline */
-            display: inline-block; /* Make border-bottom only as wide as text */
-            animation: subtleGlow 2.5s infinite alternate ease-in-out; /* Apply the new subtle animation */
-        }
-        /* No hover effect needed as the glow is now continuous */
-        /* .section-title:hover { ... } */
-
-        .section-wrapper { /* Renamed from math-section-wrapper to be more generic */
-            text-align: center; /* Changed to center */
-            max-width: 550px; /* Constrain width for better readability and alignment */
-            margin: 0 auto; /* Center this wrapper within the container */
-        }
-        .button-group {
-            display: grid; /* Change to grid for better control */
-            grid-template-columns: repeat(1, 1fr); /* Single column by default */
-            gap: 1.5rem; /* Increased space between buttons */
-            margin-top: 1.5rem; /* Space above button group */
-            margin-bottom: 3rem; /* More space below button group before author */
-        }
-        .app-button {
-            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
-            color: white;
-            cursor: pointer;
-            font-weight: 700; /* Bolder text */
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); /* More prominent button shadow */
-            letter-spacing: 0.05em; /* Slight letter spacing */
-            text-transform: uppercase; /* Uppercase for button text */
-            border-radius: 10px; /* More rounded */
-            padding: 18px 28px; /* Increased padding for a larger feel */
-            font-size: 1.2rem; /* Larger font size */
-            border: none; /* Remove default border */
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
-            display: block; /* Ensure button takes full width in column layout */
-            width: 100%;
-        }
-        .app-button:hover {
-            background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
-            transform: translateY(-4px) scale(1.015); /* Gentle lift and slight scale */
-            box-shadow: 0 12px 28px rgba(52, 152, 219, 0.7); /* Larger, more vibrant shadow on hover */
-        }
-        .app-button:active {
-            transform: translateY(0) scale(0.97); /* Gentle press effect, slightly more pronounced shrink */
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-            background: #2471a3;
+        .glowing-title {
+            animation: whiteGlowPulse 2s infinite alternate ease-in-out;
         }
 
-        /* Author and Social Links Wrapper */
-        .author-and-social-wrapper {
+        /* Updated CSS for aura/halo hover glow on tool cards (blue-green) */
+        @keyframes auraCardGlow {
+            from {
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3),
+                            0 0 15px rgba(52, 152, 219, 0.6), /* Blue inner glow */
+                            0 0 25px rgba(46, 204, 113, 0.4); /* Green outer, more diffused glow */
+            }
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem; /* Increased gap for better spacing */
+        }
+        .tool-card {
+            background-color: #34495e; /* Darker background for cards */
+            border-radius: 12px; /* More rounded corners */
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Softer shadow */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Springy transition */
             display: flex;
-            justify-content: flex-end; /* Align items to the right end of the container */
-            align-items: center; /* Vertically center items in the flex container */
-            gap: 15px; /* Space between the author text and the social button */
-            margin-top: 2rem; /* Keep the existing top margin */
-            margin-bottom: 2rem; /* Keep the existing bottom margin */
-            width: 100%; /* Ensure it takes full width to allow right alignment */
-        }
-
-        .author-text {
-            color: #8c9ba5;
-            font-size: 1rem;
-            text-align: right; /* Keep text aligned right within its own content box */
-            margin: 0; /* Remove default margins to prevent interference with flex layout */
-        }
-
-        /* Social Links Styling */
-        .social-links {
-            display: flex;
-            justify-content: center; /* Center the social buttons (if multiple) within this flex item */
-            gap: 15px; /* Space between social buttons */
-            margin: 0; /* Remove default margins */
-        }
-
-        .social-button {
-            background-color: #3b5998; /* Facebook blue */
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%; /* Circular button */
-            display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            justify-content: center;
+            text-decoration: none; /* Remove underline for links */
+            color: inherit; /* Inherit text color */
+            border: 1px solid #4a627a; /* Subtle border */
+        }
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.05); /* More pronounced lift and scale */
+            background-color: #3d5a73; /* Slightly lighter on hover */
+            animation: auraCardGlow 0.5s forwards; /* Apply aura glow on hover */
+        }
+        .tool-card:active {
+            transform: translateY(0) scale(0.95); /* Gentle press effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .tool-card i {
+            font-size: 3rem; /* Larger icons */
+            color: #3498db; /* Blue accent for icons */
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        .tool-card:hover i {
+            color: #2ecc71; /* Green accent on hover */
+        }
+        /* New style for text-based icons */
+        .tool-icon-text {
+            font-size: 1.8rem; /* Reduced font size for text-based icons */
+            font-weight: bold; /* Make the text bold */
+            color: #3498db; /* Blue accent, consistent with other icons */
+            margin-bottom: 1rem;
+            display: flex; /* Use flex to center text vertically if needed */
+            align-items: center;
+            justify-content: center;
+            height: 3rem; /* Keep fixed height to align with original icons */
+            width: 100%; /* Take full width to center text */
+        }
+        .tool-card:hover .tool-icon-text {
+            color: #2ecc71; /* Green accent on hover */
         }
 
-        .social-button:hover {
-            background-color: #4c70ba; /* Lighter Facebook blue on hover */
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        .tool-card h2 {
+            font-size: 1.3rem; /* Slightly larger heading */
+            font-weight: 600;
+            color: #ecf0f1;
+            margin-bottom: 0.5rem;
         }
-
-        .social-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        .tool-card p {
+            font-size: 0.95rem; /* Slightly larger description */
+            color: #bdc3c7;
+            line-height: 1.4;
         }
 
         /* Music Player Floating Button */
@@ -312,6 +288,24 @@
             box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
             background: #2471a3;
         }
+
+        /* Re-enabled Pulse effect for the music button when playing */
+        @keyframes pulseMusicButton {
+            0% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(52, 152, 219, 0.8), 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+        }
+
+        .music-player-floating-button.playing {
+            animation: pulseMusicButton 1.5s infinite ease-in-out; /* Re-enabled animation */
+        }
+
 
         /* Custom Tooltip Styles */
         .music-tooltip {
@@ -368,18 +362,30 @@
             visibility: visible;
         }
 
-        /* Responsive adjustments for larger screens (desktop) */
-        @media (min-width: 768px) {
-            .button-group {
-                grid-template-columns: repeat(2, 1fr); /* Two columns, equal width */
-                gap: 2rem; /* Larger gap for more breathing room */
-                max-width: 550px; /* Constrain grid width to align with content */
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
             }
-            .app-button {
-                width: auto; /* Let grid handle width */
-                max-width: none; /* Remove previous max-width constraint */
-                padding: 22px; /* Even more padding for a grander feel */
-                font-size: 1.3rem; /* Larger font */
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            .grid-cols-2 {
+                grid-template-columns: 1fr; /* Stack on small screens */
+                gap: 1rem;
+            }
+            .tool-card {
+                padding: 15px;
+            }
+            .tool-card i {
+                font-size: 2.5rem;
+            }
+            .tool-card h2 {
+                font-size: 1.1rem;
+            }
+            .tool-card p {
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -392,53 +398,79 @@
         <div class="aurora-layer"></div>
     </div>
 
-    <div class="container" id="homepageContainer">
-        <h1>Chào mừng đến với các công cụ hay ho của Khonlouis!</h1>
-        <p>Khám phá các công cụ tính toán mạnh mẽ cho hình học, đạo hàm và hệ phương trình tuyến tính. Giao diện trực quan và dễ sử dụng, giúp bạn giải quyết các bài toán phức tạp một cách hiệu quả.</p>
+    <!-- Page Content Wrapper for Transitions -->
+    <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-center">
+        <div class="container">
+            <h1 class="text-3xl font-bold text-center mb-8" id="mainTitle">
+                Chào mừng, bây giờ là <span id="currentTimeDisplay" class="glowing-title"></span>.
+            </h1>
 
-        <!-- Toán học Section -->
-        <div class="section-wrapper">
-            <h2 class="section-title">Toán học</h2>
-            <div class="button-group">
-                <a href="luong_giac6.html" class="app-button">Tính Tỉ Số Lượng Giác</a>
-                <a href="dao_ham.html" class="app-button">Tính Đạo Hàm</a>
-                <a href="hpt.html" class="app-button">Giải Hệ Phương Trình Tuyến Tính</a>
-                <a href="pt_bac_2.html" class="app-button">Phương Trình Bậc Hai</a>
-                <a href="hinh_hoc.html" class="app-button">Tính Chu Vi, Diện Tích & Thể Tích</a>
-            </div>
-        </div>
-
-        <!-- Games và Mods Section -->
-        <div class="section-wrapper">
-            <h2 class="section-title">Games và Mods</h2>
-            <div class="button-group">
-                <a href="moreplmod.html" class="app-button">GTA San Andreas: More Police Mod</a>
-                <!-- Add more game/mod links here later -->
-            </div>
-        </div>
-
-        <!-- Author and Social Links Wrapper -->
-        <div class="author-and-social-wrapper">
-            <p class="author-text">Tác giả: khonlouis</p>
-            <div class="social-links">
-                <a href="https://www.facebook.com/KhoiBruh" target="_blank" class="social-button" title="Truy cập Facebook của tôi">
-                    <i class="fab fa-facebook-f"></i>
+            <div class="grid-cols-2">
+                <!-- Tool Card 1: Đạo Hàm -->
+                <a href="#" class="tool-card page-link" data-href="dao_ham.html">
+                    <i class="fas fa-calculator"></i>
+                    <h2>Tính Đạo Hàm</h2>
+                    <p>Tính đạo hàm của các hàm số phức tạp.</p>
                 </a>
-                <!-- You can add more social media buttons here -->
-                <!-- Example for GitHub:
-                <a href="https://github.com/yourprofile" target="_blank" class="social-button" style="background-color: #333;" title="Truy cập GitHub của tôi">
-                    <i class="fab fa-github"></i>
+
+                <!-- Tool Card 2: Hình Học -->
+                <a href="#" class="tool-card page-link" data-href="hinh_hoc.html">
+                    <i class="fas fa-cube"></i>
+                    <h2>Hình Học</h2>
+                    <p>Tính chu vi, diện tích, thể tích các hình 2D, 3D.</p>
                 </a>
-                -->
+
+                <!-- Tool Card 3: Hệ Phương Trình Tuyến Tính -->
+                <a href="#" class="tool-card page-link" data-href="hpt.html">
+                    <i class="fas fa-superscript"></i>
+                    <h2>Hệ Phương Trình</h2>
+                    <p>Giải hệ phương trình tuyến tính.</p>
+                </a>
+
+                <!-- Tool Card 4: Tỉ Số Lượng Giác -->
+                <a href="#" class="tool-card page-link" data-href="luong_giac6.html">
+                    <i class="fas fa-wave-square"></i>
+                    <h2>Tỉ Số Lượng Giác</h2>
+                    <p>Tính 6 tỉ số lượng giác của một góc.</p>
+                </a>
+
+                <!-- Tool Card 5: Phương Trình Bậc Hai -->
+                <a href="#" class="tool-card page-link" data-href="pt_bac_2.html">
+                    <i class="fas fa-square-root-alt"></i>
+                    <h2>Phương Trình Bậc Hai</h2>
+                    <p>Giải và phân tích phương trình bậc hai.</p>
+                </a>
+
+                <!-- Tool Card 6: More Police Mod GTA SA -->
+                <a href="#" class="tool-card page-link" data-href="moreplmod.html">
+                    <i class="fas fa-gamepad"></i>
+                    <h2>More Police Mod GTA SA</h2>
+                    <p>Thông tin về bản mod cảnh sát cho GTA San Andreas.</p>
+                </a>
+
+                <!-- Tool Card 7: Mở Gemini tức thì -->
+                <a href="https://gemini.google.com" target="_blank" class="tool-card page-link" data-href="https://gemini.google.com">
+                    <span class="tool-icon-text">Gemini</span> <!-- Changed to text "Gemini" -->
+                    <h2>Mở Gemini tức thì</h2>
+                    <p>Truy cập nhanh Gemini để trò chuyện và sáng tạo.</p>
+                </a>
+
+                <!-- Tool Card 8: Mở Copilot tức thì -->
+                <a href="https://copilot.microsoft.com/" target="_blank" class="tool-card page-link" data-href="https://copilot.microsoft.com/">
+                    <span class="tool-icon-text">Copilot</span> <!-- Added new item for Copilot -->
+                    <h2>Mở Copilot tức thì</h2>
+                    <p>Truy cập nhanh Copilot để hỗ trợ lập trình và hơn thế nữa.</p>
+                </a>
             </div>
         </div>
     </div>
 
     <!-- Music Player Button Wrapper for Tooltip -->
     <div class="music-player-floating-button-wrapper">
-        <a href="music.html" class="music-player-floating-button" id="musicButton">
-            <i class="fas fa-music"></i>
-        </a>
+        <button class="music-player-floating-button" id="toggleMusicButton">
+            <!-- Font Awesome Music icon -->
+            <i class="fas fa-music" id="musicPlayPauseIcon"></i>
+        </button>
         <div class="music-tooltip" id="musicTooltip">
             <!-- Album cover image -->
             <img id="albumCover" src="" alt="Album Cover">
@@ -453,149 +485,223 @@
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
     <script>
-        window.onload = function() {
-            const container = document.getElementById('homepageContainer');
-            // Apply fadeInSlideUp animation on load
-            container.style.opacity = 0; // Ensure it starts hidden
-            container.style.transform = 'translateY(20px)'; // Start slightly below
-            setTimeout(() => {
-                container.style.opacity = 1;
-                container.style.transform = 'translateY(0)';
-            }, 100); // Small delay to ensure CSS is applied before animation
+        // --- Music Player Logic for Background Playback ---
+        // These variables need to be declared globally or within the DOMContentLoaded scope
+        let audioPlayer;
+        let toggleMusicButton;
+        let musicPlayPauseIcon;
+        let musicTooltip;
+        let albumCoverImg;
+        let songTitleSpan;
+        let songDetailsSpan;
 
-            const audioPlayer = document.getElementById('audioPlayer');
-            const musicTooltip = document.getElementById('musicTooltip');
-            const albumCoverImg = document.getElementById('albumCover');
-            const songTitleSpan = document.getElementById('songTitle');
-            const songDetailsSpan = document.getElementById('songDetails');
-
-            // --- Music Player Logic ---
-            const SONGS = [
-                {
+        const SONGS = [
+            {
                 id: 'song1',
                 title: "Die for you",
                 artist: "joji",
                 album: "SMITHEREENS",
-                url: "music/03. Die For You.mp3", // Updated to local path
-                albumArtUrl: "albumcover/smithereens.jpeg" // Updated to local path
+                url: "music/03. Die For You.mp3",
+                albumArtUrl: "albumcover/smithereens.jpeg"
             },
             {
                 id: 'song2',
                 title: "You suck Charlie",
                 artist: "joji",
                 album: "Chloe Burbank",
-                url: "music/you suck charlie.m4a", // Updated to local path
-                albumArtUrl: "albumcover/chloe burbank.jpg" // Updated to local path
+                url: "music/you suck charlie.m4a",
+                albumArtUrl: "albumcover/chloe burbank.jpg"
             },
             {
                 id: 'song3',
                 title: "Come Thru",
                 artist: "Joji",
                 album: "BALLADS 1",
-                url: "music/09 Come Thru.mp3", // Updated to local path
-                albumArtUrl: "albumcover/ballads1.png" // Updated to local path
+                url: "music/09 Come Thru.mp3",
+                albumArtUrl: "albumcover/ballads1.png"
             }
-            ];
+        ];
 
-            function saveMusicState() {
-                const currentSongId = audioPlayer.dataset.currentSongId;
-                if (currentSongId) {
-                    const state = {
-                        songId: currentSongId,
-                        currentTime: audioPlayer.currentTime,
-                        isPlaying: !audioPlayer.paused
-                    };
-                    localStorage.setItem('musicPlayerState', JSON.stringify(state));
-                } else {
-                    // If no song is selected, clear the state
-                    localStorage.removeItem('musicPlayerState');
-                }
+        let currentSongIndex = -1; // No song selected initially
+
+        function saveMusicState() {
+            const currentSongId = audioPlayer.dataset.currentSongId;
+            if (currentSongId) {
+                const state = {
+                    songId: currentSongId,
+                    currentTime: audioPlayer.currentTime,
+                    isPlaying: !audioPlayer.paused,
+                    volume: audioPlayer.volume
+                };
+                localStorage.setItem('musicPlayerState', JSON.stringify(state));
+            } else {
+                localStorage.removeItem('musicPlayerState');
             }
+        }
 
-            function loadMusicState() {
-                const savedState = localStorage.getItem('musicPlayerState');
-                if (savedState) {
-                    const state = JSON.parse(savedState);
-                    const song = SONGS.find(s => s.id === state.songId);
-                    if (song) {
-                        audioPlayer.src = song.url;
-                        audioPlayer.dataset.currentSongId = song.id; // Store current song ID
+        function loadMusicState() {
+            const savedState = localStorage.getItem('musicPlayerState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const song = SONGS.find(s => s.id === state.songId);
+                if (song) {
+                    currentSongIndex = SONGS.indexOf(song); // Update currentSongIndex
+                    audioPlayer.src = song.url;
+                    audioPlayer.dataset.currentSongId = song.id;
+                    audioPlayer.volume = state.volume;
 
-                        if (state.isPlaying) {
-                            audioPlayer.currentTime = state.currentTime;
-                            // Attempt to play, but handle browser autoplay policy
-                            audioPlayer.play().then(() => {
-                                updateTooltip(song); // Show song info if playing successfully
-                            }).catch(error => {
-                                console.log("Autoplay prevented:", error);
-                                // Inform user that they need to interact to play audio
-                                updateTooltip({
-                                    title: "Nhấn nút nhạc để phát!",
-                                    artist: "Trình duyệt đã chặn tự động phát.",
-                                    album: "",
-                                    albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
-                                });
-                            });
-                        } else {
-                            // If it was paused, or not playing, show default "Chưa có nhạc"
+                    if (state.isPlaying) {
+                        audioPlayer.currentTime = state.currentTime;
+                        audioPlayer.play().then(() => {
+                            updateTooltip(song);
+                            // The music icon is always a music note, so no play/pause icon update needed here
+                            toggleMusicButton.classList.add('playing'); // Add playing class for visual feedback (e.g., pulse)
+                        }).catch(error => {
+                            console.log("Autoplay prevented:", error);
                             updateTooltip({
-                                title: "Chưa có nhạc",
-                                artist: "Hãy chọn bài hát từ trang nhạc",
+                                title: "Nhấn nút nhạc để phát!",
+                                artist: "Trình duyệt đã chặn tự động phát.",
                                 album: "",
-                                albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
+                                albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
                             });
-                            audioPlayer.currentTime = 0; // Ensure time is reset
-                        }
-                    } else {
-                        // If song not found in current SONGS list (e.g., song removed), reset to default
-                        updateTooltip({
-                            title: "Chưa có nhạc",
-                            artist: "Hãy chọn bài hát từ trang nhạc",
-                            album: "",
-                            albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
+                            toggleMusicButton.classList.remove('playing');
                         });
-                        localStorage.removeItem('musicPlayerState'); // Clear invalid state
-                        audioPlayer.src = ""; // Clear audio source
-                        audioPlayer.currentTime = 0;
+                    } else {
+                        updateTooltip(song); // Show current song info even if paused
+                        audioPlayer.currentTime = state.currentTime; // Set current time even if paused
+                        toggleMusicButton.classList.remove('playing');
                     }
                 } else {
-                    // Default state if no music was previously playing
-                    updateTooltip({
-                        title: "Chưa có nhạc",
-                        artist: "Hãy chọn bài hát từ trang nhạc",
-                        album: "",
-                        albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
-                    });
+                    // If song not found, reset to default state
+                    resetMusicState();
                 }
+            } else {
+                // Default state if no music was previously playing
+                resetMusicState();
+            }
+        }
+
+        function resetMusicState() {
+            currentSongIndex = -1;
+            audioPlayer.src = "";
+            audioPlayer.dataset.currentSongId = '';
+            audioPlayer.currentTime = 0;
+            audioPlayer.volume = 1; // Default volume
+            localStorage.removeItem('musicPlayerState');
+            updateTooltip({
+                title: "Chưa có nhạc",
+                artist: "Hãy chọn bài hát từ trang nhạc",
+                album: "",
+                albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
+            });
+            toggleMusicButton.classList.remove('playing');
+        }
+
+        function updateTooltip(song) {
+            albumCoverImg.src = song.albumArtUrl;
+            albumCoverImg.alt = `Ảnh bìa album của ${song.title}`;
+            songTitleSpan.textContent = song.title;
+            songDetailsSpan.textContent = `${song.artist} ${song.album ? '(Album: "' + song.album + '")' : ''}`;
+        }
+
+        // --- Page Transition Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageContentWrapper = document.getElementById('pageContentWrapper');
+            const pageLinks = document.querySelectorAll('.page-link');
+            const currentTimeDisplay = document.getElementById('currentTimeDisplay'); // Get the new span for time
+
+            // Function to update the time display
+            function updateTime() {
+                const now = new Date();
+                const currentHour = now.getHours();
+                const currentMinute = now.getMinutes();
+                const formattedMinute = currentMinute < 10 ? '0' + currentMinute : currentMinute;
+                currentTimeDisplay.textContent = `${currentHour}:${formattedMinute}`;
             }
 
-            function updateTooltip(song) {
-                albumCoverImg.src = song.albumArtUrl;
-                albumCoverImg.alt = `Ảnh bìa album của ${song.title}`;
-                songTitleSpan.textContent = song.title;
-                songDetailsSpan.textContent = `${song.artist} ${song.album ? '(Album: "' + song.album + '")' : ''}`;
-            }
+            // Update time immediately on load
+            updateTime();
+            // Update time every second to ensure continuous update
+            setInterval(updateTime, 1000); // Changed to 1000ms (1 second)
 
-            // Event listeners for audio player to save state
-            audioPlayer.addEventListener('timeupdate', saveMusicState);
-            audioPlayer.addEventListener('play', saveMusicState);
-            audioPlayer.addEventListener('pause', saveMusicState);
-            audioPlayer.addEventListener('ended', () => {
-                saveMusicState(); // Save state when song ends
-                // Optionally, play next song or reset tooltip
-                updateTooltip({
-                    title: "Đã kết thúc",
-                    artist: "Chọn bài hát khác",
-                    album: "",
-                    albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Done"
-                });
+            // Animate page in on load
+            pageContentWrapper.classList.add('page-transition-in');
+
+            // Attach music player DOM elements and event listeners
+            audioPlayer = document.getElementById('audioPlayer');
+            toggleMusicButton = document.getElementById('toggleMusicButton');
+            musicPlayPauseIcon = document.getElementById('musicPlayPauseIcon'); // This will now always be the music note icon
+            musicTooltip = document.getElementById('musicTooltip');
+            albumCoverImg = document.getElementById('albumCover');
+            songTitleSpan = document.getElementById('songTitle');
+            songDetailsSpan = document.getElementById('songDetails');
+
+            // The click event listener for the music button now only navigates to music.html
+            toggleMusicButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default button action
+                // Add fade-out animation before navigating to music.html
+                pageContentWrapper.classList.remove('page-transition-in');
+                pageContentWrapper.classList.add('page-transition-out');
+
+                // Wait for the animation to complete before navigating
+                pageContentWrapper.addEventListener('animationend', () => {
+                    window.location.href = 'music.html'; // Navigate to the music page
+                }, { once: true });
             });
 
-            // Load music state when the page loads
-            loadMusicState();
+            // These event listeners for audio player state are only relevant if the button directly controls playback.
+            // Since this button now navigates to music.html, these are less critical here.
+            // However, to maintain the 'playing' class for the pulse effect, we keep them.
+            audioPlayer.addEventListener('play', () => {
+                toggleMusicButton.classList.add('playing');
+                saveMusicState();
+            });
 
-            // --- End Music Player Logic ---
-        };
+            audioPlayer.addEventListener('pause', () => {
+                toggleMusicButton.classList.remove('playing');
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('ended', () => {
+                // This logic is primarily for the music.html page, but kept here for consistency
+                // if the user returns to index.html and a song was playing/ended.
+                currentSongIndex = (currentSongIndex + 1) % SONGS.length;
+                audioPlayer.src = SONGS[currentSongIndex].url;
+                audioPlayer.dataset.currentSongId = SONGS[currentSongIndex].id;
+                updateTooltip(SONGS[currentSongIndex]);
+                // audioPlayer.play(); // Do not auto-play here, let music.html handle it
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('timeupdate', saveMusicState);
+            audioPlayer.addEventListener('volumechange', saveMusicState);
+
+            loadMusicState(); // Load music state when the page loads
+
+            // Handle page link clicks for smooth transitions
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default navigation
+                    const targetPage = link.dataset.href; // Get target page from data-href
+
+                    // Check if the link is an external link (Gemini or Copilot)
+                    if (link.href.startsWith("http")) {
+                        window.open(link.href, '_blank'); // Open external links in a new tab
+                        // No animation needed for external links, as navigation is handled by browser
+                        pageContentWrapper.classList.remove('page-transition-out'); // Remove if added
+                    } else {
+                        // Add fade-out animation for internal links
+                        pageContentWrapper.classList.remove('page-transition-in');
+                        pageContentWrapper.classList.add('page-transition-out');
+
+                        // Wait for the animation to complete before navigating for internal links
+                        pageContentWrapper.addEventListener('animationend', () => {
+                            window.location.href = targetPage; // Navigate to the new page
+                        }, { once: true }); // Ensure the event listener is removed after it fires
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
