@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA San Andreas: More Police Mod</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom font and background consistent with homepage */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d1a2a; /* Dark base color */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for scrolling content */
+            min-height: 100vh; /* Use min-height to allow content to push it */
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ecf0f1;
+            position: relative;
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        /* Aurora background from homepage */
+        .aurora-background {
+            position: fixed; /* Fixed to viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .aurora-layer {
+            position: absolute;
+            background: linear-gradient(to bottom,
+                rgba(52, 152, 219, 0.3),
+                rgba(46, 204, 113, 0.3)
+            );
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            animation: auroraMovement 20s infinite alternate ease-in-out;
+        }
+
+        .aurora-layer:nth-child(1) {
+            width: 600px; height: 600px; top: 10%; left: 15%;
+            background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
+            animation-delay: 0s; animation-duration: 25s;
+        }
+        .aurora-layer:nth-child(2) {
+            width: 700px; height: 700px; top: 50%; left: 70%;
+            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
+            animation-delay: 5s; animation-duration: 20s;
+        }
+        .aurora-layer:nth-child(3) {
+            width: 500px; height: 500px; top: 80%; left: 30%;
+            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
+            animation-delay: 10s; animation-duration: 30s;
+        }
+        .aurora-layer:nth-child(4) {
+            width: 400px; height: 400px; top: 20%; left: 80%;
+            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
+            animation-delay: 15s; animation-duration: 22s;
+        }
+
+        @keyframes auroraMovement {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            25% { transform: translate(20px, -30px) scale(1.05); opacity: 0.7; }
+            50% { transform: translate(-10px, 40px) scale(0.95); opacity: 0.6; }
+            75% { transform: translate(30px, -20px) scale(1.03); opacity: 0.8; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+        }
+
+        /* Main content container */
+        .article-container {
+            background-color: rgba(44, 62, 80, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            max-width: 800px; /* Wider for article content */
+            width: 100%;
+            text-align: left; /* Align text left for readability */
+            border: 1px solid rgba(61, 90, 115, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+            /* Enhanced entrance animation */
+            animation: fadeInSlideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0; /* Start hidden for animation */
+            margin-top: 50px; /* Space from top for back button */
+            margin-bottom: 50px; /* Space at bottom */
+        }
+		.important-note a {
+            color: #F7F7F7; /* Lighter blue for links */
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        .important-note a:hover {
+            color: #F7F7F7; /* Even lighter blue on hover */
+        }
+
+        /* Keyframes for the subtle glowing effect on specific text */
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 8px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.6); }
+            50% { text-shadow: 0 0 12px #F7F7F7, 0 0 20px rgba(247, 247, 247, 0.9); }
+            100% { text-shadow: 0 0 8px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.6); }
+        }
+
+        .highlight-glow {
+            color: #F7F7F7; /* Ensure the text itself is the glow color */
+            animation: pulseGlow 2.5s infinite alternate ease-in-out; /* Slightly longer duration for smoother pulse */
+            font-weight: bold; /* Make it slightly bolder */
+        }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Back button styling - Positioned outside the article container */
+        .back-button {
+            position: fixed; /* Fixed to the viewport */
+            top: 30px; /* 30px from the top */
+            left: 30px; /* 30px from the left */
+            background-color: #5a7d9a;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            /* Enhanced transition for back button */
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1000; /* Ensure it's always on top */
+        }
+        .back-button:hover {
+            background-color: #6a8db0;
+            transform: translateX(-8px) scale(1.08); /* More pronounced "fly out" and scale */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+        }
+        .back-button:active {
+            transform: translateY(0) scale(0.92); /* Slightly more pronounced press effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .back-button svg {
+            width: 1.2em;
+            height: 1.2em;
+            stroke: #ecf0f1;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: stroke 0.3s ease;
+        }
+
+        /* Article content styling */
+        .article-container h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .article-container h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #3498db; /* Blue accent for subheadings */
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(52, 152, 219, 0.5);
+            padding-bottom: 5px;
+            display: inline-block; /* Underline only text width */
+        }
+        .article-container p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #bdc3c7;
+            margin-bottom: 1.2rem;
+        }
+        .article-container ul {
+            list-style: disc;
+            margin-left: 25px;
+            margin-bottom: 1.2rem;
+            color: #bdc3c7;
+        }
+        .article-container ul li {
+            margin-bottom: 0.5rem;
+        }
+        .article-container strong {
+            color: #ecf0f1;
+        }
+        .article-container .important-note {
+            background-color: rgba(231, 76, 60, 0.15); /* Light red background */
+            border-left: 4px solid #e74c3c; /* Red border */
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            color: #ecf0f1;
+            font-weight: 500;
+        }
+
+        /* Image gallery styling */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+            gap: 15px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Crop images to fit */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            /* Enhanced transition for gallery images */
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer; /* Indicate clickable */
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.05); /* More pronounced scale on hover */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Stronger, more diffused shadow */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 20px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .article-container h1 {
+                font-size: 2rem;
+            }
+            .article-container h2 {
+                font-size: 1.5rem;
+            }
+            .article-container p {
+                font-size: 1rem;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            .image-gallery img {
+                height: 150px;
+            }
+        }
+
+        /* Modal Styles */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Above everything else */
+            opacity: 0;
+            visibility: hidden;
+            /* Enhanced transition for modal appearance/disappearance */
+            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .image-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Keyframes for modal entrance */
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Keyframes for modal exit */
+        @keyframes modalFadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+
+        .image-modal.show .modal-content {
+            animation: modalFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .image-modal:not(.show) .modal-content {
+            animation: modalFadeOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background-color: transparent; /* No background for content itself */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensure the whole image is visible */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: -40px; /* Position above the image */
+            right: -40px; /* Position to the right of the image */
+            background-color: #e74c3c; /* Red color for close button */
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            /* Enhanced transition for close button */
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .close-modal-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.2) rotate(90deg); /* More distinct hover effect */
+        }
+        .close-modal-btn:active {
+            transform: scale(0.9) rotate(90deg); /* More distinct active effect */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive adjustments for modal close button */
+        @media (max-width: 768px) {
+            .close-modal-btn {
+                top: 10px; /* Adjust position for smaller screens */
+                right: 10px;
+                width: 30px;
+                height: 30px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back button positioned outside the article container -->
+    <a href="index.html" class="back-button" title="Quay lại Trang Chủ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+
+    <div class="aurora-background">
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+    </div>
+
+    <div class="article-container">
+        <h1>GTA San Andreas: More Police Mod v1.1</h1>
+
+        <p>Grand Theft Auto: San Andreas vẫn là một trong những tựa game được yêu thích nhất mọi thời đại, và cộng đồng modding của nó vẫn hoạt động mạnh mẽ.</p>
+
+       <div class="image-gallery">
+            <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
+            <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
+            <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
+        </div>
+
+        <h2>Mod này làm gì?</h2>
+        <p>"More Police Mod v1.1" tập trung vào việc tăng cường sự hiện diện và hành vi của cảnh sát trong game. Nếu bạn đã từng cảm thấy cảnh sát trong GTA San Andreas hơi "hiền" hoặc dễ dàng bị cắt đuôi, bản mod này sẽ thay đổi điều đó. Mặc dù thông tin chi tiết về các tính năng cụ thể của phiên bản 1.1 không được công bố rộng rãi, nhưng các bản mod cảnh sát tương tự thường bao gồm:</p>
+        <ul>
+            <li><strong>Tăng cường số lượng cảnh sát:</strong> Bạn sẽ thấy nhiều xe cảnh sát và sĩ quan hơn tuần tra trên đường, đặc biệt là khi bạn có mức độ truy nã cao.</li>
+            <li><strong>Hành vi cảnh sát thông minh hơn:</strong> Cảnh sát có thể trở nên hung hãn hơn, sử dụng chiến thuật truy đuổi hiệu quả hơn, và khó cắt đuôi hơn.</li>
+            <li><strong>Phản ứng nhanh hơn:</strong> Lực lượng cảnh sát sẽ phản ứng nhanh chóng hơn với các hành vi phạm tội của bạn.</li>
+            <li><strong>Các loại phương tiện cảnh sát đa dạng hơn:</strong> Có thể bao gồm sự xuất hiện của các loại xe cảnh sát đặc biệt hơn như Ranger hoặc Enforcer, tùy thuộc vào mức độ truy nã và khu vực.</li>
+        </ul>
+        <p>Mục tiêu chính của bản mod là làm cho hệ thống truy nã trở nên thử thách và hấp dẫn hơn, buộc người chơi phải suy nghĩ kỹ hơn về hành vi của mình và tìm kiếm những cách trốn thoát sáng tạo hơn.</p>
+
+        <div class="image-gallery">
+            <img src="image/1717791649_abcdef.jpg" alt="Cảnh sát bao vây trong GTA San Andreas">
+            <img src="image/1717791649_abcdefgsi.jpg" alt="Xe cảnh sát đang đuổi theo">
+        </div>
+
+        <h2>Tại sao bạn nên thử?</h2>
+        <p>Nếu bạn là một fan hâm mộ lâu năm của GTA San Andreas và muốn làm mới trải nghiệm chơi game, "More Police Mod v1.1" là một lựa chọn tuyệt vời. Nó mang lại:</p>
+        <ul>
+            <li><strong>Tăng tính thử thách:</strong> Đối với những người chơi muốn một thử thách cao hơn, bản mod này sẽ làm cho việc thoát khỏi cảnh sát trở nên khó khăn và thú vị hơn.</li>
+            <li><strong>Trải nghiệm nhập vai:</strong> Cảm giác bị truy đuổi bởi một lực lượng cảnh sát đông đảo và quyết liệt sẽ tăng cường tính nhập vai, khiến bạn cảm thấy như đang thực sự là một tên tội phạm bị săn lùng.</li>
+            <li><strong>Kịch tính hơn:</strong> Những cuộc rượt đuổi tốc độ cao sẽ trở nên căng thẳng và mãn nhãn hơn rất nhiều.</li>
+        </ul>
+
+       <div class="image-gallery">
+            <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
+            <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
+            <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
+        </div>
+
+        <h2>Lưu ý khi cài đặt</h2>
+        <p>Việc cài đặt các bản mod cho GTA San Andreas thường yêu cầu một số công cụ hỗ trợ như ModLoader, Cleo(cụ thể hơn là ASI loader), tùy thuộc vào loại mod. Đối với các bản mod thay đổi hành vi hoặc thêm phương tiện, bạn có thể cần:</p>
+        <ol class="list-decimal list-inside ml-5">
+            <li><strong>Tải xuống mod:</strong> Bản mod thường ở định dạng RAR. "1722115496_More Police mod v1.1.rar"</li>
+            <li><strong>Sử dụng công cụ cài đặt mod:</strong> Các công cụ như Cleo 4.4, ModLoader có thể tự động phát hiện thư mục game của bạn, tùy theo bạn cài đặt và giúp bạn cài đặt mod một cách dễ dàng bằng cách chọn file RAR.</li>
+            <li><strong>Thay thế hoặc thêm file:</strong> Một số mod có thể yêu cầu bạn thay thế các file game hiện có (ví dụ: một số mod như cài skin, chỉnh file hệ thống game,...). Luôn sao lưu các file gốc trước khi cài đặt mod để tránh lỗi.</li>
+        </ol>
+        <div class="important-note">
+            <strong>Quan trọng:</strong> luôn cài AsiLoader và Cleo 4.4 đầy đủ, có thể tải mod <a href="https://www.gtainside.com/en/sanandreas/mods/200093-more-police-mod-v1-1/" target="_blank"><span class="highlight-glow">tại đây</span></a>.
+        </div>
+        <p>"More Police Mod v1.1" hứa hẹn sẽ thổi một luồng gió mới vào những cuộc phiêu lưu của bạn tại San Andreas, biến mỗi lần truy nã thành một cuộc chiến sinh tồn đầy cam go và hấp dẫn.</p>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Full size image">
+            <span class="close-modal-btn" id="closeModalBtn">&times;</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const imageModal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const galleryImages = document.querySelectorAll('.image-gallery img');
+
+            galleryImages.forEach(image => {
+                image.addEventListener('click', () => {
+                    modalImage.src = image.src;
+                    imageModal.classList.add('show');
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                imageModal.classList.remove('show');
+            });
+
+            // Close modal when clicking outside the image content
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal) {
+                    imageModal.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
