@@ -142,18 +142,6 @@
             animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
         }
 
-        /* New: Global entrance animation for the container */
-        @keyframes fadeInSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* New CSS for song transition animation */
         @keyframes fadeOutContent {
             from { opacity: 1; transform: scale(1); }
@@ -173,24 +161,44 @@
             animation: fadeInContent 0.4s ease-in-out forwards; /* Adjusted duration and easing */
         }
 
+        /* Main content wrapper for player and playlist */
+        .main-content-wrapper {
+            display: flex;
+            gap: 40px; /* Space between player and playlist */
+            align-items: flex-start; /* Align items to the top */
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px; /* Max width for the whole section */
+        }
 
-        .music-player-container {
+        .music-player-container, .playlist-container {
             background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
-            max-width: 450px; /* Smaller max-width for music player */
-            width: 100%;
+            width: 100%; /* Take full width of their flex item */
             text-align: center;
             border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
             backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
             -webkit-backdrop-filter: blur(10px); /* For Safari */
             position: relative; /* For back button positioning */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
-            /* opacity: 0; /* Removed this as page-transition-in will handle initial opacity */
-            /* animation: fadeInSlideUp 0.8s ease-out forwards; /* Removed this as page-transition-in will handle initial animation */
             z-index: 1; /* Ensure player is above aurora effect */
         }
+
+        .music-player-container {
+            max-width: 450px; /* Fixed max-width for music player */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .playlist-container {
+            max-width: 550px; /* Wider for playlist */
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Enable scrolling for playlist */
+            max-height: 700px; /* Max height for playlist to match player or allow scroll */
+        }
+
         .back-button {
             position: absolute;
             top: 20px;
@@ -409,10 +417,116 @@
             background: #2980b9;
         }
 
+        /* Playlist Specific Styles */
+        .playlist-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .playlist-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: calc(100% - 70px); /* Adjust based on header height */
+            overflow-y: auto; /* Scrollable playlist */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #3498db #5a7d9a; /* Thumb and Track */
+        }
+
+        /* Webkit scrollbar styles */
+        .playlist-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .playlist-list::-webkit-scrollbar-track {
+            background: #5a7d9a;
+            border-radius: 4px;
+        }
+
+        .playlist-list::-webkit-scrollbar-thumb {
+            background-color: #3498db;
+            border-radius: 4px;
+            border: 2px solid #5a7d9a;
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px; /* Space between items */
+            background-color: rgba(52, 73, 94, 0.6); /* Darker background for items */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-align: left; /* Align text left within item */
+            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
+        }
+
+        .playlist-item:hover {
+            background-color: rgba(61, 90, 115, 0.8); /* Lighter on hover */
+            transform: translateY(-3px); /* Subtle lift */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .playlist-item.active {
+            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient for active */
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.6); /* Stronger shadow for active */
+            transform: scale(1.01); /* Slightly larger */
+            border-color: #3498db; /* Blue border for active */
+        }
+
+        .playlist-item-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .playlist-item-info {
+            flex-grow: 1;
+        }
+
+        .playlist-item-info .title {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .playlist-item-info .artist {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .playlist-item.active .playlist-item-info .title,
+        .playlist-item.active .playlist-item-info .artist {
+            color: #ffffff; /* White text for active item */
+        }
+
+
         /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .music-player-container {
-                padding: 20px;
+        @media (max-width: 900px) {
+            .main-content-wrapper {
+                flex-direction: column; /* Stack vertically on smaller screens */
+                align-items: center; /* Center items when stacked */
+                gap: 30px; /* Adjust gap for vertical stacking */
+            }
+            .music-player-container, .playlist-container {
+                max-width: 450px; /* Keep consistent max width for both */
+            }
+            .playlist-container {
+                max-height: 500px; /* Adjust max height for vertical scrolling */
             }
             .album-title { /* Adjusted for responsive */
                 font-size: 1.8rem;
@@ -449,6 +563,28 @@
                 width: 100%;
             }
         }
+        @media (max-width: 600px) {
+            .music-player-container, .playlist-container {
+                padding: 20px;
+            }
+            .playlist-header {
+                font-size: 1.5rem;
+            }
+            .playlist-item {
+                padding: 10px;
+            }
+            .playlist-item-img {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+            .playlist-item-info .title {
+                font-size: 0.95rem;
+            }
+            .playlist-item-info .artist {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -461,45 +597,55 @@
 
     <!-- Page Content Wrapper for Transitions -->
     <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-center">
-        <div class="music-player-container">
-            <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
-                <!-- Replaced Font Awesome icon with inline SVG for exact match -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-            <!-- Replaced h1 with a span for the dynamic album title -->
-            <span id="currentAlbumTitle" class="album-title">Tên Album</span>
-            <img id="currentAlbumArt" class="album-art" src="https://placehold.co/200x200/95a5a6/ffffff?text=Music" alt="Album Art">
-            <div class="song-info">
-                <div class="title" id="currentSongTitle">Chưa có nhạc</div>
-                <div class="artist" id="currentSongArtist">Chọn bài hát để phát</div>
+        <div class="main-content-wrapper">
+            <div class="music-player-container">
+                <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
+                    <!-- Replaced Font Awesome icon with inline SVG for exact match -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <!-- Replaced h1 with a span for the dynamic album title -->
+                <span id="currentAlbumTitle" class="album-title">Tên Album</span>
+                <img id="currentAlbumArt" class="album-art" src="https://placehold.co/200x200/95a5a6/ffffff?text=Music" alt="Album Art">
+                <div class="song-info">
+                    <div class="title" id="currentSongTitle">Chưa có nhạc</div>
+                    <div class="artist" id="currentSongArtist">Chọn bài hát để phát</div>
+                </div>
+
+                <div class="progress-bar-container" id="progressBarContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+
+                <div class="controls">
+                    <button class="control-button" id="prevButton">
+                        <i class="fas fa-backward"></i>
+                    </button>
+                    <button class="control-button play-pause" id="playPauseButton">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-button" id="nextButton">
+                        <i class="fas fa-forward"></i>
+                    </button>
+                </div>
+
+                <div class="volume-control">
+                    <i class="fas fa-volume-down"></i>
+                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+                    <i class="fas fa-volume-up"></i>
+                </div>
             </div>
 
-            <div class="progress-bar-container" id="progressBarContainer">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="time-display">
-                <span id="currentTime">0:00</span>
-                <span id="duration">0:00</span>
-            </div>
-
-            <div class="controls">
-                <button class="control-button" id="prevButton">
-                    <i class="fas fa-backward"></i>
-                </button>
-                <button class="control-button play-pause" id="playPauseButton">
-                    <i class="fas fa-play"></i>
-                </button>
-                <button class="control-button" id="nextButton">
-                    <i class="fas fa-forward"></i>
-                </button>
-            </div>
-
-            <div class="volume-control">
-                <i class="fas fa-volume-down"></i>
-                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
-                <i class="fas fa-volume-up"></i>
+            <!-- Playlist Container -->
+            <div class="playlist-container">
+                <h2 class="playlist-header">Danh Sách Phát</h2>
+                <ul id="playlist" class="playlist-list">
+                    <!-- Playlist items will be rendered here by JavaScript -->
+                </ul>
             </div>
         </div>
     </div>
@@ -521,6 +667,7 @@
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
         const volumeSlider = document.getElementById('volumeSlider');
+        const playlistElement = document.getElementById('playlist'); // New: Playlist UL element
 
         const SONGS = [
             {
@@ -589,6 +736,16 @@
             playPauseButton.classList.remove('playing');
             playPauseButton.innerHTML = '<i class="fas fa-play"></i>'; // Reset button to play icon during transition
 
+            // Update active state in playlist
+            document.querySelectorAll('.playlist-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const activePlaylistItem = document.querySelector(`.playlist-item[data-song-id="${song.id}"]`);
+            if (activePlaylistItem) {
+                activePlaylistItem.classList.add('active');
+            }
+
+
             // 2. After fade-out, update content and start fade-in
             setTimeout(() => {
                 // Update content
@@ -621,7 +778,6 @@
                 }, 400); // Match fadeInContent duration (0.4s)
             }, 400); // Match fadeOutContent duration (0.4s)
         }
-
 
         // Function to load music state from localStorage
         function loadMusicState() {
@@ -685,6 +841,40 @@
                 playPauseButton.classList.remove('playing');
             }
         }
+
+        // Function to render the playlist
+        function renderPlaylist() {
+            playlistElement.innerHTML = ''; // Clear existing playlist items
+            SONGS.forEach((song, index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('playlist-item');
+                listItem.dataset.songId = song.id; // Store song ID for easy lookup
+                listItem.dataset.index = index; // Store index for easy lookup
+
+                listItem.innerHTML = `
+                    <img src="${song.albumArtUrl}" alt="Album Cover" class="playlist-item-img">
+                    <div class="playlist-item-info">
+                        <div class="title">${song.title}</div>
+                        <div class="artist">${song.artist}</div>
+                    </div>
+                `;
+                listItem.addEventListener('click', () => {
+                    if (currentSongIndex !== index) { // Only change if different song clicked
+                        currentSongIndex = index;
+                        audioPlayer.src = song.url;
+                        updatePlayerInfo(song); // Update player UI and highlight active song
+                        audioPlayer.play();
+                        saveMusicState();
+                    } else if (audioPlayer.paused) {
+                        audioPlayer.play();
+                    } else {
+                        audioPlayer.pause();
+                    }
+                });
+                playlistElement.appendChild(listItem);
+            });
+        }
+
 
         // Play/Pause toggle
         playPauseButton.addEventListener('click', () => {
@@ -816,9 +1006,9 @@
                 });
             });
 
-            // Load music state when the page loads
-            loadMusicState();
-            // Set initial volume
+            renderPlaylist(); // Render playlist on DOMContentLoaded
+            loadMusicState(); // Load music state when the page loads
+            // Set initial volume (already done in loadMusicState, but good to ensure)
             volumeSlider.value = audioPlayer.volume;
         });
     </script>
