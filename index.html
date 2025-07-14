@@ -454,7 +454,7 @@
                 </a>
 
                 <!-- Tool Card 7: Chia Động Từ -->
-                <a href="dongtu.html" class="tool-card page-link" data-href="động từ.html">
+                <a href="động từ.html" class="tool-card page-link" data-href="động từ.html">
                     <span class="tool-icon-text">ABC</span>
                     <h2>Chia Động Từ</h2>
                     <p>Tra cứu cách chia động từ tiếng Anh.</p>
@@ -697,11 +697,19 @@
                     const targetPage = link.dataset.href; // Get target page from data-href
 
                     // Check if the link is an external link (Gemini or Copilot)
+                    // External links should always open in a new tab
                     if (link.href.startsWith("http")) {
-                        window.open(link.href, '_blank'); // Open external links in a new tab
+                        window.open(link.href, '_blank');
                         // No animation needed for external links, as navigation is handled by browser
                         pageContentWrapper.classList.remove('page-transition-out'); // Remove if added
                     } else {
+                        // For internal links, pause music and then navigate
+                        if (audioPlayer && !audioPlayer.paused) {
+                            audioPlayer.pause();
+                            // saveMusicState() is called by the 'pause' event listener on audioPlayer
+                            // so no need to call it explicitly here.
+                        }
+
                         // Add fade-out animation for internal links
                         pageContentWrapper.classList.remove('page-transition-in');
                         pageContentWrapper.classList.add('page-transition-out');
