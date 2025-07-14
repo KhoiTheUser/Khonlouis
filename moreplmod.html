@@ -50,29 +50,32 @@
         .aurora-layer:nth-child(1) {
             width: 600px; height: 600px; top: 10%; left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
-            animation-delay: 0s; animation-duration: 25s;
+            animation-delay: 0s; animation-duration: 30s; /* Adjusted duration for more subtle flow */
         }
         .aurora-layer:nth-child(2) {
             width: 700px; height: 700px; top: 50%; left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
-            animation-delay: 5s; animation-duration: 20s;
+            animation-delay: 8s; /* Adjusted delay */
+            animation-duration: 26s; /* Adjusted duration */
         }
         .aurora-layer:nth-child(3) {
             width: 500px; height: 500px; top: 80%; left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
-            animation-delay: 10s; animation-duration: 30s;
+            animation-delay: 16s; /* Adjusted delay */
+            animation-duration: 34s; /* Adjusted duration */
         }
         .aurora-layer:nth-child(4) {
             width: 400px; height: 400px; top: 20%; left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
-            animation-delay: 15s; animation-duration: 22s;
+            animation-delay: 24s; /* Adjusted delay */
+            animation-duration: 28s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
             0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-            25% { transform: translate(20px, -30px) scale(1.05); opacity: 0.7; }
-            50% { transform: translate(-10px, 40px) scale(0.95); opacity: 0.6; }
-            75% { transform: translate(30px, -20px) scale(1.03); opacity: 0.8; }
+            25% { transform: translate(25px, -35px) scale(1.06); opacity: 0.75; } /* More pronounced movement */
+            50% { transform: translate(-15px, 45px) scale(0.94); opacity: 0.65; } /* More pronounced movement */
+            75% { transform: translate(35px, -25px) scale(1.04); opacity: 0.85; }
             100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
         }
 
@@ -80,27 +83,36 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
+                transform: translateY(20px) scale(0.98); /* Start slightly below and smaller */
             }
             to {
                 opacity: 1;
+                transform: translateY(0) scale(1); /* End at original position and size */
             }
         }
 
         @keyframes fadeOut {
             from {
                 opacity: 1;
+                transform: translateY(0) scale(1);
             }
             to {
                 opacity: 0;
+                transform: translateY(-20px) scale(0.98); /* Exit by moving up and shrinking */
             }
         }
 
+        /* Initial state for page content wrapper to prevent flicker */
+        #pageContentWrapper {
+            opacity: 0; /* Start hidden */
+        }
+
         .page-transition-in {
-            animation: fadeIn 0.4s ease-out forwards; /* Shorter duration for subtlety */
+            animation: fadeIn 0.5s ease-out forwards; /* Smoother ease-out */
         }
 
         .page-transition-out {
-            animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
+            animation: fadeOut 0.5s ease-in forwards; /* Smoother ease-in */
         }
 
         /* Main content container */
@@ -117,9 +129,6 @@
             -webkit-backdrop-filter: blur(10px);
             position: relative;
             z-index: 1;
-            /* Enhanced entrance animation - removed as page-transition-in will handle it */
-            /* animation: fadeInSlideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards; */
-            /* opacity: 0; */ /* Start hidden for animation - removed as page-transition-in will handle it */
             margin-top: 50px; /* Space from top for back button */
             margin-bottom: 50px; /* Space at bottom */
         }
@@ -145,11 +154,6 @@
             font-weight: bold; /* Make it slightly bolder */
         }
 
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         /* Back button styling - Positioned outside the article container */
         .back-button {
             position: fixed; /* Fixed to the viewport */
@@ -165,16 +169,16 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             /* Enhanced transition for back button */
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 1000; /* Ensure it's always on top */
         }
         .back-button:hover {
             background-color: #6a8db0;
-            transform: translateX(-8px) scale(1.08); /* More pronounced "fly out" and scale */
+            transform: translateX(-8px) scale(1.1); /* More pronounced "fly out" and scale */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
         }
         .back-button:active {
-            transform: translateY(0) scale(0.92); /* Slightly more pronounced press effect */
+            transform: translateY(0) scale(0.9); /* Slightly more pronounced press effect */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         .back-button svg {
@@ -252,7 +256,7 @@
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             /* Enhanced transition for gallery images */
-            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer; /* Indicate clickable */
         }
 
@@ -300,34 +304,13 @@
             opacity: 0;
             visibility: hidden;
             /* Enhanced transition for modal appearance/disappearance */
-            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .image-modal.show {
             opacity: 1;
             visibility: visible;
         }
-
-        /* Keyframes for modal entrance */
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Keyframes for modal exit */
-        @keyframes modalFadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.95); }
-        }
-
-        .image-modal.show .modal-content {
-            animation: modalFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        .image-modal:not(.show) .modal-content {
-            animation: modalFadeOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
 
         .modal-content {
             position: relative;
@@ -337,6 +320,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Apply initial state and transition directly to modal-content */
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* When modal is shown, apply final state to modal-content */
+        .image-modal.show .modal-content {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .modal-content img {
@@ -364,7 +357,7 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             /* Enhanced transition for close button */
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .close-modal-btn:hover {
