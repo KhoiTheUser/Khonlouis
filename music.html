@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trình Phát Nhạc</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Trình Phát Nhạc Cực Quang</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Custom font for better aesthetics */
+        /* Global Styles consistent with index.html */
         body {
             font-family: 'Inter', sans-serif;
-            /* Deeper, more subtle dark gradient background */
-            background: linear-gradient(to right bottom, #1a2a3a, #0d1a2a); /* Darker blue-gray gradient */
+            /* Changed background to support aurora effect */
+            background: #0d1a2a; /* Dark base color */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,511 +19,697 @@
             padding: 20px;
             box-sizing: border-box;
             color: #ecf0f1; /* Default light text color for body */
-            perspective: 1000px; /* For 3D transforms */
+            position: relative; /* For positioning aurora layers */
         }
-        .player-container {
-            background-color: #2c3e50; /* Slightly lighter dark container background */
+
+        /* Aurora Borealis Effect */
+        .aurora-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: -1; /* Place behind content */
+            background: transparent;
+            overflow: hidden; /* Keep hidden for aurora layers to prevent inner scroll */
+        }
+
+        .aurora-layer {
+            position: absolute;
+            /* Default gradient, will be overridden by nth-child */
+            background: linear-gradient(to bottom,
+                rgba(52, 152, 219, 0.3), /* Blue from active playlist item */
+                rgba(46, 204, 113, 0.3)  /* Green from active playlist item */
+            );
+            border-radius: 50%;
+            filter: blur(80px); /* Soft blur for aurora effect */
+            opacity: 0;
+            animation: auroraMovement 20s infinite alternate ease-in-out;
+        }
+
+        .aurora-layer:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: 10%;
+            left: 15%;
+            /* Blue to Green gradient */
+            background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .aurora-layer:nth-child(2) {
+            width: 700px;
+            height: 700px;
+            top: 50%;
+            left: 70%;
+            /* Slightly different shade of green/blue */
+            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
+            animation-delay: 5s;
+            animation-duration: 20s;
+        }
+
+        .aurora-layer:nth-child(3) {
+            width: 500px;
+            height: 500px;
+            top: 80%;
+            left: 30%;
+            /* Another blue-green variation */
+            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
+            animation-delay: 10s;
+            animation-duration: 30s;
+        }
+
+        .aurora-layer:nth-child(4) {
+            width: 400px;
+            height: 400px;
+            top: 20%;
+            left: 80%;
+            /* A lighter, more vibrant blue-green */
+            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
+            animation-delay: 15s;
+            animation-duration: 22s;
+        }
+
+        @keyframes auroraMovement {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+            25% {
+                transform: translate(20px, -30px) scale(1.05);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(-10px, 40px) scale(0.95);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translate(30px, -20px) scale(1.03);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        /* New: Global entrance animation for the container */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .music-player-container {
+            background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
             border-radius: 16px; /* More rounded corners */
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6); /* More prominent, softer shadow */
-            padding: 35px; /* Increased padding */
-            max-width: 480px; /* Slightly wider for better balance */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
+            padding: 30px;
+            max-width: 450px; /* Smaller max-width for music player */
             width: 100%;
             text-align: center;
-            border: 1px solid #3d5a73; /* Subtle border for depth */
-            backdrop-filter: blur(8px); /* Slightly stronger blur effect */
-            -webkit-backdrop-filter: blur(8px); /* For Safari */
-            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); /* Slower, smoother transition */
-            transform-style: preserve-3d; /* For potential 3D effects later */
+            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
+            backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            position: relative; /* For back button positioning */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
+            opacity: 0; /* Start hidden for the animation */
+            animation: fadeInSlideUp 0.8s ease-out forwards; /* Apply on load */
+            z-index: 1; /* Ensure player is above aurora effect */
         }
-        .player-container:hover {
-            transform: translateY(-2px) rotateX(0.2deg); /* Even more subtle lift and tilt on hover */
-            box-shadow: 0 20px 52px rgba(0, 0, 0, 0.68); /* Slightly softer, but still deep shadow */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            /* New styles for circular button */
+            background-color: #5a7d9a; /* Color from the image */
+            width: 45px; /* Size of the circle */
+            height: 45px;
+            border-radius: 50%; /* Make it circular */
+            display: flex; /* Use flex to center SVG */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transitions */
         }
-
-        h1 {
+        .back-button:hover {
+            background-color: #6a8db0; /* Slightly lighter on hover */
+            transform: translateX(-5px) scale(1.05); /* Gentle slide and slight scale */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* More prominent shadow on hover */
+        }
+        .back-button:active {
+            transform: translateY(0) scale(0.95); /* Gentle press effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Smaller shadow on press */
+        }
+        /* Style for the SVG icon inside the button */
+        .back-button svg {
+            width: 1.2em; /* Adjust SVG size relative to button size */
+            height: 1.2em;
+            stroke: #ecf0f1; /* White color for the arrow */
+            stroke-width: 2.5; /* Adjust stroke width for desired thickness */
+            stroke-linecap: round; /* Rounded ends for lines */
+            stroke-linejoin: round; /* Rounded corners for lines */
+            fill: none; /* Ensure no fill for the arrow */
+            transition: stroke 0.3s ease; /* Smooth transition for arrow color */
+        }
+        .back-button:hover svg {
+            stroke: #ecf0f1; /* Keep white on hover */
+        }
+        /* Adjusted h1 to be the album title */
+        .album-title {
             color: #ecf0f1;
-            font-size: 2.2rem; /* Slightly larger title */
+            font-size: 2.2rem; /* Adjusted font size for album title */
             font-weight: 700;
-            margin-bottom: 1.8rem; /* More space below title */
-            text-shadow: 0 3px 8px rgba(0,0,0,0.4); /* Deeper text shadow */
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
 
+        /* Album Art Fixed Glow when playing */
         .album-art {
-            width: 200px; /* Slightly larger album art */
-            height: 200px; /* Slightly larger album art */
-            border-radius: 16px; /* More rounded corners for album art */
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
             object-fit: cover;
-            margin: 0 auto 30px auto; /* More margin below album art */
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); /* More prominent shadow */
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease-out; /* Slower, smoother transition */
+            margin: 0 auto 20px auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover and glow */
         }
         .album-art:hover {
-            transform: scale(1.01) rotateY(1deg); /* Very subtle scale and 3D rotation on hover */
-            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55); /* Softer hover shadow */
+            transform: scale(1.02); /* Slightly enlarge on hover */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* More prominent shadow on hover */
         }
-
         .album-art.playing {
-            animation: rotateAlbumArt 30s linear infinite; /* Much slower rotation for extreme subtlety */
+            /* Fixed glow effect - Increased spread radius for larger glow */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
+                        0 0 50px rgba(52, 152, 219, 0.8), /* Blue glow, increased from 30px to 50px */
+                        0 0 70px rgba(46, 204, 113, 0.5); /* Green glow, increased from 45px to 70px */
+            transform: scale(1.01); /* Subtle scale when playing */
         }
 
-        @keyframes rotateAlbumArt {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .song-info .title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ecf0f1;
         }
-
-        .song-info h2 {
-            font-size: 1.6rem; /* Larger song title */
-            font-weight: 700; /* Bolder */
-            color: #3498db; /* Vibrant blue for song title */
-            margin-bottom: 6px; /* Reduced margin for closer artist name */
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        .song-info p {
-            font-size: 1.05rem; /* Slightly larger artist name */
+        .song-info .artist {
+            font-size: 1.2rem;
             color: #bdc3c7;
-            margin-bottom: 30px; /* More space below artist name */
+            margin-bottom: 20px;
         }
-
         .progress-bar-container {
             width: 100%;
-            height: 10px; /* Thicker progress bar */
-            background-color: #3d5a73; /* Darker background for track */
-            border-radius: 5px; /* More rounded */
-            margin-bottom: 18px; /* More margin */
+            height: 8px;
+            background-color: #5a7d9a;
+            border-radius: 4px;
+            margin-bottom: 15px;
             cursor: pointer;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle inner shadow */
-            transition: box-shadow 0.3s ease-out;
+            overflow: hidden; /* Ensure progress bar stays within bounds */
+            transition: box-shadow 0.3s ease; /* Smooth transition for glow */
         }
         .progress-bar-container:hover {
-            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.8); /* Blue glow on hover */
         }
-
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(to right, #3498db, #2ecc71); /* Blue to green gradient */
-            border-radius: 5px;
-            transition: width 0.1s linear; /* Smooth progress update */
+            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
+            border-radius: 4px;
+            transition: width 0.1s ease-out; /* Changed to ease-out for smoother animation */
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Subtle glow */
         }
-
-        .time-info {
+        .time-display {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem; /* Slightly larger time info */
+            font-size: 0.9rem;
             color: #bdc3c7;
-            margin-bottom: 30px; /* More margin */
+            margin-bottom: 25px;
         }
-
         .controls {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 25px; /* More space between control buttons */
-            margin-bottom: 30px; /* More margin */
+            gap: 25px;
+            margin-bottom: 30px;
         }
-
         .control-button {
-            background: linear-gradient(to right, #3498db, #2980b9); /* Gradient for main button */
+            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
             color: white;
-            border: none;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            width: 60px; /* Larger main button */
-            height: 60px; /* Larger main button */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8rem; /* Larger icon */
+            font-size: 1.4rem;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(52, 152, 219, 0.5); /* More prominent shadow */
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Slower, smoother bounce */
-            outline: none;
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); /* Slightly stronger initial shadow */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition */
         }
-
         .control-button:hover {
-            background: linear-gradient(to right, #2980b9, #3498db); /* Reversed gradient on hover */
-            transform: translateY(-3px) scale(1.05); /* Gentle lift and scale */
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.7);
+            background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
+            transform: translateY(-5px) scale(1.08); /* More pronounced lift and scale */
+            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.8); /* Larger, more intense shadow */
         }
-
         .control-button:active {
-            transform: translateY(0) scale(0.96); /* Gentle press effect */
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            transform: translateY(0) scale(0.92); /* More pronounced press effect */
+            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.4); /* Smaller shadow on press */
+            background: #2471a3; /* Solid darker blue on active */
+        }
+        .control-button.play-pause {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
         }
 
-        .control-button.small {
-            width: 48px; /* Slightly larger small buttons */
-            height: 48px; /* Slightly larger small buttons */
-            font-size: 1.4rem; /* Larger icon for small buttons */
-            background-color: #5a7d9e; /* Muted color for smaller buttons */
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-            transition: all 0.4s ease-out; /* Smoother transition for small buttons */
-        }
-        .control-button.small:hover {
-            background-color: #6a8ea8;
-            transform: scale(1.03); /* Gentle scale for small buttons */
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
-        }
-        .control-button.small:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+        /* Reintroduced: Play/Pause button pulse glow when playing */
+        @keyframes playButtonPulse {
+            0% {
+                box-shadow: 0 0 30px rgba(52, 152, 219, 1), /* Strong blue glow */
+                            0 0 50px rgba(255, 255, 255, 0.5); /* White highlight glow */
+                transform: scale(1.05);
+            }
+            50% {
+                box-shadow: 0 0 45px rgba(52, 152, 219, 1.2), /* Even stronger blue glow */
+                            0 0 70px rgba(255, 255, 255, 0.7); /* Even stronger white highlight glow */
+                transform: scale(1.07); /* Slightly bigger pulse */
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(52, 152, 219, 1),
+                            0 0 50px rgba(255, 255, 255, 0.5);
+                transform: scale(1.05);
+            }
         }
 
+        .control-button.play-pause.playing {
+            animation: playButtonPulse 1.8s infinite alternate ease-in-out; /* Apply animation */
+        }
 
         .volume-control {
             display: flex;
             align-items: center;
-            gap: 12px; /* More space */
-            margin-bottom: 30px; /* More margin */
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
         }
-        .volume-control .fas {
-            color: #bdc3c7; /* Muted icon color */
-            font-size: 1.1rem; /* Slightly larger volume icons */
+        .volume-control i {
+            font-size: 1.2rem;
+            color: #bdc3c7;
         }
-
         .volume-slider {
-            width: 100%;
-            height: 10px; /* Thicker slider track */
-            background-color: #3d5a73; /* Darker track */
-            border-radius: 5px;
+            width: 150px;
             -webkit-appearance: none;
-            appearance: none;
-            cursor: pointer;
+            height: 6px;
+            background: #5a7d9a;
+            border-radius: 3px;
             outline: none;
-            transition: background-color 0.2s ease;
+            cursor: pointer;
         }
-
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 24px; /* Larger thumb */
-            height: 24px; /* Larger thumb */
-            background-color: #3498db;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4); /* More prominent thumb shadow */
-            transition: background-color 0.2s ease, transform 0.2s ease-out; /* Smoother transform */
+            background: #3498db; /* Blue thumb */
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s ease; /* Smooth transition for thumb color */
+        }
+        .volume-slider::-webkit-slider-thumb:hover {
+            background: #2980b9; /* Darker blue on hover */
         }
         .volume-slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            background-color: #3498db;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-            transition: background-color 0.2s ease, transform 0.2s ease-out;
-        }
-        .volume-slider:hover::-webkit-slider-thumb {
-            background-color: #2980b9;
-            transform: scale(1.08); /* Gentle scale on hover */
-        }
-        .volume-slider:hover::-moz-range-thumb {
-            background-color: #2980b9;
-            transform: scale(1.08);
-        }
-
-        .playlist-title {
-            font-size: 1.3rem; /* Larger playlist title */
-            font-weight: 700;
-            color: #ecf0f1;
-            margin-bottom: 18px; /* More margin */
-            border-bottom: 1px solid #4a627a;
-            padding-bottom: 12px; /* More padding */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .playlist {
-            list-style: none;
-            padding: 0;
-            max-height: 250px; /* Taller playlist */
-            overflow-y: auto;
-            border-radius: 10px; /* More rounded */
-            background-color: #34495e;
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.3); /* Deeper inner shadow */
-        }
-
-        .playlist-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 18px; /* More padding */
-            border-bottom: 1px solid #4a627a;
-            cursor: pointer;
-            transition: background-color 0.3s ease-out, transform 0.2s ease-out; /* Smoother transitions */
-        }
-
-        .playlist-item:last-child {
-            border-bottom: none;
-        }
-
-        .playlist-item:hover {
-            background-color: #3d5a73;
-            transform: translateX(3px); /* Even more subtle slide on hover */
-        }
-
-        .playlist-item.active {
-            background: linear-gradient(to right, #3498db, #2ecc71); /* Gradient for active item */
-            color: white;
-            font-weight: 600;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
-            transform: scale(1); /* No scale for active item, keep it calm */
-        }
-        .playlist-item.active .playlist-song-title,
-        .playlist-item.active .playlist-artist {
-            color: white; /* Ensure text is white for active item */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .playlist-song-title {
-            font-size: 1rem; /* Slightly larger song title in playlist */
-            color: #ecf0f1;
-            font-weight: 500;
-        }
-
-        .playlist-artist {
-            font-size: 0.85rem; /* Slightly larger artist name in playlist */
-            color: #bdc3c7;
-        }
-
-        /* Scrollbar styling */
-        .playlist::-webkit-scrollbar {
-            width: 10px; /* Wider scrollbar */
-        }
-
-        .playlist::-webkit-scrollbar-track {
-            background: #2c3e50;
-            border-radius: 10px;
-        }
-
-        .playlist::-webkit-scrollbar-thumb {
             background: #3498db;
-            border-radius: 10px;
-            border: 2px solid #2c3e50; /* Border to make thumb stand out */
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s ease;
         }
-
-        .playlist::-webkit-scrollbar-thumb:hover {
+        .volume-slider::-moz-range-thumb:hover {
             background: #2980b9;
         }
+
+        /* Removed playlist-toggle and playlist styles */
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .music-player-container {
+                padding: 20px;
+            }
+            .album-title { /* Adjusted for responsive */
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            .album-art {
+                width: 150px;
+                height: 150px;
+            }
+            .song-info .title {
+                font-size: 1.5rem;
+            }
+            .song-info .artist {
+                font-size: 1rem;
+            }
+            .controls {
+                gap: 15px;
+            }
+            .control-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            .control-button.play-pause {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            .volume-control {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .volume-slider {
+                width: 100%;
+            }
+        }
     </style>
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="player-container">
-        <h1>Trình Phát Nhạc</h1>
+    <div class="aurora-background">
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+    </div>
 
-        <img id="albumArt" src="https://placehold.co/180x180/4a627a/ecf0f1?text=Album+Art" alt="Album Art" class="album-art">
-
+    <div class="music-player-container">
+        <a href="index.html" class="back-button" title="Quay lại Trang Chủ">
+            <!-- Replaced Font Awesome icon with inline SVG for exact match -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <!-- Replaced h1 with a span for the dynamic album title -->
+        <span id="currentAlbumTitle" class="album-title">Tên Album</span>
+        <img id="currentAlbumArt" class="album-art" src="https://placehold.co/200x200/95a5a6/ffffff?text=Music" alt="Album Art">
         <div class="song-info">
-            <h2 id="songTitle">Tên Bài Hát</h2>
-            <p id="songArtist">Nghệ Sĩ</p>
+            <div class="title" id="currentSongTitle">Chưa có nhạc</div>
+            <div class="artist" id="currentSongArtist">Chọn bài hát để phát</div>
         </div>
 
         <div class="progress-bar-container" id="progressBarContainer">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-
-        <div class="time-info">
+        <div class="time-display">
             <span id="currentTime">0:00</span>
             <span id="duration">0:00</span>
         </div>
 
         <div class="controls">
-            <button id="prevBtn" class="control-button small"><i class="fas fa-backward"></i></button>
-            <button id="playPauseBtn" class="control-button"><i class="fas fa-play"></i></button>
-            <button id="nextBtn" class="control-button small"><i class="fas fa-forward"></i></button>
+            <button class="control-button" id="prevButton">
+                <i class="fas fa-backward"></i>
+            </button>
+            <button class="control-button play-pause" id="playPauseButton">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-button" id="nextButton">
+                <i class="fas fa-forward"></i>
+            </button>
         </div>
 
         <div class="volume-control">
-            <i class="fas fa-volume-down text-lg text-bdc3c7"></i>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
-            <i class="fas fa-volume-up text-lg text-bdc3c7"></i>
+            <i class="fas fa-volume-down"></i>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+            <i class="fas fa-volume-up"></i>
         </div>
 
-        <h2 class="playlist-title">Danh Sách Phát</h2>
-        <ul class="playlist" id="playlist">
-            <!-- Playlist items will be dynamically inserted here -->
-        </ul>
+        <!-- Removed Playlist Toggle and Playlist Div -->
+        <!-- <h2 id="playlistToggle" class="playlist-toggle">Danh Sách Phát <i class="fas fa-chevron-down"></i></h2> -->
+        <!-- <div class="playlist" id="playlist"></div> -->
     </div>
 
+    <!-- Hidden Audio Player -->
+    <audio id="audioPlayer" src="" preload="auto"></audio>
+
     <script>
-        const audio = new Audio(); // HTML5 Audio element
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const currentAlbumArt = document.getElementById('currentAlbumArt');
+        const currentAlbumTitle = document.getElementById('currentAlbumTitle');
+        const currentSongTitle = document.getElementById('currentSongTitle');
+        const currentSongArtist = document.getElementById('currentSongArtist');
         const progressBar = document.getElementById('progressBar');
         const progressBarContainer = document.getElementById('progressBarContainer');
         const currentTimeSpan = document.getElementById('currentTime');
         const durationSpan = document.getElementById('duration');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
         const volumeSlider = document.getElementById('volumeSlider');
-        const songTitle = document.getElementById('songTitle');
-        const songArtist = document.getElementById('songArtist');
-        const albumArt = document.getElementById('albumArt');
-        const playlistUl = document.getElementById('playlist');
+        // Removed playlist-related elements
+        // const playlistDiv = document.getElementById('playlist');
+        // const playlistToggle = document.getElementById('playlistToggle');
 
-        let currentSongIndex = 0;
-        let isPlaying = false;
-
-        // Mảng danh sách phát nhạc của bạn
-        // RẤT QUAN TRỌNG: Bạn cần thay đổi các đường dẫn 'src' dưới đây
-        // để trỏ đến các file nhạc thực tế của bạn.
-        // Đảm bảo các file nhạc (.mp3, .wav, .ogg) nằm trong thư mục 'audio'
-        // CÙNG CẤP với file music.html này.
-        const playlist = [
+        const SONGS = [
             {
-                title: 'Die for you',
-                artist: 'joji',
-                src: 'music/03. Die For You.mp3', // <-- THAY ĐỔI ĐƯỜNG DẪN NÀY
-                albumArt: 'albumcover/smithereens.jpeg' // Thay đổi hoặc sử dụng ảnh của bạn
+                id: 'song1',
+                title: "Die for you",
+                artist: "joji",
+                album: "SMITHEREENS",
+                url: "music/03. Die For You.mp3", // Updated to local path
+                albumArtUrl: "albumcover/smithereens.jpeg" // Updated to local path
             },
             {
-                title: 'Bài Hát Mẫu 2',
-                artist: 'Nghệ Sĩ B',
-                src: 'audio/song2.mp3', // <-- THAY ĐỔI ĐƯỜNG DẪN NÀY
-                albumArt: 'https://placehold.co/180x180/4a627a/ecf0f1?text=Album+2'
+                id: 'song2',
+                title: "You suck Charlie",
+                artist: "joji",
+                album: "Chloe Burbank",
+                url: "music/you suck charlie.m4a", // Updated to local path
+                albumArtUrl: "albumcover/chloe burbank.jpg" // Updated to local path
             },
             {
-                title: 'Bài Hát Mẫu 3',
-                artist: 'Nghệ Sĩ C',
-                src: 'audio/song3.mp3', // <-- THAY ĐỔI ĐƯỜNG DẪN NÀY
-                albumArt: 'https://placehold.co/180x180/4a627a/ecf0f1?text=Album+3'
+                id: 'song3',
+                title: "Come Thru",
+                artist: "Joji",
+                album: "BALLADS 1",
+                url: "music/09 Come Thru.mp3", // Updated to local path
+                albumArtUrl: "albumcover/ballads1.png" // Updated to local path
             }
         ];
 
-        // Hàm tải bài hát
-        function loadSong(songIndex) {
-            const song = playlist[songIndex];
-            audio.src = song.src;
-            songTitle.textContent = song.title;
-            songArtist.textContent = song.artist;
-            albumArt.src = song.albumArt;
+        let currentSongIndex = -1; // No song selected initially
 
-            // Cập nhật lớp 'active' trong danh sách phát
-            const playlistItems = document.querySelectorAll('.playlist-item');
-            playlistItems.forEach((item, index) => {
-                if (index === songIndex) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-
-            // Đặt lại thanh tiến trình
-            progressBar.style.width = '0%';
-            currentTimeSpan.textContent = '0:00';
-            durationSpan.textContent = '0:00';
-
-            // Nếu đang phát, tiếp tục phát bài mới
-            if (isPlaying) {
-                audio.play();
-                albumArt.classList.add('playing');
-            } else {
-                // Nếu không phát, chỉ tải bài hát mà không tự động phát
-                albumArt.classList.remove('playing');
-            }
-        }
-
-        // Hàm phát/tạm dừng
-        function playPauseSong() {
-            if (isPlaying) {
-                audio.pause();
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                albumArt.classList.remove('playing');
-            } else {
-                // Khi người dùng bấm play lần đầu, thử phát nhạc
-                audio.play().catch(error => {
-                    console.error("Lỗi khi cố gắng phát nhạc:", error);
-                    // Thông báo cho người dùng nếu có lỗi (ví dụ: trình duyệt chặn)
-                    // Bạn có thể thêm một thông báo UI ở đây thay vì console.error
-                });
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                albumArt.classList.add('playing');
-            }
-            isPlaying = !isPlaying;
-        }
-
-        // Hàm phát bài tiếp theo
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-        }
-
-        // Hàm phát bài trước đó
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            loadSong(currentSongIndex);
-        }
-
-        // Định dạng thời gian (phút:giây)
+        // Function to format time
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Lắng nghe sự kiện
-        playPauseBtn.addEventListener('click', playPauseSong);
-        nextBtn.addEventListener('click', nextSong);
-        prevBtn.addEventListener('click', prevSong);
-
-        audio.addEventListener('timeupdate', () => {
-            if (!isNaN(audio.duration)) { // Đảm bảo duration là một số hợp lệ
-                const progressPercent = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${progressPercent}%`;
-                currentTimeSpan.textContent = formatTime(audio.currentTime);
+        // Function to save music state to localStorage
+        function saveMusicState() {
+            if (currentSongIndex !== -1) {
+                const state = {
+                    songId: SONGS[currentSongIndex].id,
+                    currentTime: audioPlayer.currentTime,
+                    isPlaying: !audioPlayer.paused,
+                    volume: audioPlayer.volume
+                };
+                localStorage.setItem('musicPlayerState', JSON.stringify(state));
+            } else {
+                localStorage.removeItem('musicPlayerState'); // Clear state if no song is playing
             }
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            if (!isNaN(audio.duration)) {
-                durationSpan.textContent = formatTime(audio.duration);
-            }
-        });
-
-        audio.addEventListener('ended', nextSong); // Phát bài tiếp theo khi bài hiện tại kết thúc
-
-        volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-        });
-
-        progressBarContainer.addEventListener('click', (e) => {
-            const width = progressBarContainer.clientWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            if (!isNaN(duration)) { // Đảm bảo duration là một số hợp lệ
-                audio.currentTime = (clickX / width) * duration;
-            }
-        });
-
-        // Điền danh sách phát vào UI
-        function populatePlaylist() {
-            playlist.forEach((song, index) => {
-                const li = document.createElement('li');
-                li.classList.add('playlist-item', 'flex', 'justify-between', 'items-center', 'py-3', 'px-4', 'cursor-pointer');
-                li.innerHTML = `
-                    <div>
-                        <div class="playlist-song-title">${song.title}</div>
-                        <div class="playlist-artist">${song.artist}</div>
-                    </div>
-                    <i class="fas fa-play-circle text-blue-400 text-xl"></i>
-                `;
-                li.addEventListener('click', () => {
-                    currentSongIndex = index;
-                    loadSong(currentSongIndex);
-                    if (!isPlaying) { // Nếu không phát, bắt đầu phát khi nhấp
-                        playPauseSong();
-                    }
-                });
-                playlistUl.appendChild(li);
-            });
         }
 
-        // Tải bài hát đầu tiên khi trang tải
+        // Function to load music state from localStorage
+        function loadMusicState() {
+            const savedState = localStorage.getItem('musicPlayerState');
+
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const songIndex = SONGS.findIndex(s => s.id === state.songId);
+                if (songIndex !== -1) {
+                    currentSongIndex = songIndex;
+                    audioPlayer.src = SONGS[currentSongIndex].url;
+                    audioPlayer.volume = state.volume;
+                    volumeSlider.value = state.volume;
+                    updatePlayerInfo(SONGS[currentSongIndex]);
+
+                    if (state.isPlaying) {
+                        audioPlayer.currentTime = state.currentTime;
+                        audioPlayer.play().then(() => {
+                            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+                            currentAlbumArt.classList.add('playing');
+                            playPauseButton.classList.add('playing');
+                        }).catch(error => {
+                            console.log("Autoplay prevented:", error);
+                            audioPlayer.currentTime = 0;
+                            progressBar.style.width = '0%';
+                            currentTimeSpan.textContent = '0:00';
+                            playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                            currentSongTitle.textContent = "Nhấn nút Play để phát!";
+                            currentSongArtist.textContent = "Trình duyệt đã chặn tự động phát.";
+                            currentAlbumArt.classList.remove('playing');
+                            playPauseButton.classList.remove('playing');
+                        });
+                    } else {
+                        audioPlayer.currentTime = 0;
+                        progressBar.style.width = '0%';
+                        currentTimeSpan.textContent = '0:00';
+                        playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                        currentAlbumArt.classList.remove('playing');
+                        playPauseButton.classList.remove('playing');
+                    }
+                } else {
+                    // If song not found in current SONGS list, default to "Die for you"
+                    currentSongIndex = 0; // Set to index of "Die for you"
+                    audioPlayer.src = SONGS[currentSongIndex].url;
+                    audioPlayer.currentTime = 0;
+                    progressBar.style.width = '0%';
+                    currentTimeSpan.textContent = '0:00';
+                    updatePlayerInfo(SONGS[currentSongIndex]); // Update with "Die for you" info
+                    playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                    currentAlbumArt.classList.remove('playing');
+                    playPauseButton.classList.remove('playing');
+                }
+            } else {
+                // Default state if no music was previously playing, set to "Die for you"
+                currentSongIndex = 0; // Set to index of "Die for you"
+                audioPlayer.src = SONGS[currentSongIndex].url;
+                audioPlayer.currentTime = 0;
+                progressBar.style.width = '0%';
+                currentTimeSpan.textContent = '0:00';
+                updatePlayerInfo(SONGS[currentSongIndex]); // Update with "Die for you" info
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                currentAlbumArt.classList.remove('playing');
+                playPauseButton.classList.remove('playing');
+            }
+        }
+
+        // Function to update player UI
+        function updatePlayerInfo(song) {
+            currentAlbumArt.src = song.albumArtUrl;
+            currentAlbumArt.alt = `Ảnh bìa album của ${song.title}`;
+            currentAlbumTitle.textContent = song.album || "Không có Album";
+            currentSongTitle.textContent = song.title;
+            currentSongArtist.textContent = song.artist;
+        }
+
+        // Play/Pause toggle
+        playPauseButton.addEventListener('click', () => {
+            if (currentSongIndex === -1) {
+                // If no song is selected (which shouldn't happen with new default),
+                // default to "Die for you" and play it.
+                currentSongIndex = 0;
+                audioPlayer.src = SONGS[currentSongIndex].url;
+                updatePlayerInfo(SONGS[currentSongIndex]);
+                // Fallback to playing if somehow currentSongIndex is still -1
+            }
+
+            if (audioPlayer.paused) {
+                audioPlayer.play().then(() => {
+                    playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+                    currentAlbumArt.classList.add('playing');
+                    playPauseButton.classList.add('playing');
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                    currentSongTitle.textContent = "Không thể tự động phát!";
+                    currentSongArtist.textContent = "Trình duyệt đã chặn tự động phát.";
+                    currentAlbumArt.classList.remove('playing');
+                    playPauseButton.classList.remove('playing');
+                });
+            } else {
+                audioPlayer.pause();
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                currentAlbumArt.classList.remove('playing');
+                playPauseButton.classList.remove('playing');
+            }
+            saveMusicState();
+        });
+
+        // Next song
+        nextButton.addEventListener('click', () => {
+            if (SONGS.length === 0) { // Check if there are any songs at all
+                console.log("No songs in playlist. Cannot go to next.");
+                return;
+            }
+            currentSongIndex = (currentSongIndex + 1) % SONGS.length;
+            audioPlayer.src = SONGS[currentSongIndex].url;
+            updatePlayerInfo(SONGS[currentSongIndex]);
+            audioPlayer.play();
+            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+            currentAlbumArt.classList.add('playing');
+            playPauseButton.classList.add('playing');
+            saveMusicState();
+        });
+
+        // Previous song
+        prevButton.addEventListener('click', () => {
+            if (SONGS.length === 0) { // Check if there are any songs at all
+                console.log("No songs in playlist. Cannot go to previous.");
+                return;
+            }
+            currentSongIndex = (currentSongIndex - 1 + SONGS.length) % SONGS.length;
+            audioPlayer.src = SONGS[currentSongIndex].url;
+            updatePlayerInfo(SONGS[currentSongIndex]);
+            audioPlayer.play();
+            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+            currentAlbumArt.classList.add('playing');
+            playPauseButton.classList.add('playing');
+            saveMusicState();
+        });
+
+        // Update progress bar and time display
+        audioPlayer.addEventListener('timeupdate', () => {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+            currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+            saveMusicState();
+        });
+
+        // Update duration when metadata is loaded
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationSpan.textContent = formatTime(audioPlayer.duration);
+        });
+
+        // Handle song ending
+        audioPlayer.addEventListener('ended', () => {
+            currentAlbumArt.classList.remove('playing');
+            playPauseButton.classList.remove('playing');
+            nextButton.click(); // Play next song automatically
+            saveMusicState();
+        });
+
+        // Seek functionality for progress bar
+        progressBarContainer.addEventListener('click', (e) => {
+            if (currentSongIndex === -1) return; // Cannot seek if no song is loaded
+            const clickX = e.offsetX;
+            const width = progressBarContainer.clientWidth;
+            const duration = audioPlayer.duration;
+            audioPlayer.currentTime = (clickX / width) * duration;
+            saveMusicState();
+        });
+
+        // Volume control
+        volumeSlider.addEventListener('input', () => {
+            audioPlayer.volume = volumeSlider.value;
+            saveMusicState();
+        });
+
+        // Load music state when the page loads
         window.onload = () => {
-            populatePlaylist();
-            loadSong(currentSongIndex);
-            audio.volume = volumeSlider.value; // Đặt âm lượng ban đầu
+            loadMusicState();
+            // Set initial volume
+            volumeSlider.value = audioPlayer.volume;
         };
     </script>
 </body>
