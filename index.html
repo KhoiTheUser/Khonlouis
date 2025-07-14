@@ -14,6 +14,7 @@
             /* Changed background to support aurora effect from music.html */
             background: #0d1a2a; /* Dark base color */
             display: flex;
+            /* Center the container horizontally */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -21,7 +22,6 @@
             box-sizing: border-box;
             color: #ecf0f1; /* Default light text color for body */
             position: relative; /* For positioning aurora layers */
-            /* Removed perspective: 1000px; as it's not needed here */
         }
 
         /* Aurora Borealis Effect - Copied from music.html */
@@ -129,9 +129,9 @@
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
-            max-width: 650px; /* Adjusted max-width for homepage content to allow more space for buttons */
+            max-width: 900px; /* Increased max-width for better content flow */
             width: 100%;
-            text-align: center;
+            text-align: center; /* Center align content by default */
             border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
             backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
             -webkit-backdrop-filter: blur(10px); /* For Safari */
@@ -139,7 +139,6 @@
             opacity: 0; /* Start hidden for the animation */
             animation: fadeInSlideUp 0.8s ease-out forwards; /* Apply on load */
             z-index: 1; /* Ensure container is above aurora effect */
-            /* Removed transform-style: preserve-3d; as it's not needed here */
         }
         h1 {
             color: #ecf0f1; /* Light heading color */
@@ -147,18 +146,53 @@
             font-weight: 700;
             margin-bottom: 2rem; /* Adjusted margin to match other pages */
             text-shadow: 0 2px 6px rgba(0,0,0,0.4); /* Slightly deeper text shadow for more prominence */
+            text-align: center; /* Keep main title centered */
         }
         p {
             color: #bdc3c7; /* Lighter muted paragraph text */
             font-size: 1.05rem; /* Adjusted font size to match other pages */
             line-height: 1.7; /* Increased line height for better readability */
             margin-bottom: 2.5rem; /* Adjusted margin to match other pages */
+            text-align: center; /* Keep paragraphs centered */
+        }
+
+        /* Keyframes for the subtle, continuous glowing effect on the section title */
+        @keyframes subtleGlow {
+            0% {
+                text-shadow: 0 0 5px #3498db, 0 0 10px rgba(52, 152, 219, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 8px #3498db, 0 0 15px rgba(52, 152, 219, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 5px #3498db, 0 0 10px rgba(52, 152, 219, 0.5);
+            }
+        }
+
+        .section-title {
+            color: #ecf0f1;
+            font-size: 1.8rem; /* Slightly smaller than main title */
+            font-weight: 600;
+            margin-top: 3rem; /* Space above section title */
+            margin-bottom: 1.5rem; /* Space below section title */
+            border-bottom: 2px solid #3498db; /* Blue underline */
+            padding-bottom: 8px; /* Space between text and underline */
+            display: inline-block; /* Make border-bottom only as wide as text */
+            animation: subtleGlow 2.5s infinite alternate ease-in-out; /* Apply the new subtle animation */
+        }
+        /* No hover effect needed as the glow is now continuous */
+        /* .section-title:hover { ... } */
+
+        .section-wrapper { /* Renamed from math-section-wrapper to be more generic */
+            text-align: center; /* Changed to center */
+            max-width: 550px; /* Constrain width for better readability and alignment */
+            margin: 0 auto; /* Center this wrapper within the container */
         }
         .button-group {
-            display: flex;
-            flex-direction: column; /* Stack buttons vertically by default */
+            display: grid; /* Change to grid for better control */
+            grid-template-columns: repeat(1, 1fr); /* Single column by default */
             gap: 1.5rem; /* Increased space between buttons */
-            margin-top: 3rem; /* More space above button group */
+            margin-top: 1.5rem; /* Space above button group */
             margin-bottom: 3rem; /* More space below button group before author */
         }
         .app-button {
@@ -189,14 +223,55 @@
             background: #2471a3;
         }
 
-        /* Removed pulseEffect from container as per other pages' style */
-        /* .container.pulse { ... } */
-        /* @keyframes pulseEffect { ... } */
+        /* Author and Social Links Wrapper */
+        .author-and-social-wrapper {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right end of the container */
+            align-items: center; /* Vertically center items in the flex container */
+            gap: 15px; /* Space between the author text and the social button */
+            margin-top: 2rem; /* Keep the existing top margin */
+            margin-bottom: 2rem; /* Keep the existing bottom margin */
+            width: 100%; /* Ensure it takes full width to allow right alignment */
+        }
 
         .author-text {
-            color: #8c9ba5; /* Slightly darker, more subtle text for author */
-            font-size: 1rem; /* Slightly larger author text */
-            margin-top: 2rem; /* More space above author text */
+            color: #8c9ba5;
+            font-size: 1rem;
+            text-align: right; /* Keep text aligned right within its own content box */
+            margin: 0; /* Remove default margins to prevent interference with flex layout */
+        }
+
+        /* Social Links Styling */
+        .social-links {
+            display: flex;
+            justify-content: center; /* Center the social buttons (if multiple) within this flex item */
+            gap: 15px; /* Space between social buttons */
+            margin: 0; /* Remove default margins */
+        }
+
+        .social-button {
+            background-color: #3b5998; /* Facebook blue */
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Circular button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .social-button:hover {
+            background-color: #4c70ba; /* Lighter Facebook blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         /* Music Player Floating Button */
@@ -296,12 +371,9 @@
         /* Responsive adjustments for larger screens (desktop) */
         @media (min-width: 768px) {
             .button-group {
-                display: grid; /* Change to grid for better control */
                 grid-template-columns: repeat(2, 1fr); /* Two columns, equal width */
                 gap: 2rem; /* Larger gap for more breathing room */
                 max-width: 550px; /* Constrain grid width to align with content */
-                margin-left: auto; /* Center the grid */
-                margin-right: auto; /* Center the grid */
             }
             .app-button {
                 width: auto; /* Let grid handle width */
@@ -324,15 +396,42 @@
         <h1>Chào mừng đến với các công cụ hay ho của Khonlouis!</h1>
         <p>Khám phá các công cụ tính toán mạnh mẽ cho hình học, đạo hàm và hệ phương trình tuyến tính. Giao diện trực quan và dễ sử dụng, giúp bạn giải quyết các bài toán phức tạp một cách hiệu quả.</p>
 
-        <div class="button-group">
-            <a href="luong_giac6.html" class="app-button">Tỉ Số Lượng Giác</a>
-            <a href="dao_ham.html" class="app-button">Tính Đạo Hàm</a>
-            <a href="hpt.html" class="app-button">Giải Hệ Phương Trình</a>
-            <a href="pt_bac_2.html" class="app-button">Phương Trình Bậc Hai</a>
-            <a href="hinh_hoc.html" class="app-button">Hình Học</a>
+        <!-- Toán học Section -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Toán học</h2>
+            <div class="button-group">
+                <a href="luong_giac6.html" class="app-button">Tính Tỉ Số Lượng Giác</a>
+                <a href="dao_ham.html" class="app-button">Tính Đạo Hàm</a>
+                <a href="hpt.html" class="app-button">Giải Hệ Phương Trình Tuyến Tính</a>
+                <a href="pt_bac_2.html" class="app-button">Phương Trình Bậc Hai</a>
+                <a href="hinh_hoc.html" class="app-button">Tính Chu Vi, Diện Tích & Thể Tích</a>
+            </div>
         </div>
 
-        <p class="author-text">Tác giả: khonlouis</p>
+        <!-- Games và Mods Section -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Games và Mods</h2>
+            <div class="button-group">
+                <a href="moreplmod.html" class="app-button">GTA San Andreas: More Police Mod</a>
+                <!-- Add more game/mod links here later -->
+            </div>
+        </div>
+
+        <!-- Author and Social Links Wrapper -->
+        <div class="author-and-social-wrapper">
+            <p class="author-text">Tác giả: khonlouis</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/KhoiBruh" target="_blank" class="social-button" title="Truy cập Facebook của tôi">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <!-- You can add more social media buttons here -->
+                <!-- Example for GitHub:
+                <a href="https://github.com/yourprofile" target="_blank" class="social-button" style="background-color: #333;" title="Truy cập GitHub của tôi">
+                    <i class="fab fa-github"></i>
+                </a>
+                -->
+            </div>
+        </div>
     </div>
 
     <!-- Music Player Button Wrapper for Tooltip -->
@@ -354,13 +453,6 @@
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
     <script>
-        // Removed pulse effect from the container on initial load for consistency
-        // window.onload = function() {
-        //     const container = document.getElementById('homepageContainer');
-        //     container.classList.add('pulse');
-        // };
-
-        // Music Player Logic - Kept as requested
         window.onload = function() {
             const container = document.getElementById('homepageContainer');
             // Apply fadeInSlideUp animation on load
@@ -380,29 +472,29 @@
             // --- Music Player Logic ---
             const SONGS = [
                 {
-                    id: 'song1',
-                    title: "Hạnh Phúc Mới",
-                    artist: "Khonlouis",
-                    album: "Những Ngày Mưa",
-                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Placeholder URL
-                    albumArtUrl: "https://placehold.co/50x50/3498db/ffffff?text=Album1"
-                },
-                {
-                    id: 'song2',
-                    title: "Die For You",
-                    artist: "Joji",
-                    album: "SMITHEREENS",
-                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", // Placeholder URL
-                    albumArtUrl: "https://placehold.co/50x50/e74c3c/ffffff?text=Album2"
-                },
-                {
-                    id: 'song3',
-                    title: "Blinding Lights",
-                    artist: "The Weeknd",
-                    album: "After Hours",
-                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", // Placeholder URL
-                    albumArtUrl: "https://placehold.co/50x50/2ecc71/ffffff?text=Album3"
-                }
+                id: 'song1',
+                title: "Die for you",
+                artist: "joji",
+                album: "SMITHEREENS",
+                url: "music/03. Die For You.mp3", // Updated to local path
+                albumArtUrl: "albumcover/smithereens.jpeg" // Updated to local path
+            },
+            {
+                id: 'song2',
+                title: "You suck Charlie",
+                artist: "joji",
+                album: "Chloe Burbank",
+                url: "music/you suck charlie.m4a", // Updated to local path
+                albumArtUrl: "albumcover/chloe burbank.jpg" // Updated to local path
+            },
+            {
+                id: 'song3',
+                title: "Come Thru",
+                artist: "Joji",
+                album: "BALLADS 1",
+                url: "music/09 Come Thru.mp3", // Updated to local path
+                albumArtUrl: "albumcover/ballads1.png" // Updated to local path
+            }
             ];
 
             function saveMusicState() {
