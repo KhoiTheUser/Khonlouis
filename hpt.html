@@ -113,6 +113,37 @@
             }
         }
 
+        /* Page Transition Animations - Copied from index.html */
+        @keyframes slideInFromBottom {
+            from {
+                transform: translateY(100vh); /* Bắt đầu từ dưới khung nhìn */
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutToTop {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100vh); /* Trượt lên khỏi khung nhìn */
+                opacity: 0;
+            }
+        }
+
+        .page-transition-in {
+            animation: slideInFromBottom 0.7s ease-out forwards;
+        }
+
+        .page-transition-out {
+            animation: slideOutToTop 0.7s ease-in forwards;
+        }
+
         /* New: Global entrance animation for the container - Copied from music.html */
         @keyframes fadeInSlideUp {
             from {
@@ -130,27 +161,24 @@
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
-            max-width: 500px; /* Adjusted max-width for only 2x2 system */
+            max-width: 550px; /* Adjusted max-width for consistency with dao_ham.html */
             width: 100%;
             text-align: center;
             border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
             backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
             -webkit-backdrop-filter: blur(10px); /* For Safari */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
-            opacity: 0; /* Start hidden for the animation */
-            animation: fadeInSlideUp 0.8s ease-out forwards; /* Apply on load */
+            /* opacity: 0; /* Removed this as page-transition-in will handle initial opacity */
+            /* animation: fadeInSlideUp 0.8s ease-out forwards; /* Removed this as page-transition-in will handle initial animation */
             z-index: 1; /* Ensure container is above aurora effect */
-            /* Removed transform-style: preserve-3d; as it's not needed here */
             position: relative; /* Needed for absolute positioning of elements inside */
         }
-        input[type="number"], button {
+        input[type="number"] {
             border-radius: 10px; /* More rounded inputs and buttons */
             padding: 14px; /* Increased padding */
             margin-bottom: 18px; /* More space between elements */
             font-size: 1.05rem; /* Slightly larger font */
             transition: all 0.3s ease; /* Smooth transitions for all elements */
-        }
-        input[type="number"] {
             background-color: #34495e; /* Darker input background */
             border: 1px solid #4a627a; /* Darker muted border for inputs */
             color: #ecf0f1; /* Light text for inputs */
@@ -166,9 +194,10 @@
             outline: none;
             box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.7), 0 4px 15px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
             background-color: #3d5a73; /* Slightly lighter on focus */
-            transform: scale(1.01) translateY(-2px); /* Subtle scale and lift (adjusted from previous 3D transform) */
+            transform: scale(1.01) translateY(-2px); /* Subtle scale and lift */
         }
-        button {
+        /* Button styling - unified and large */
+        .calculate-button { /* Specific class for calculation buttons */
             background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
             color: white;
             cursor: pointer;
@@ -177,21 +206,23 @@
             letter-spacing: 0.05em; /* Slight letter spacing */
             text-transform: uppercase; /* Uppercase for button text */
             border-radius: 10px; /* More rounded */
-            padding: 14px 24px; /* Increased padding */
-            font-size: 1.1rem; /* Larger font size */
+            padding: 18px 24px; /* Increased padding for a much larger button */
+            font-size: 1.3rem; /* Larger font size */
+            margin-top: 25px; /* More margin above button */
             border: none; /* Remove default border */
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition (adjusted from previous springy effect) */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transitions */
             text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
+            width: 100%; /* Ensure buttons take full width of their parent */
         }
-        button:hover {
+        .calculate-button:hover {
             background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
-            transform: translateY(-5px) scale(1.08); /* More pronounced lift and scale (adjusted from previous rotation) */
+            transform: translateY(-5px) scale(1.08); /* More pronounced lift and scale (adjusted from slight grow) */
             box-shadow: 0 15px 35px rgba(52, 152, 219, 0.8); /* Larger, more intense shadow on hover */
         }
-        button:active {
-            transform: translateY(0) scale(0.92); /* More pronounced press effect, significant shrink */
+        .calculate-button:active {
+            transform: translateY(0) scale(0.92); /* Press effect with significant shrink */
             box-shadow: 0 2px 10px rgba(52, 152, 219, 0.4); /* Smaller shadow on press */
-            background: #2471a3; /* Even darker on active */
+            background: #2471a3; /* Solid darker blue on active */
         }
         .result-box {
             background-color: #34495e; /* Darker gray for result */
@@ -210,7 +241,7 @@
             border: 1px solid #4a627a; /* Solid, muted border for result box */
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
             opacity: 0; /* Start with opacity 0 for fade-in */
-            transform: translateY(10px); /* Start slightly below for slide-up (adjusted from previous 50px) */
+            transform: translateY(10px); /* Start slightly below for slide-up */
         }
         .result-box.fade-in {
             animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Using popIn from dao_ham.html */
@@ -230,9 +261,6 @@
                 transform: scale(1) translateY(0);
             }
         }
-
-        /* Removed pulseEffect from container as per music.html style */
-        /* @keyframes pulseEffect { ... } */
 
         .result-box span {
             display: block;
@@ -273,44 +301,6 @@
             color: #bdc3c7; /* Lighter muted paragraph text */
             font-size: 0.95rem; /* Slightly larger paragraph text */
             line-height: 1.5;
-        }
-        /* Radio button styling for dark mode (no longer needed for system size, but kept for general styling if any other radio buttons are added) */
-        .form-radio {
-            background-color: #34495e; /* Darker radio background */
-            border: 1px solid #4a627a; /* Darker radio border */
-            appearance: none; /* Remove default browser styling */
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 20px; /* Larger radio button */
-            height: 20px; /* Larger radio button */
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-        .form-radio:checked {
-            background-color: #3498db; /* Blue when checked */
-            border-color: #3498db;
-        }
-        .form-radio:checked::before {
-            content: '';
-            display: block;
-            width: 10px; /* Larger inner dot */
-            height: 10px; /* Larger inner dot */
-            background-color: white; /* White dot inside when checked */
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .form-radio:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Focus shadow for radio */
-        }
-        .radio-label {
-            color: #bdc3c7; /* Lighter muted radio label text */
-            font-weight: 500;
         }
         .system-inputs .input-field {
             margin-bottom: 0; /* Remove extra margin from input fields within grid */
@@ -369,6 +359,118 @@
             stroke: #ecf0f1; /* Keep white on hover */
         }
 
+        /* Music Player Floating Button - Copied from index.html */
+        .music-player-floating-button-wrapper {
+            position: fixed; /* Fixed position relative to the viewport */
+            bottom: 30px; /* 30px from the bottom */
+            left: 30px; /* 30px from the left */
+            z-index: 1000; /* Ensure it's above all other content */
+            display: flex;
+            align-items: flex-end; /* Align tooltip to the bottom of the button */
+            justify-content: flex-start; /* Align tooltip to the left of the button */
+        }
+
+        .music-player-floating-button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            width: 60px; /* Smaller size */
+            height: 60px; /* Smaller size */
+            border-radius: 50%; /* Circular button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Icon size */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative; /* For tooltip positioning */
+            z-index: 1; /* Ensure button is above tooltip when active */
+        }
+
+        .music-player-floating-button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-3px) scale(1.05); /* Gentle lift and slight scale */
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        .music-player-floating-button:active {
+            transform: translateY(0) scale(0.95); /* Gentle press effect */
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+            background: #2471a3;
+        }
+
+        /* Pulse effect for the music button when playing */
+        @keyframes pulseMusicButton {
+            0% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(52, 152, 219, 0.8), 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            }
+        }
+
+        .music-player-floating-button.playing {
+            animation: pulseMusicButton 1.5s infinite ease-in-out;
+        }
+
+
+        /* Custom Tooltip Styles - Copied from index.html */
+        .music-tooltip {
+            position: absolute;
+            left: 70px; /* Position to the right of the button */
+            bottom: 50%; /* Vertically center with the button */
+            transform: translateY(50%); /* Adjust for vertical centering */
+            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency */
+            color: #ecf0f1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            white-space: nowrap; /* Prevent text wrapping */
+            opacity: 0; /* Hidden by default */
+            visibility: hidden; /* Hidden by default */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-size: 0.95rem;
+            pointer-events: none; /* Allow clicks to pass through */
+            border: 1px solid #3d5a73; /* Subtle border */
+            backdrop-filter: blur(3px); /* Subtle blur for the tooltip */
+            -webkit-backdrop-filter: blur(3px); /* For Safari */
+            display: flex; /* Use flexbox for layout inside tooltip */
+            align-items: center; /* Vertically align items */
+            gap: 10px; /* Space between image and text */
+        }
+
+        .music-tooltip img {
+            width: 50px; /* Size of the album cover */
+            height: 50px;
+            border-radius: 4px; /* Slightly rounded corners for the image */
+            object-fit: cover; /* Ensure the image covers the area without distortion */
+            flex-shrink: 0; /* Prevent image from shrinking */
+        }
+
+        .music-tooltip-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .music-tooltip-content .song-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #ecf0f1;
+        }
+
+        .music-tooltip-content .song-details {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+        }
+
+        .music-player-floating-button-wrapper:hover .music-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
@@ -378,7 +480,7 @@
                 font-size: 1.8rem;
                 margin-bottom: 1.5rem;
             }
-            input[type="number"], button {
+            input[type="number"], .calculate-button { /* Added .calculate-button here */
                 padding: 12px;
                 font-size: 1rem;
             }
@@ -407,56 +509,203 @@
         <div class="aurora-layer"></div>
     </div>
 
-    <div class="container">
-        <!-- Back Button -->
-        <a href="index.html" class="back-button" title="Quay lại Trang Chủ">
-            <!-- Replaced Font Awesome icon with inline SVG for exact match -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
+    <!-- Page Content Wrapper for Transitions -->
+    <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-center">
+        <div class="container">
+            <!-- Back Button -->
+            <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
+                <!-- Replaced Font Awesome icon with inline SVG for exact match -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
 
-        <h1 class="text-3xl font-bold text-center mb-6">Giải Hệ Phương Trình Tuyến Tính</h1>
+            <h1 class="text-3xl font-bold text-center mb-6">Giải Hệ Phương Trình Tuyến Tính</h1>
 
-        <!-- 2x2 System Inputs (now always visible) -->
-        <div id="system2x2" class="system-inputs mb-6">
-            <h2 class="text-xl font-semibold text-center mb-4">Hệ 2 ẩn:</h2>
-            <p class="text-center mb-4">
-                $a_1x + b_1y = c_1$<br>
-                $a_2x + b_2y = c_2$
-            </p>
-            <div class="grid-container">
-                <div class="grid-item"><label class="block text-sm font-medium label-text">a1</label><input type="number" id="a1" value="" class="input-field"></div>
-                <div class="grid-item"><label class="block text-sm font-medium label-text">b1</label><input type="number" id="b1" value="" class="input-field"></div>
-                <div class="grid-item"><label class="block text-sm font-medium label-text">c1</label><input type="number" id="c1" value="" class="input-field"></div>
-                <div class="grid-item"><label class="block text-sm font-medium label-text">a2</label><input type="number" id="a2" value="" class="input-field"></div>
-                <div class="grid-item"><label class="block text-sm font-medium label-text">b2</label><input type="number" id="b2" value="" class="input-field"></div>
-                <div class="grid-item"><label class="block text-sm font-medium label-text">c2</label><input type="number" id="c2" value="" class="input-field"></div>
+            <!-- 2x2 System Inputs (now always visible) -->
+            <div id="system2x2" class="system-inputs mb-6">
+                <h2 class="text-xl font-semibold text-center mb-4">Hệ 2 ẩn:</h2>
+                <p class="text-center mb-4">
+                    $a_1x + b_1y = c_1$<br>
+                    $a_2x + b_2y = c_2$
+                </p>
+                <div class="grid-container">
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">a1</label><input type="number" id="a1" value="" class="input-field"></div>
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">b1</label><input type="number" id="b1" value="" class="input-field"></div>
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">c1</label><input type="number" id="c1" value="" class="input-field"></div>
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">a2</label><input type="number" id="a2" value="" class="input-field"></div>
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">b2</label><input type="number" id="b2" value="" class="input-field"></div>
+                    <div class="grid-item"><label class="block text-sm font-medium label-text">c2</label><input type="number" id="c2" value="" class="input-field"></div>
+                </div>
             </div>
-        </div>
 
-        <!-- Solve Button -->
-        <button id="solveBtn"
-                class="w-full text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out transform hover:scale-105 shadow-md">
-            Giải Hệ Phương Trình
-        </button>
+            <!-- Solve Button -->
+            <button id="solveBtn" class="calculate-button">
+                Giải Hệ Phương Trình
+            </button>
 
-        <!-- Result Display Area -->
-        <div id="result" class="mt-8 p-4 rounded-lg result-box min-h-[6rem]">
-            <!-- Result will be displayed here -->
+            <!-- Result Display Area -->
+            <div id="result" class="mt-8 p-4 rounded-lg result-box min-h-[6rem]">
+                <!-- Result will be displayed here -->
+            </div>
         </div>
     </div>
 
+    <!-- Music Player Button Wrapper for Tooltip - Copied from index.html -->
+    <div class="music-player-floating-button-wrapper">
+        <button class="music-player-floating-button" id="toggleMusicButton">
+            <!-- Font Awesome Play/Pause icon -->
+            <i class="fas fa-play" id="musicPlayPauseIcon"></i>
+        </button>
+        <div class="music-tooltip" id="musicTooltip">
+            <!-- Album cover image -->
+            <img id="albumCover" src="" alt="Album Cover">
+            <div class="music-tooltip-content">
+                <span class="song-title" id="songTitle"></span>
+                <span class="song-details" id="songDetails"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Player -->
+    <audio id="audioPlayer" src="" preload="auto"></audio>
+
     <script>
+        // --- Music Player Logic for Background Playback ---
+        let audioPlayer;
+        let toggleMusicButton;
+        let musicPlayPauseIcon;
+        let musicTooltip;
+        let albumCoverImg;
+        let songTitleSpan;
+        let songDetailsSpan;
+
+        const SONGS = [
+            {
+                id: 'song1',
+                title: "Die for you",
+                artist: "joji",
+                album: "SMITHEREENS",
+                url: "music/03. Die For You.mp3",
+                albumArtUrl: "albumcover/smithereens.jpeg"
+            },
+            {
+                id: 'song2',
+                title: "You suck Charlie",
+                artist: "joji",
+                album: "Chloe Burbank",
+                url: "music/you suck charlie.m4a",
+                albumArtUrl: "albumcover/chloe burbank.jpg"
+            },
+            {
+                id: 'song3',
+                title: "Come Thru",
+                artist: "Joji",
+                album: "BALLADS 1",
+                url: "music/09 Come Thru.mp3",
+                albumArtUrl: "albumcover/ballads1.png"
+            }
+        ];
+
+        let currentSongIndex = -1; // No song selected initially
+
+        function saveMusicState() {
+            const currentSongId = audioPlayer.dataset.currentSongId;
+            if (currentSongId) {
+                const state = {
+                    songId: currentSongId,
+                    currentTime: audioPlayer.currentTime,
+                    isPlaying: !audioPlayer.paused,
+                    volume: audioPlayer.volume
+                };
+                localStorage.setItem('musicPlayerState', JSON.stringify(state));
+            } else {
+                localStorage.removeItem('musicPlayerState');
+            }
+        }
+
+        function loadMusicState() {
+            const savedState = localStorage.getItem('musicPlayerState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const song = SONGS.find(s => s.id === state.songId);
+                if (song) {
+                    currentSongIndex = SONGS.indexOf(song); // Update currentSongIndex
+                    audioPlayer.src = song.url;
+                    audioPlayer.dataset.currentSongId = song.id;
+                    audioPlayer.volume = state.volume;
+
+                    if (state.isPlaying) {
+                        audioPlayer.currentTime = state.currentTime;
+                        audioPlayer.play().then(() => {
+                            updateTooltip(song);
+                            updatePlayPauseIcon(true); // Update icon to pause
+                            toggleMusicButton.classList.add('playing'); // Add playing class for visual feedback
+                        }).catch(error => {
+                            console.log("Autoplay prevented:", error);
+                            updateTooltip({
+                                title: "Nhấn nút nhạc để phát!",
+                                artist: "Trình duyệt đã chặn tự động phát.",
+                                album: "",
+                                albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                            });
+                            updatePlayPauseIcon(false); // Update icon to play
+                            toggleMusicButton.classList.remove('playing');
+                        });
+                    } else {
+                        updateTooltip(song); // Show current song info even if paused
+                        audioPlayer.currentTime = state.currentTime; // Set current time even if paused
+                        updatePlayPauseIcon(false); // Update icon to play
+                        toggleMusicButton.classList.remove('playing');
+                    }
+                } else {
+                    // If song not found, reset to default state
+                    resetMusicState();
+                }
+            } else {
+                // Default state if no music was previously playing
+                resetMusicState();
+            }
+        }
+
+        function resetMusicState() {
+            currentSongIndex = -1;
+            audioPlayer.src = "";
+            audioPlayer.dataset.currentSongId = '';
+            audioPlayer.currentTime = 0;
+            audioPlayer.volume = 1; // Default volume
+            localStorage.removeItem('musicPlayerState');
+            updateTooltip({
+                title: "Chưa có nhạc",
+                artist: "Hãy chọn bài hát từ trang nhạc",
+                album: "",
+                albumArtUrl: "https://placehold.co/50x50/95a5a6/ffffff?text=Music"
+            });
+            updatePlayPauseIcon(false); // Ensure icon is play
+            toggleMusicButton.classList.remove('playing');
+        }
+
+        function updateTooltip(song) {
+            albumCoverImg.src = song.albumArtUrl;
+            albumCoverImg.alt = `Ảnh bìa album của ${song.title}`;
+            songTitleSpan.textContent = song.title;
+            songDetailsSpan.textContent = `${song.artist} ${song.album ? '(Album: "' + song.album + '")' : ''}`;
+        }
+
+        function updatePlayPauseIcon(isPlaying) {
+            if (isPlaying) {
+                musicPlayPauseIcon.classList.remove('fa-play');
+                musicPlayPauseIcon.classList.add('fa-pause');
+            } else {
+                musicPlayPauseIcon.classList.remove('fa-pause');
+                musicPlayPauseIcon.classList.add('fa-play');
+            }
+        }
+
         // Get references to DOM elements
         const solveBtn = document.getElementById('solveBtn');
         const resultDiv = document.getElementById('result');
         const resultBox = document.querySelector('.result-box');
-
-        // Add Tailwind classes to input fields (already applied in CSS, removing this JS part)
-        // document.querySelectorAll('.input-field').forEach(input => {
-        //     input.classList.add('shadow-sm', 'appearance-none', 'border', 'rounded-lg', 'w-full', 'py-2', 'px-3', 'leading-tight', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-400', 'focus:border-transparent', 'transition', 'duration-200');
-        // });
 
         // Function to calculate determinant of a 2x2 matrix
         function calculateDeterminant2x2(a, b, c, d) {
@@ -512,19 +761,117 @@
 
             resultDiv.innerHTML = `<span class="text-blue-600">Nghiệm của hệ phương trình:<br>x = ${x.toFixed(4)}<br>y = ${y.toFixed(4)}</span>`;
             resultBox.classList.add('fade-in'); // Add fade-in for successful result
-
-            // Removed pulse effect from container as per music.html style
-            // const container = document.querySelector('.container');
-            // container.classList.remove('pulse');
-            // void container.offsetWidth;
-            // container.classList.add('pulse');
         }
 
         // Add event listener to the solve button
         solveBtn.addEventListener('click', solve2x2);
 
-        // Clear input fields and result box on initial load
-        window.onload = function() {
+        // --- Page Transition Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageContentWrapper = document.getElementById('pageContentWrapper');
+            const pageLinks = document.querySelectorAll('.page-link');
+
+            // Animate page in on load
+            pageContentWrapper.classList.add('page-transition-in');
+
+            // Attach music player DOM elements and event listeners
+            audioPlayer = document.getElementById('audioPlayer');
+            toggleMusicButton = document.getElementById('toggleMusicButton');
+            musicPlayPauseIcon = document.getElementById('musicPlayPauseIcon');
+            musicTooltip = document.getElementById('musicTooltip');
+            albumCoverImg = document.getElementById('albumCover');
+            songTitleSpan = document.getElementById('songTitle');
+            songDetailsSpan = document.getElementById('songDetails');
+
+            // The click event listener for the music button now controls play/pause directly
+            toggleMusicButton.addEventListener('click', () => {
+                if (currentSongIndex === -1) {
+                    // If no song is loaded, load the first one and play
+                    currentSongIndex = 0;
+                    audioPlayer.src = SONGS[currentSongIndex].url;
+                    audioPlayer.dataset.currentSongId = SONGS[currentSongIndex].id;
+                    updateTooltip(SONGS[currentSongIndex]);
+                    audioPlayer.play().then(() => {
+                        updatePlayPauseIcon(true); // Update icon to pause
+                        toggleMusicButton.classList.add('playing');
+                    }).catch(error => {
+                        console.error("Autoplay prevented on first play:", error);
+                        updateTooltip({
+                            title: "Nhấn nút nhạc để phát!",
+                            artist: "Trình duyệt đã chặn tự động phát.",
+                            album: "",
+                            albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                        });
+                        toggleMusicButton.classList.remove('playing');
+                        updatePlayPauseIcon(false); // Update icon to play
+                    });
+                } else if (audioPlayer.paused) {
+                    audioPlayer.play().then(() => {
+                        updatePlayPauseIcon(true); // Update icon to pause
+                        toggleMusicButton.classList.add('playing');
+                    }).catch(error => {
+                        console.error("Autoplay prevented on resume:", error);
+                        updateTooltip({
+                            title: "Nhấn nút nhạc để phát!",
+                            artist: "Trình duyệt đã chặn tự động phát.",
+                            album: "",
+                            albumArtUrl: "https://placehold.co/50x50/7f8c8d/ffffff?text=Play"
+                        });
+                        toggleMusicButton.classList.remove('playing');
+                        updatePlayPauseIcon(false); // Update icon to play
+                    });
+                } else {
+                    audioPlayer.pause();
+                    updatePlayPauseIcon(false); // Update icon to play
+                    toggleMusicButton.classList.remove('playing');
+                }
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('play', () => {
+                updatePlayPauseIcon(true);
+                toggleMusicButton.classList.add('playing');
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('pause', () => {
+                updatePlayPauseIcon(false);
+                toggleMusicButton.classList.remove('playing');
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('ended', () => {
+                currentSongIndex = (currentSongIndex + 1) % SONGS.length;
+                audioPlayer.src = SONGS[currentSongIndex].url;
+                audioPlayer.dataset.currentSongId = SONGS[currentSongIndex].id;
+                updateTooltip(SONGS[currentSongIndex]);
+                audioPlayer.play(); // Auto-play next song
+                saveMusicState();
+            });
+
+            audioPlayer.addEventListener('timeupdate', saveMusicState);
+            audioPlayer.addEventListener('volumechange', saveMusicState);
+
+            loadMusicState(); // Load music state when the page loads
+
+            // Handle page link clicks for smooth transitions
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default navigation
+                    const targetPage = link.dataset.href; // Get target page from data-href
+
+                    // Add slide-out animation
+                    pageContentWrapper.classList.remove('page-transition-in');
+                    pageContentWrapper.classList.add('page-transition-out');
+
+                    // Wait for the animation to complete before navigating
+                    pageContentWrapper.addEventListener('animationend', () => {
+                        window.location.href = targetPage; // Navigate to the new page
+                    }, { once: true }); // Ensure the event listener is removed after it fires
+                });
+            });
+
+            // Clear input fields and result box on initial load
             document.getElementById('a1').value = '';
             document.getElementById('b1').value = '';
             document.getElementById('c1').value = '';
@@ -533,7 +880,7 @@
             document.getElementById('c2').value = '';
             document.getElementById('result').innerHTML = '';
             document.querySelector('.result-box').classList.remove('fade-in'); // Ensure result box is hidden initially
-        };
+        });
     </script>
     <!-- MathJax CDN for rendering mathematical equations -->
     <script type="text/javascript" id="MathJax-script" async
