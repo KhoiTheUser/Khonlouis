@@ -124,12 +124,17 @@
             }
         }
 
+        /* Initial state for page content wrapper to prevent flicker */
+        #pageContentWrapper {
+            opacity: 0; /* Start hidden */
+        }
+
         .page-transition-in {
-            animation: fadeIn 0.4s ease-out forwards; /* Shorter duration for subtlety */
+            animation: fadeIn 0.5s ease-out forwards; /* Smoother ease-out */
         }
 
         .page-transition-out {
-            animation: fadeOut 0.4s ease-in forwards; /* Shorter duration for subtlety */
+            animation: fadeOut 0.5s ease-in forwards; /* Smoother ease-in */
         }
 
 
