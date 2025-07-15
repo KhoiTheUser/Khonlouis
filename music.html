@@ -48,15 +48,14 @@
             animation: auroraMovement 20s infinite alternate ease-in-out;
         }
 
-        .aurora-layer:nth-child(1) {
+       .aurora-layer:nth-child(1) {
             width: 600px;
             height: 600px;
             top: 10%;
             left: 15%;
-            /* Blue to Green gradient */
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 25s;
+            animation-duration: 5.625s; /* Increased duration by 50% (1.75s * 1.5) */
         }
 
         .aurora-layer:nth-child(2) {
@@ -64,10 +63,9 @@
             height: 700px;
             top: 50%;
             left: 70%;
-            /* Slightly different shade of green/blue */
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 5s;
-            animation-duration: 20s;
+            animation-delay: 0.705s; /* Increased delay by 50% (0.47s * 1.5) */
+            animation-duration: 2.28s; /* Increased duration by 50% (1.52s * 1.5) */
         }
 
         .aurora-layer:nth-child(3) {
@@ -75,10 +73,9 @@
             height: 500px;
             top: 80%;
             left: 30%;
-            /* Another blue-green variation */
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 10s;
-            animation-duration: 30s;
+            animation-delay: 1.395s; /* Increased delay by 50% (0.93s * 1.5) */
+            animation-duration: 2.97s; /* Increased duration by 50% (1.98s * 1.5) */
         }
 
         .aurora-layer:nth-child(4) {
@@ -86,10 +83,9 @@
             height: 400px;
             top: 20%;
             left: 80%;
-            /* A lighter, more vibrant blue-green */
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 15s;
-            animation-duration: 22s;
+            animation-delay: 2.1s; /* Increased delay by 50% (1.4s * 1.5) */
+            animation-duration: 2.445s; /* Increased duration by 50% (1.63s * 1.5) */
         }
 
         @keyframes auroraMovement {
@@ -160,6 +156,40 @@
         .fade-in-content {
             animation: fadeInContent 0.4s ease-in-out forwards; /* Adjusted duration and easing */
         }
+
+        /* New animations for playlist items */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .playlist-item.fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        .playlist-item.fade-out-down {
+            animation: fadeOutDown 0.4s ease-in forwards;
+            will-change: transform, opacity;
+        }
+
 
         /* Main content wrapper for player and playlist */
         .main-content-wrapper {
@@ -514,6 +544,49 @@
             color: #ffffff; /* White text for active item */
         }
 
+        /* Search Bar Styling */
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            background-color: #2c3e50; /* Darker background for search bar */
+            border: 2px solid #3498db; /* Blue border for prominence */
+            border-radius: 12px;
+            padding: 10px 15px; /* Adjusted padding */
+            margin-bottom: 20px; /* Space below search bar */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            width: 90%; /* Default width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-bar-container:focus-within {
+            border-color: #2ecc71; /* Green border on focus */
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.7); /* Green glow on focus */
+            transform: translateY(-2px);
+        }
+
+        .search-bar-container input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ecf0f1;
+            font-size: 1rem;
+            padding: 5px 10px;
+        }
+
+        .search-bar-container input::placeholder {
+            color: #bdc3c7;
+            opacity: 0.8;
+        }
+
+        .search-bar-container .search-icon {
+            color: #bdc3c7;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+
 
         /* Responsive adjustments */
         @media (max-width: 900px) {
@@ -584,6 +657,16 @@
             .playlist-item-info .artist {
                 font-size: 0.8rem;
             }
+            .search-bar-container {
+                width: 100%; /* Full width on small screens */
+                padding: 8px 12px;
+            }
+            .search-bar-container input {
+                font-size: 0.9rem;
+            }
+            .search-bar-container .search-icon {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -643,6 +726,11 @@
             <!-- Playlist Container -->
             <div class="playlist-container">
                 <h2 class="playlist-header">Danh Sách Phát</h2>
+                <!-- Search Bar for Playlist -->
+                <div class="search-bar-container">
+                    <input type="text" id="playlistSearchInput" placeholder="Tìm kiếm bài hát...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
                 <ul id="playlist" class="playlist-list">
                     <!-- Playlist items will be rendered here by JavaScript -->
                 </ul>
@@ -668,6 +756,7 @@
         const nextButton = document.getElementById('nextButton');
         const volumeSlider = document.getElementById('volumeSlider');
         const playlistElement = document.getElementById('playlist'); // New: Playlist UL element
+        const playlistSearchInput = document.getElementById('playlistSearchInput'); // New: Search input for playlist
 
         const SONGS = [
             {
@@ -798,7 +887,7 @@
                         audioPlayer.play().then(() => {
                             // These are now handled by the play event listener or updatePlayerInfo's final step
                         }).catch(error => {
-                            console.log("Autoplay prevented:", error);
+                            console.error("Error playing audio:", error);
                             audioPlayer.currentTime = 0;
                             progressBar.style.width = '0%';
                             currentTimeSpan.textContent = '0:00';
@@ -980,6 +1069,47 @@
             audioPlayer.volume = volumeSlider.value;
             saveMusicState();
         });
+
+        // Debounce function (copied from index.html)
+        let debounceTimer;
+        const debounce = (func, delay) => {
+            return function(...args) {
+                const context = this;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        };
+
+        // Function to filter playlist items
+        const filterPlaylistItems = () => {
+            const searchTerm = playlistSearchInput.value.toLowerCase();
+            const playlistItems = playlistElement.querySelectorAll('.playlist-item');
+
+            playlistItems.forEach(item => {
+                const title = item.querySelector('.title').textContent.toLowerCase();
+                const artist = item.querySelector('.artist').textContent.toLowerCase();
+                const itemIsVisible = item.style.display !== 'none';
+                const shouldBeVisible = title.includes(searchTerm) || artist.includes(searchTerm);
+
+                if (shouldBeVisible && !itemIsVisible) {
+                    item.style.display = 'flex'; // Make it visible for animation
+                    item.classList.remove('fade-out-down'); // Remove any lingering fade-out
+                    item.classList.add('fade-in-up'); // Add fade-in animation
+                } else if (!shouldBeVisible && itemIsVisible) {
+                    item.classList.remove('fade-in-up'); // Remove any lingering fade-in
+                    item.classList.add('fade-out-down'); // Add fade-out animation
+                    item.addEventListener('animationend', function handler() {
+                        item.style.display = 'none'; // Hide after animation
+                        item.classList.remove('fade-out-down'); // Clean up class
+                        item.removeEventListener('animationend', handler); // Remove listener
+                    }, { once: true });
+                }
+            });
+        };
+
+        // Event Listener for playlist search input with debounce
+        playlistSearchInput.addEventListener('input', debounce(filterPlaylistItems, 500));
+
 
         // --- Page Transition Logic ---
         document.addEventListener('DOMContentLoaded', () => {
