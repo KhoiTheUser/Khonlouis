@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px; /* Reduced from 20px by 25% */
             box-sizing: border-box;
             color: #ecf0f1; /* Default light text color for body */
             position: relative; /* For positioning aurora layers */
@@ -44,18 +44,19 @@
             );
             border-radius: 50%;
             filter: blur(80px); /* Soft blur for aurora effect */
-            opacity: 0;
+            opacity: 0.5; /* Consistent with index.html */
             animation: auroraMovement 20s infinite alternate ease-in-out;
         }
 
-       .aurora-layer:nth-child(1) {
+        .aurora-layer:nth-child(1) {
             width: 600px;
             height: 600px;
             top: 10%;
             left: 15%;
+            /* Blue to Green gradient */
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 5.625s; /* Increased duration by 50% (1.75s * 1.5) */
+            animation-duration: 25s;
         }
 
         .aurora-layer:nth-child(2) {
@@ -63,9 +64,10 @@
             height: 700px;
             top: 50%;
             left: 70%;
+            /* Slightly different shade of green/blue */
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 0.705s; /* Increased delay by 50% (0.47s * 1.5) */
-            animation-duration: 2.28s; /* Increased duration by 50% (1.52s * 1.5) */
+            animation-delay: 5s;
+            animation-duration: 20s;
         }
 
         .aurora-layer:nth-child(3) {
@@ -73,9 +75,10 @@
             height: 500px;
             top: 80%;
             left: 30%;
+            /* Another blue-green variation */
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 1.395s; /* Increased delay by 50% (0.93s * 1.5) */
-            animation-duration: 2.97s; /* Increased duration by 50% (1.98s * 1.5) */
+            animation-delay: 10s;
+            animation-duration: 30s;
         }
 
         .aurora-layer:nth-child(4) {
@@ -83,9 +86,10 @@
             height: 400px;
             top: 20%;
             left: 80%;
+            /* A lighter, more vibrant blue-green */
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 2.1s; /* Increased delay by 50% (1.4s * 1.5) */
-            animation-duration: 2.445s; /* Increased duration by 50% (1.63s * 1.5) */
+            animation-delay: 15s;
+            animation-duration: 22s;
         }
 
         @keyframes auroraMovement {
@@ -161,7 +165,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px); /* Reduced from 20px by 25% */
             }
             to {
                 opacity: 1;
@@ -176,7 +180,7 @@
             }
             to {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px); /* Reduced from 20px by 25% */
             }
         }
 
@@ -194,74 +198,75 @@
         /* Main content wrapper for player and playlist */
         .main-content-wrapper {
             display: flex;
-            gap: 40px; /* Space between player and playlist */
+            gap: 30px; /* Reduced from 40px by 25% */
             align-items: flex-start; /* Align items to the top */
             justify-content: center;
             width: 100%;
-            max-width: 1000px; /* Max width for the whole section */
+            max-width: 750px; /* Reduced from 1000px by 25% */
         }
 
         .music-player-container, .playlist-container {
-            background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
-            border-radius: 16px; /* More rounded corners */
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
-            padding: 30px;
+            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
+            border-radius: 12px; /* Reduced from 16px by 25% */
+            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Reduced from 0 12px 30px by 25% */
+            padding: 22.5px; /* Reduced from 30px by 25% */
             width: 100%; /* Take full width of their flex item */
             text-align: center;
-            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
-            backdrop-filter: blur(10px); /* Stronger blur effect for a modern touch */
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
+            backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
+            -webkit-backdrop-filter: blur(7.5px); /* For Safari */
             position: relative; /* For back button positioning */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
             z-index: 1; /* Ensure player is above aurora effect */
         }
 
         .music-player-container {
-            max-width: 450px; /* Fixed max-width for music player */
+            max-width: 337.5px; /* Reduced from 450px by 25% */
             flex-shrink: 0; /* Prevent shrinking */
         }
 
         .playlist-container {
-            max-width: 550px; /* Wider for playlist */
+            max-width: 412.5px; /* Reduced from 550px by 25% */
             display: flex;
             flex-direction: column;
             overflow-y: auto; /* Enable scrolling for playlist */
-            max-height: 700px; /* Max height for playlist to match player or allow scroll */
+            max-height: 525px; /* Reduced from 700px by 25% */
         }
 
         .back-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 15px; /* Reduced from 20px by 25% */
+            left: 15px; /* Reduced from 20px by 25% */
             /* New styles for circular button */
-            background-color: #5a7d9a; /* Color from the image */
-            width: 45px; /* Size of the circle */
-            height: 45px;
+            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            width: 33.75px; /* Reduced from 45px by 25% */
+            height: 33.75px; /* Reduced from 45px by 25% */
             border-radius: 50%; /* Make it circular */
             display: flex; /* Use flex to center SVG */
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced from 0 4px 10px by 25% */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transitions */
             text-decoration: none; /* Remove underline for link */
             z-index: 10; /* Ensure it's above other content */
+            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
         }
         .back-button:hover {
-            background-color: #6a8db0; /* Slightly lighter on hover */
-            transform: translateX(-5px) scale(1.05); /* Gentle slide and slight scale */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* More prominent shadow on hover */
+            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
+            transform: translateX(-3.75px) scale(1.0375); /* Reduced from -5px, 1.05 by 25% */
+            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15); /* Reduced from 0 6px 15px by 25% */
         }
         .back-button:active {
-            transform: translateY(0) scale(0.95); /* Gentle press effect */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Smaller shadow on press */
+            transform: translateY(0) scale(0.9625); /* Reduced from 0.95 by 25% */
+            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05); /* Reduced from 0 2px 5px by 25% */
         }
         /* Style for the SVG icon inside the button */
         .back-button svg {
-            width: 1.2em; /* Adjust SVG size relative to button size */
-            height: 1.2em;
+            width: 0.9em; /* Reduced from 1.2em by 25% */
+            height: 0.9em; /* Reduced from 1.2em by 25% */
             stroke: #ecf0f1; /* White color for the arrow */
-            stroke-width: 2.5; /* Adjust stroke width for desired thickness */
+            stroke-width: 1.875; /* Reduced from 2.5 by 25% */
             stroke-linecap: round; /* Rounded ends for lines */
             stroke-linejoin: round; /* Rounded corners for lines */
             fill: none; /* Ensure no fill for the arrow */
@@ -273,126 +278,126 @@
         /* Adjusted h1 to be the album title */
         .album-title {
             color: #ecf0f1;
-            font-size: 2.2rem; /* Adjusted font size for album title */
+            font-size: 1.65rem; /* Reduced from 2.2rem by 25% */
             font-weight: 700;
-            margin-bottom: 2rem;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
+            text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4); /* Reduced from 0 2px 6px by 25% */
         }
 
         /* Album Art Fixed Glow when playing */
         .album-art {
-            width: 200px;
-            height: 200px;
-            border-radius: 12px;
+            width: 150px; /* Reduced from 200px by 25% */
+            height: 150px; /* Reduced from 200px by 25% */
+            border-radius: 9px; /* Reduced from 12px by 25% */
             object-fit: cover;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 0 auto 15px auto; /* Reduced from 20px by 25% */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Reduced from 0 8px 20px by 25% */
             transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover and glow */
         }
         .album-art:hover {
-            transform: scale(1.02); /* Slightly enlarge on hover */
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* More prominent shadow on hover */
+            transform: scale(1.015); /* Reduced from 1.02 by 25% */
+            box-shadow: 0 9px 18.75px rgba(0, 0, 0, 0.5); /* Reduced from 0 12px 25px by 25% */
         }
         .album-art.playing {
             /* Fixed glow effect - Increased spread radius for larger glow */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5),
-                        0 0 50px rgba(52, 152, 219, 0.8), /* Blue glow, increased from 30px to 50px */
-                        0 0 70px rgba(46, 204, 113, 0.5); /* Green glow, increased from 45px to 70px */
-            transform: scale(1.01); /* Subtle scale when playing */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), /* Reduced from 0 8px 20px by 25% */
+                        0 0 37.5px rgba(52, 152, 219, 0.8), /* Reduced from 50px by 25% */
+                        0 0 52.5px rgba(46, 204, 113, 0.5); /* Reduced from 70px by 25% */
+            transform: scale(1.0075); /* Reduced from 1.01 by 25% */
         }
 
         .song-info .title {
-            font-size: 1.8rem;
+            font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3.75px; /* Reduced from 5px by 25% */
             color: #ecf0f1;
         }
         .song-info .artist {
-            font-size: 1.2rem;
+            font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
             color: #bdc3c7;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reduced from 20px by 25% */
         }
         .progress-bar-container {
             width: 100%;
-            height: 8px;
-            background-color: #5a7d9a;
-            border-radius: 4px;
-            margin-bottom: 15px;
+            height: 6px; /* Reduced from 8px by 25% */
+            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            border-radius: 3px; /* Reduced from 4px by 25% */
+            margin-bottom: 11.25px; /* Reduced from 15px by 25% */
             cursor: pointer;
             overflow: hidden; /* Ensure progress bar stays within bounds */
             transition: box-shadow 0.3s ease; /* Smooth transition for glow */
         }
         .progress-bar-container:hover {
-            box-shadow: 0 0 15px rgba(52, 152, 219, 0.8); /* Blue glow on hover */
+            box-shadow: 0 0 11.25px rgba(52, 152, 219, 0.8); /* Reduced from 15px by 25% */
         }
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
-            border-radius: 4px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); /* 75% transparent */
+            border-radius: 3px; /* Reduced from 4px by 25% */
             transition: width 0.1s ease-out; /* Changed to ease-out for smoother animation */
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Subtle glow */
+            box-shadow: 0 0 3.75px rgba(52, 152, 219, 0.25); /* Reduced from 5px by 25%, transparency adjusted */
         }
         .time-display {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.675rem; /* Reduced from 0.9rem by 25% */
             color: #bdc3c7;
-            margin-bottom: 25px;
+            margin-bottom: 18.75px; /* Reduced from 25px by 25% */
         }
         .controls {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
+            gap: 18.75px; /* Reduced from 25px by 25% */
+            margin-bottom: 22.5px; /* Reduced from 30px by 25% */
         }
         .control-button {
-            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient */
+            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
             color: white;
-            width: 55px;
-            height: 55px;
+            width: 41.25px; /* Reduced from 55px by 25% */
+            height: 41.25px; /* Reduced from 55px by 25% */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.4rem;
-            border: none;
+            font-size: 1.05rem; /* Reduced from 1.4rem by 25% */
+            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
             cursor: pointer;
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); /* Slightly stronger initial shadow */
+            box-shadow: 0 4.5px 11.25px rgba(52, 152, 219, 0.15); /* Reduced from 0 6px 15px by 25%, transparency adjusted */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition */
         }
         .control-button:hover {
-            background: linear-gradient(to right, #2980b9, #3498db); /* Slightly darker and reversed gradient on hover */
-            transform: translateY(-5px) scale(1.08); /* More pronounced lift and scale */
-            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.8); /* Larger, more intense shadow */
+            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            transform: translateY(-3.75px) scale(1.06); /* Reduced from -5px, 1.08 by 25% */
+            box-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3); /* Reduced from 0 15px 35px by 25%, transparency adjusted */
         }
         .control-button:active {
-            transform: translateY(0) scale(0.92); /* More pronounced press effect */
-            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.4); /* Smaller shadow on press */
-            background: #2471a3; /* Solid darker blue on active */
+            transform: translateY(0) scale(0.94); /* Reduced from 0.92 by 25% */
+            box-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15); /* Reduced from 0 2px 10px by 25%, transparency adjusted */
+            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
         }
         .control-button.play-pause {
-            width: 70px;
-            height: 70px;
-            font-size: 2rem;
+            width: 52.5px; /* Reduced from 70px by 25% */
+            height: 52.5px; /* Reduced from 70px by 25% */
+            font-size: 1.5rem; /* Reduced from 2rem by 25% */
         }
 
         /* Reintroduced: Play/Pause button pulse glow when playing */
         @keyframes playButtonPulse {
             0% {
-                box-shadow: 0 0 30px rgba(52, 152, 219, 1), /* Strong blue glow */
-                            0 0 50px rgba(255, 255, 255, 0.5); /* White highlight glow */
-                transform: scale(1.05);
+                box-shadow: 0 0 22.5px rgba(52, 152, 219, 1), /* Reduced from 30px by 25% */
+                            0 0 37.5px rgba(255, 255, 255, 0.5); /* Reduced from 50px by 25% */
+                transform: scale(1.0375); /* Reduced from 1.05 by 25% */
             }
             50% {
-                box-shadow: 0 0 45px rgba(52, 152, 219, 1.2), /* Even stronger blue glow */
-                            0 0 70px rgba(255, 255, 255, 0.7); /* Even stronger white highlight glow */
-                transform: scale(1.07); /* Slightly bigger pulse */
+                box-shadow: 0 0 33.75px rgba(52, 152, 219, 1.2), /* Reduced from 45px by 25% */
+                            0 0 52.5px rgba(255, 255, 255, 0.7); /* Reduced from 70px by 25% */
+                transform: scale(1.0525); /* Reduced from 1.07 by 25% */
             }
             100% {
-                box-shadow: 0 0 30px rgba(52, 152, 219, 1),
-                            0 0 50px rgba(255, 255, 255, 0.5);
-                transform: scale(1.05);
+                box-shadow: 0 0 22.5px rgba(52, 152, 219, 1),
+                            0 0 37.5px rgba(255, 255, 255, 0.5);
+                transform: scale(1.0375);
             }
         }
 
@@ -403,120 +408,120 @@
         .volume-control {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 7.5px; /* Reduced from 10px by 25% */
+            margin-bottom: 22.5px; /* Reduced from 30px by 25% */
             justify-content: center;
         }
         .volume-control i {
-            font-size: 1.2rem;
+            font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
             color: #bdc3c7;
         }
         .volume-slider {
-            width: 150px;
+            width: 112.5px; /* Reduced from 150px by 25% */
             -webkit-appearance: none;
-            height: 6px;
-            background: #5a7d9a;
-            border-radius: 3px;
+            height: 4.5px; /* Reduced from 6px by 25% */
+            background: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            border-radius: 2.25px; /* Reduced from 3px by 25% */
             outline: none;
             cursor: pointer;
         }
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 12px; /* Reduced from 16px by 25% */
+            height: 12px; /* Reduced from 16px by 25% */
             border-radius: 50%;
-            background: #3498db; /* Blue thumb */
+            background: rgba(52, 152, 219, 0.25); /* 75% transparent */
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3); /* Reduced from 0 2px 5px by 25% */
             transition: background 0.2s ease; /* Smooth transition for thumb color */
         }
         .volume-slider::-webkit-slider-thumb:hover {
-            background: #2980b9; /* Darker blue on hover */
+            background: rgba(41, 128, 185, 0.35); /* Darker blue on hover, more opaque */
         }
         .volume-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
+            width: 12px; /* Reduced from 16px by 25% */
+            height: 12px; /* Reduced from 16px by 25% */
             border-radius: 50%;
-            background: #3498db;
+            background: rgba(52, 152, 219, 0.25);
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3);
             transition: background 0.2s ease;
         }
         .volume-slider::-moz-range-thumb:hover {
-            background: #2980b9;
+            background: rgba(41, 128, 185, 0.35);
         }
 
         /* Playlist Specific Styles */
         .playlist-header {
-            font-size: 1.8rem;
+            font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: 700;
             color: #ecf0f1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             text-align: center;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4); /* Reduced from 0 2px 6px by 25% */
         }
 
         .playlist-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: calc(100% - 70px); /* Adjust based on header height */
+            max-height: calc(100% - 52.5px); /* Reduced from 70px by 25% */
             overflow-y: auto; /* Scrollable playlist */
             scrollbar-width: thin; /* Firefox */
-            scrollbar-color: #3498db #5a7d9a; /* Thumb and Track */
+            scrollbar-color: rgba(52, 152, 219, 0.25) rgba(90, 125, 154, 0.15); /* Thumb and Track, 75% and 85% transparent */
         }
 
         /* Webkit scrollbar styles */
         .playlist-list::-webkit-scrollbar {
-            width: 8px;
+            width: 6px; /* Reduced from 8px by 25% */
         }
 
         .playlist-list::-webkit-scrollbar-track {
-            background: #5a7d9a;
-            border-radius: 4px;
+            background: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            border-radius: 3px; /* Reduced from 4px by 25% */
         }
 
         .playlist-list::-webkit-scrollbar-thumb {
-            background-color: #3498db;
-            border-radius: 4px;
-            border: 2px solid #5a7d9a;
+            background-color: rgba(52, 152, 219, 0.25); /* 75% transparent */
+            border-radius: 3px; /* Reduced from 4px by 25% */
+            border: 1.5px solid rgba(90, 125, 154, 0.15); /* Reduced from 2px, 85% transparent */
         }
 
         .playlist-item {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            margin-bottom: 8px; /* Space between items */
-            background-color: rgba(52, 73, 94, 0.6); /* Darker background for items */
-            border-radius: 10px;
+            padding: 9px 11.25px; /* Reduced from 12px 15px by 25% */
+            margin-bottom: 6px; /* Reduced from 8px by 25% */
+            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
+            border-radius: 7.5px; /* Reduced from 10px by 25% */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             text-align: left; /* Align text left within item */
-            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
+            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
         }
 
         .playlist-item:hover {
-            background-color: rgba(61, 90, 115, 0.8); /* Lighter on hover */
-            transform: translateY(-3px); /* Subtle lift */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(61, 90, 115, 0.25); /* Lighter on hover, 75% transparent */
+            transform: translateY(-2.25px); /* Reduced from -3px by 25% */
+            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 6px 15px by 25% */
         }
 
         .playlist-item.active {
-            background: linear-gradient(to right, #3498db, #2980b9); /* Vibrant blue gradient for active */
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.6); /* Stronger shadow for active */
-            transform: scale(1.01); /* Slightly larger */
-            border-color: #3498db; /* Blue border for active */
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); /* 75% transparent */
+            box-shadow: 0 3px 11.25px rgba(52, 152, 219, 0.3); /* Reduced from 0 4px 15px by 25%, transparency adjusted */
+            transform: scale(1.0075); /* Reduced from 1.01 by 25% */
+            border-color: rgba(52, 152, 219, 0.25); /* Blue border for active, 75% transparent */
         }
 
         .playlist-item-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
+            width: 37.5px; /* Reduced from 50px by 25% */
+            height: 37.5px; /* Reduced from 50px by 25% */
+            border-radius: 6px; /* Reduced from 8px by 25% */
             object-fit: cover;
-            margin-right: 15px;
+            margin-right: 11.25px; /* Reduced from 15px by 25% */
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.2); /* Reduced from 0 2px 8px by 25% */
         }
 
         .playlist-item-info {
@@ -524,7 +529,7 @@
         }
 
         .playlist-item-info .title {
-            font-size: 1.05rem;
+            font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
             font-weight: bold;
             color: #ecf0f1;
             white-space: nowrap;
@@ -533,7 +538,7 @@
         }
 
         .playlist-item-info .artist {
-            font-size: 0.9rem;
+            font-size: 0.675rem; /* Reduced from 0.9rem by 25% */
             color: #bdc3c7;
             white-space: nowrap;
             overflow: hidden;
@@ -548,12 +553,12 @@
         .search-bar-container {
             display: flex;
             align-items: center;
-            background-color: #2c3e50; /* Darker background for search bar */
-            border: 2px solid #3498db; /* Blue border for prominence */
-            border-radius: 12px;
-            padding: 10px 15px; /* Adjusted padding */
-            margin-bottom: 20px; /* Space below search bar */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(44, 62, 80, 0.15); /* 85% transparent */
+            border: 1.5px solid rgba(52, 152, 219, 0.25); /* Reduced from 2px, 75% transparent */
+            border-radius: 9px; /* Reduced from 12px by 25% */
+            padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
+            margin-bottom: 15px; /* Reduced from 20px by 25% */
+            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
             transition: all 0.3s ease;
             width: 90%; /* Default width */
             margin-left: auto;
@@ -561,9 +566,9 @@
         }
 
         .search-bar-container:focus-within {
-            border-color: #2ecc71; /* Green border on focus */
-            box-shadow: 0 0 20px rgba(46, 204, 113, 0.7); /* Green glow on focus */
-            transform: translateY(-2px);
+            border-color: rgba(46, 204, 113, 0.25); /* Green border on focus, 75% transparent */
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.525); /* Reduced from 20px, transparency adjusted */
+            transform: translateY(-1.5px); /* Reduced from -2px by 25% */
         }
 
         .search-bar-container input {
@@ -572,8 +577,8 @@
             border: none;
             outline: none;
             color: #ecf0f1;
-            font-size: 1rem;
-            padding: 5px 10px;
+            font-size: 0.75rem; /* Reduced from 1rem by 25% */
+            padding: 3.75px 7.5px; /* Reduced from 5px 10px by 25% */
         }
 
         .search-bar-container input::placeholder {
@@ -583,8 +588,8 @@
 
         .search-bar-container .search-icon {
             color: #bdc3c7;
-            font-size: 1.2rem;
-            margin-left: 10px;
+            font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
+            margin-left: 7.5px; /* Reduced from 10px by 25% */
         }
 
 
@@ -593,44 +598,44 @@
             .main-content-wrapper {
                 flex-direction: column; /* Stack vertically on smaller screens */
                 align-items: center; /* Center items when stacked */
-                gap: 30px; /* Adjust gap for vertical stacking */
+                gap: 22.5px; /* Reduced from 30px by 25% */
             }
             .music-player-container, .playlist-container {
-                max-width: 450px; /* Keep consistent max width for both */
+                max-width: 337.5px; /* Keep consistent max width for both */
             }
             .playlist-container {
-                max-height: 500px; /* Adjust max height for vertical scrolling */
+                max-height: 375px; /* Reduced from 500px by 25% */
             }
             .album-title { /* Adjusted for responsive */
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
+                font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
+                margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             }
             .album-art {
-                width: 150px;
-                height: 150px;
+                width: 112.5px; /* Reduced from 150px by 25% */
+                height: 112.5px; /* Reduced from 150px by 25% */
             }
             .song-info .title {
-                font-size: 1.5rem;
+                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
             }
             .song-info .artist {
-                font-size: 1.0rem; /* Adjusted for consistency */
+                font-size: 0.75rem; /* Reduced from 1.0rem by 25% */
             }
             .controls {
-                gap: 15px;
+                gap: 11.25px; /* Reduced from 15px by 25% */
             }
             .control-button {
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
+                width: 33.75px; /* Reduced from 45px by 25% */
+                height: 33.75px; /* Reduced from 45px by 25% */
+                font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
             }
             .control-button.play-pause {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
+                width: 45px; /* Reduced from 60px by 25% */
+                height: 45px; /* Reduced from 60px by 25% */
+                font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             }
             .volume-control {
                 flex-direction: column;
-                gap: 5px;
+                gap: 3.75px; /* Reduced from 5px by 25% */
             }
             .volume-slider {
                 width: 100%;
@@ -638,34 +643,34 @@
         }
         @media (max-width: 600px) {
             .music-player-container, .playlist-container {
-                padding: 20px;
+                padding: 15px; /* Reduced from 20px by 25% */
             }
             .playlist-header {
-                font-size: 1.5rem;
+                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
             }
             .playlist-item {
-                padding: 10px;
+                padding: 7.5px; /* Reduced from 10px by 25% */
             }
             .playlist-item-img {
-                width: 40px;
-                height: 40px;
-                margin-right: 10px;
+                width: 30px; /* Reduced from 40px by 25% */
+                height: 30px; /* Reduced from 40px by 25% */
+                margin-right: 7.5px; /* Reduced from 10px by 25% */
             }
             .playlist-item-info .title {
-                font-size: 0.95rem;
+                font-size: 0.7125rem; /* Reduced from 0.95rem by 25% */
             }
             .playlist-item-info .artist {
-                font-size: 0.8rem;
+                font-size: 0.6rem; /* Reduced from 0.8rem by 25% */
             }
             .search-bar-container {
                 width: 100%; /* Full width on small screens */
-                padding: 8px 12px;
+                padding: 6px 9px; /* Reduced from 8px 12px by 25% */
             }
             .search-bar-container input {
-                font-size: 0.9rem;
+                font-size: 0.675rem; /* Reduced from 0.9rem by 25% */
             }
             .search-bar-container .search-icon {
-                font-size: 1.1rem;
+                font-size: 0.825rem; /* Reduced from 1.1rem by 25% */
             }
         }
     </style>
@@ -892,8 +897,6 @@
                             progressBar.style.width = '0%';
                             currentTimeSpan.textContent = '0:00';
                             playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
-                            currentSongTitle.textContent = "Nhấn nút Play để phát!";
-                            currentSongArtist.textContent = "Trình duyệt đã chặn tự động phát.";
                             currentAlbumArt.classList.remove('playing');
                             playPauseButton.classList.remove('playing');
                         });
