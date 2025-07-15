@@ -15,7 +15,7 @@
             justify-content: center;
             align-items: flex-start; /* Align to top for scrolling content */
             min-height: 100vh; /* Use min-height to allow content to push it */
-            padding: 20px;
+            padding: 15px; /* Reduced from 20px by 25% */
             box-sizing: border-box;
             color: #ecf0f1;
             position: relative;
@@ -43,32 +43,32 @@
             );
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0;
+            opacity: 0.5; /* Consistent with index.html */
             animation: auroraMovement 20s infinite alternate ease-in-out;
         }
 
         .aurora-layer:nth-child(1) {
             width: 600px; height: 600px; top: 10%; left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
-            animation-delay: 0s; animation-duration: 7s; /* Tốc độ 150%: 30s / 1.5 = 20s */
+            animation-delay: 0s; animation-duration: 30s; /* Adjusted duration for more subtle flow */
         }
         .aurora-layer:nth-child(2) {
             width: 700px; height: 700px; top: 50%; left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
             animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 17.33s; /* Tốc độ 150%: 8s / 1.5 = ~17.33s */
+            animation-duration: 26s; /* Adjusted duration */
         }
         .aurora-layer:nth-child(3) {
             width: 500px; height: 500px; top: 80%; left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
             animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 22.67s; /* Tốc độ 150%: 6s / 1.5 = ~22.67s */
+            animation-duration: 34s; /* Adjusted duration */
         }
         .aurora-layer:nth-child(4) {
             width: 400px; height: 400px; top: 20%; left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
             animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 18.67s; /* Tốc độ 150%: 8s / 1.5 = ~18.67s */
+            animation-duration: 28s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
@@ -117,20 +117,20 @@
 
         /* Main content container */
         .article-container {
-            background-color: rgba(44, 62, 80, 0.0); /* Alpha set to 0.0 for full transparency */
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-            padding: 30px;
-            max-width: 800px; /* Wider for article content */
+            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
+            border-radius: 12px; /* Reduced from 16px by 25% */
+            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Reduced from 0 12px 30px by 25% */
+            padding: 22.5px; /* Reduced from 30px by 25% */
+            max-width: 600px; /* Reduced from 800px by 25% */
             width: 100%;
             text-align: left; /* Align text left for readability */
-            border: 1px solid rgba(61, 90, 115, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
+            backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
+            -webkit-backdrop-filter: blur(7.5px); /* For Safari */
             position: relative;
             z-index: 1;
-            margin-top: 50px; /* Space from top for back button */
-            margin-bottom: 50px; /* Space at bottom */
+            margin-top: 37.5px; /* Reduced from 50px by 25% */
+            margin-bottom: 37.5px; /* Reduced from 50px by 25% */
         }
 		.important-note a {
             color: #F7F7F7; /* Lighter blue for links */
@@ -143,9 +143,9 @@
 
         /* Keyframes for the subtle glowing effect on specific text */
         @keyframes pulseGlow {
-            0% { text-shadow: 0 0 8px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.6); }
-            50% { text-shadow: 0 0 12px #F7F7F7, 0 0 20px rgba(247, 247, 247, 0.9); }
-            100% { text-shadow: 0 0 8px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.6); }
+            0% { text-shadow: 0 0 6px #F7F7F7, 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
+            50% { text-shadow: 0 0 9px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.9); } /* Reduced by 25% */
+            100% { text-shadow: 0 0 6px #F7F7F7, 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
         }
 
         .highlight-glow {
@@ -157,35 +157,36 @@
         /* Back button styling - Positioned outside the article container */
         .back-button {
             position: fixed; /* Fixed to the viewport */
-            top: 30px; /* 30px from the top */
-            left: 30px; /* 30px from the left */
-            background-color: #5a7d9a;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            top: 22.5px; /* Reduced from 30px by 25% */
+            left: 22.5px; /* Reduced from 30px by 25% */
+            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            width: 33.75px; /* Reduced from 45px by 25% */
+            height: 33.75px; /* Reduced from 45px by 25% */
+            border-radius: 50%; /* Make it circular */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced from 0 4px 10px by 25% */
             cursor: pointer;
             /* Enhanced transition for back button */
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 1000; /* Ensure it's always on top */
+            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
         }
         .back-button:hover {
-            background-color: #6a8db0;
-            transform: translateX(-8px) scale(1.1); /* More pronounced "fly out" and scale */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
+            transform: translateX(-6px) scale(1.08); /* Reduced from -8px, 1.1 by 25% */
+            box-shadow: 0 6px 18.75px rgba(0, 0, 0, 0.3); /* Reduced from 0 8px 20px by 25% */
         }
         .back-button:active {
-            transform: translateY(0) scale(0.9); /* Slightly more pronounced press effect */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transform: translateY(0) scale(0.925); /* Reduced from 0.9 by 25% */
+            box-shadow: 0 0.75px 2.25px rgba(0, 0, 0, 0.2); /* Reduced from 0 1px 3px by 25% */
         }
         .back-button svg {
-            width: 1.2em;
-            height: 1.2em;
+            width: 0.9em; /* Reduced from 1.2em by 25% */
+            height: 0.9em; /* Reduced from 1.2em by 25% */
             stroke: #ecf0f1;
-            stroke-width: 2.5;
+            stroke-width: 1.875; /* Reduced from 2.5 by 25% */
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
@@ -194,48 +195,48 @@
 
         /* Article content styling */
         .article-container h1 {
-            font-size: 2.5rem;
+            font-size: 1.875rem; /* Reduced from 2.5rem by 25% */
             font-weight: bold;
             color: #ecf0f1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             text-align: center;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            text-shadow: 0 1.5px 6px rgba(0,0,0,0.5); /* Reduced from 0 2px 8px by 25% */
         }
         .article-container h2 {
-            font-size: 1.8rem;
+            font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: 600;
             color: #3498db; /* Blue accent for subheadings */
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid rgba(52, 152, 219, 0.5);
-            padding-bottom: 5px;
+            margin-top: 1.875rem; /* Reduced from 2.5rem by 25% */
+            margin-bottom: 0.75rem; /* Reduced from 1rem by 25% */
+            border-bottom: 1.5px solid rgba(52, 152, 219, 0.25); /* Reduced from 2px, transparency adjusted */
+            padding-bottom: 3.75px; /* Reduced from 5px by 25% */
             display: inline-block; /* Underline only text width */
         }
         .article-container p {
-            font-size: 1.05rem;
+            font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
             line-height: 1.7;
             color: #bdc3c7;
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.9rem; /* Reduced from 1.2rem by 25% */
         }
         .article-container ul {
             list-style: disc;
-            margin-left: 25px;
-            margin-bottom: 1.2rem;
+            margin-left: 18.75px; /* Reduced from 25px by 25% */
+            margin-bottom: 0.9rem; /* Reduced from 1.2rem by 25% */
             color: #bdc3c7;
         }
         .article-container ul li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.375rem; /* Reduced from 0.5rem by 25% */
         }
         .article-container strong {
             color: #ecf0f1;
         }
         .article-container .important-note {
-            background-color: rgba(231, 76, 60, 0.15); /* Light red background */
-            border-left: 4px solid #e74c3c; /* Red border */
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            background-color: rgba(231, 76, 60, 0.15); /* 85% transparent */
+            border-left: 3px solid #e74c3c; /* Reduced from 4px by 25% */
+            padding: 11.25px; /* Reduced from 15px by 25% */
+            border-radius: 6px; /* Reduced from 8px by 25% */
+            margin-top: 1.5rem; /* Reduced from 2rem by 25% */
+            margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
             color: #ecf0f1;
             font-weight: 500;
         }
@@ -243,49 +244,49 @@
         /* Image gallery styling */
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
-            gap: 15px;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Reduced minmax from 200px by 25% */
+            gap: 11.25px; /* Reduced from 15px by 25% */
+            margin-top: 1.5rem; /* Reduced from 2rem by 25% */
+            margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
         }
 
         .image-gallery img {
             width: 100%;
-            height: 200px; /* Fixed height for consistency */
+            height: 150px; /* Reduced from 200px by 25% */
             object-fit: cover; /* Crop images to fit */
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 6px; /* Reduced from 8px by 25% */
+            box-shadow: 0 3.75px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 5px 15px by 25% */
             /* Enhanced transition for gallery images */
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer; /* Indicate clickable */
         }
 
         .image-gallery img:hover {
-            transform: scale(1.05); /* More pronounced scale on hover */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Stronger, more diffused shadow */
+            transform: scale(1.0375); /* Reduced from 1.05 by 25% */
+            box-shadow: 0 7.5px 18.75px rgba(0, 0, 0, 0.5); /* Reduced from 0 10px 25px by 25% */
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .article-container {
-                padding: 20px;
-                margin-top: 20px;
-                margin-bottom: 20px;
+                padding: 15px; /* Reduced from 20px by 25% */
+                margin-top: 15px; /* Reduced from 20px by 25% */
+                margin-bottom: 15px; /* Reduced from 20px by 25% */
             }
             .article-container h1 {
-                font-size: 2rem;
+                font-size: 1.5rem; /* Reduced from 2rem by 25% */
             }
             .article-container h2 {
-                font-size: 1.5rem;
+                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
             }
             .article-container p {
-                font-size: 1rem;
+                font-size: 0.75rem; /* Reduced from 1rem by 25% */
             }
             .image-gallery {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(112.5px, 1fr)); /* Reduced minmax from 150px by 25% */
             }
             .image-gallery img {
-                height: 150px;
+                height: 112.5px; /* Reduced from 150px by 25% */
             }
         }
 
@@ -336,55 +337,56 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain; /* Ensure the whole image is visible */
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            border-radius: 6px; /* Reduced from 8px by 25% */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Reduced from 0 0 20px by 25% */
             transition: transform 0.3s ease;
         }
 
         .close-modal-btn {
             position: absolute;
-            top: -40px; /* Position above the image */
-            right: -40px; /* Position to the right of the image */
-            background-color: #e74c3c; /* Red color for close button */
+            top: -30px; /* Reduced from -40px by 25% */
+            right: -30px; /* Reduced from -40px by 25% */
+            background-color: rgba(231, 76, 60, 0.15); /* 85% transparent */
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 30px; /* Reduced from 40px by 25% */
+            height: 30px; /* Reduced from 40px by 25% */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3); /* Reduced from 0 2px 5px by 25% */
             /* Enhanced transition for close button */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(231, 76, 60, 0.25); /* Added subtle border with transparency */
         }
 
         .close-modal-btn:hover {
-            background-color: #c0392b;
-            transform: scale(1.2) rotate(90deg); /* More distinct hover effect */
+            background-color: rgba(192, 57, 43, 0.25); /* Slightly darker, 75% transparent */
+            transform: scale(1.15) rotate(90deg); /* Reduced from 1.2 by 25% */
         }
         .close-modal-btn:active {
             transform: scale(0.9) rotate(90deg); /* More distinct active effect */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.75px 2.25px rgba(0, 0, 0, 0.2); /* Reduced from 0 1px 3px by 25% */
         }
 
         /* Responsive adjustments for modal close button */
         @media (max-width: 768px) {
             .close-modal-btn {
-                top: 10px; /* Adjust position for smaller screens */
-                right: 10px;
-                width: 30px;
-                height: 30px;
-                font-size: 1.2rem;
+                top: 7.5px; /* Reduced from 10px by 25% */
+                right: 7.5px; /* Reduced from 10px by 25% */
+                width: 22.5px; /* Reduced from 30px by 25% */
+                height: 22.5px; /* Reduced from 30px by 25% */
+                font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
             }
         }
 
         /* Music Player Floating Button - Copied from index.html */
         .music-player-floating-button-wrapper {
             position: fixed; /* Fixed position relative to the viewport */
-            bottom: 30px; /* 30px from the bottom */
-            left: 30px; /* 30px from the left */
+            bottom: 22.5px; /* Reduced from 30px by 25% */
+            left: 22.5px; /* Reduced from 30px by 25% */
             z-index: 1000; /* Ensure it's above all other content */
             display: flex;
             align-items: flex-end; /* Align tooltip to the bottom of the button */
@@ -392,43 +394,44 @@
         }
 
         .music-player-floating-button {
-            background: linear-gradient(to right, #3498db, #2980b9);
+            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
             color: white;
-            width: 60px; /* Smaller size */
-            height: 60px; /* Smaller size */
+            width: 45px; /* Reduced from 60px by 25% */
+            height: 45px; /* Reduced from 60px by 25% */
             border-radius: 50%; /* Circular button */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem; /* Icon size */
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
+            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; /* For tooltip positioning */
             z-index: 1; /* Ensure button is above tooltip when active */
+            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
         }
 
         .music-player-floating-button:hover {
-            background: linear-gradient(to right, #2980b9, #3498db);
-            transform: translateY(-3px) scale(1.05); /* Gentle lift and slight scale */
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            transform: translateY(-2.25px) scale(1.0375); /* Reduced lift and scale by 25% */
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.2); /* Reduced and transparency adjusted */
         }
 
         .music-player-floating-button:active {
-            transform: translateY(0) scale(0.95); /* Gentle press effect */
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-            background: #2471a3;
+            transform: translateY(0) scale(0.9625); /* Reduced press effect by 25% */
+            box-shadow: 0 1.5px 6px rgba(52, 152, 219, 0.1); /* Reduced and transparency adjusted */
+            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
         }
 
         /* Pulse effect for the music button when playing */
         @keyframes pulseMusicButton {
             0% {
-                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
             }
             50% {
-                box-shadow: 0 0 25px rgba(52, 152, 219, 0.8), 0 0 40px rgba(255, 255, 255, 0.3);
+                box-shadow: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15); /* Reduced and transparency adjusted */
             }
             100% {
-                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
             }
         }
 
@@ -440,32 +443,32 @@
         /* Custom Tooltip Styles - Copied from index.html */
         .music-tooltip {
             position: absolute;
-            left: 70px; /* Position to the right of the button */
+            left: 52.5px; /* Reduced from 70px by 25% */
             bottom: 50%; /* Vertically center with the button */
             transform: translateY(50%); /* Adjust for vertical centering */
-            background-color: rgba(44, 62, 80, 0.0); /* Alpha set to 0.0 for full transparency */
+            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency (kept for readability) */
             color: #ecf0f1;
-            padding: 10px 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
+            border-radius: 6px; /* Reduced from 8px by 25% */
+            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
             white-space: nowrap; /* Prevent text wrapping */
             opacity: 0; /* Hidden by default */
             visibility: hidden; /* Hidden by default */
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 0.7125rem; /* Reduced from 0.95rem by 25% */
             pointer-events: none; /* Allow clicks to pass through */
-            border: 1px solid #3d5a73; /* Subtle border */
-            backdrop-filter: blur(3px); /* Subtle blur for the tooltip */
-            -webkit-backdrop-filter: blur(3px); /* For Safari */
+            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
+            backdrop-filter: blur(2.25px); /* Reduced from 3px by 25% */
+            -webkit-backdrop-filter: blur(2.25px); /* For Safari */
             display: flex; /* Use flexbox for layout inside tooltip */
             align-items: center; /* Vertically align items */
-            gap: 10px; /* Space between image and text */
+            gap: 7.5px; /* Reduced from 10px by 25% */
         }
 
         .music-tooltip img {
-            width: 50px; /* Size of the album cover */
-            height: 50px;
-            border-radius: 4px; /* Slightly rounded corners for the image */
+            width: 37.5px; /* Reduced from 50px by 25% */
+            height: 37.5px; /* Reduced from 50px by 25% */
+            border-radius: 3px; /* Reduced from 4px by 25% */
             object-fit: cover; /* Ensure the image covers the area without distortion */
             flex-shrink: 0; /* Prevent image from shrinking */
         }
@@ -478,12 +481,12 @@
 
         .music-tooltip-content .song-title {
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.75rem; /* Reduced from 1rem by 25% */
             color: #ecf0f1;
         }
 
         .music-tooltip-content .song-details {
-            font-size: 0.85rem;
+            font-size: 0.6375rem; /* Reduced from 0.85rem by 25% */
             color: #bdc3c7;
         }
 
@@ -494,7 +497,9 @@
     </style>
 </head>
 <body>
+    <!-- Page Content Wrapper for Transitions -->
     <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-start">
+        <!-- Back button positioned outside the article container -->
         <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -561,6 +566,7 @@
             <p>"More Police Mod v1.1" hứa hẹn sẽ thổi một luồng gió mới vào những cuộc phiêu lưu của bạn tại San Andreas, biến mỗi lần truy nã thành một cuộc chiến sinh tồn đầy cam go và hấp dẫn.</p>
         </div>
 
+        <!-- Image Modal -->
         <div id="imageModal" class="image-modal">
             <div class="modal-content">
                 <img id="modalImage" src="" alt="Full size image">
@@ -569,11 +575,14 @@
         </div>
     </div>
 
+    <!-- Music Player Button Wrapper for Tooltip - Copied from index.html -->
     <div class="music-player-floating-button-wrapper">
         <button class="music-player-floating-button" id="toggleMusicButton">
+            <!-- Font Awesome Play/Pause icon -->
             <i class="fas fa-play" id="musicPlayPauseIcon"></i>
         </button>
         <div class="music-tooltip" id="musicTooltip">
+            <!-- Album cover image -->
             <img id="albumCover" src="" alt="Album Cover">
             <div class="music-tooltip-content">
                 <span class="song-title" id="songTitle"></span>
@@ -582,6 +591,7 @@
         </div>
     </div>
 
+    <!-- Hidden Audio Player -->
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
     <script>
