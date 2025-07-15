@@ -57,7 +57,7 @@
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 30s; /* Adjusted duration for more subtle flow */
+            animation-duration: 5.625s; /* Increased duration by 50% (1.75s * 1.5) */
         }
 
         .aurora-layer:nth-child(2) {
@@ -66,8 +66,8 @@
             top: 50%;
             left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 26s; /* Adjusted duration */
+            animation-delay: 0.705s; /* Increased delay by 50% (0.47s * 1.5) */
+            animation-duration: 2.28s; /* Increased duration by 50% (1.52s * 1.5) */
         }
 
         .aurora-layer:nth-child(3) {
@@ -76,8 +76,8 @@
             top: 80%;
             left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 34s; /* Adjusted duration */
+            animation-delay: 1.395s; /* Increased delay by 50% (0.93s * 1.5) */
+            animation-duration: 2.97s; /* Increased duration by 50% (1.98s * 1.5) */
         }
 
         .aurora-layer:nth-child(4) {
@@ -86,8 +86,8 @@
             top: 20%;
             left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 28s; /* Adjusted duration */
+            animation-delay: 2.1s; /* Increased delay by 50% (1.4s * 1.5) */
+            animation-duration: 2.445s; /* Increased duration by 50% (1.63s * 1.5) */
         }
 
         @keyframes auroraMovement {
@@ -151,11 +151,11 @@
         }
 
         .container {
-            background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
+            background-color: rgba(44, 62, 80, 0.0); /* Reduced alpha to 0.0 for complete transparency */
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
-            max-width: 550px; /* Slightly wider container */
+            max-width: 410px; /* Adjusted max-width to be 25% smaller (550px * 0.75 = 412.5px) */
             width: 100%;
             text-align: center;
             border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border for depth with transparency */
