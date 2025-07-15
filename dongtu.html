@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ứng Dụng Chia Động Từ (Có Nghĩa)</title>
+    <title>Tính Chu Vi, Diện Tích & Thể Tích</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for icons -->
@@ -12,6 +12,7 @@
         /* Custom font for better aesthetics */
         body {
             font-family: 'Inter', sans-serif;
+            /* Changed background to support aurora effect from music.html */
             background: #0d1a2a; /* Dark base color */
             display: flex;
             justify-content: center;
@@ -21,7 +22,7 @@
             box-sizing: border-box;
             color: #ecf0f1; /* Default light text color for body */
             position: relative; /* For positioning aurora layers */
-            overflow-x: hidden; /* Prevent horizontal scroll during animations */
+            /* Removed perspective: 1000px; as it's not needed here */
         }
 
         /* Aurora Borealis Effect - Copied from music.html */
@@ -112,24 +113,25 @@
             }
         }
 
-        /* Page Transition Animations - Copied from index.html */
-        @keyframes fadeIn {
-            from {
+        /* Page entrance animation */
+        @keyframes pageEnter {
+            0% {
                 opacity: 0;
                 transform: translateY(20px) scale(0.98); /* Start slightly below and smaller */
             }
-            to {
+            100% {
                 opacity: 1;
                 transform: translateY(0) scale(1); /* End at original position and size */
             }
         }
 
-        @keyframes fadeOut {
-            from {
+        /* Page exit animation */
+        @keyframes pageExit {
+            0% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-            to {
+            100% {
                 opacity: 0;
                 transform: translateY(-20px) scale(0.98); /* Exit by moving up and shrinking */
             }
@@ -141,11 +143,11 @@
         }
 
         .page-transition-in {
-            animation: fadeIn 0.5s ease-out forwards; /* Smoother ease-out */
+            animation: pageEnter 0.5s ease-out forwards; /* Smoother ease-out */
         }
 
         .page-transition-out {
-            animation: fadeOut 0.5s ease-in forwards; /* Smoother ease-in */
+            animation: pageExit 0.5s ease-in forwards; /* Smoother ease-in */
         }
 
         .container {
@@ -153,19 +155,21 @@
             border-radius: 12px; /* Reduced from 16px by 25% */
             box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Original shadow, transparency is for background */
             padding: 22.5px; /* Reduced from 30px by 25% */
-            max-width: 412.5px; /* Reduced from 550px by 25% */
+            max-width: 487.5px; /* Reduced from 650px by 25% */
             width: 100%;
             text-align: center;
             border: 1px solid rgba(61, 90, 115, 0.1); /* Subtle border for depth with transparency */
             backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
             -webkit-backdrop-filter: blur(7.5px); /* For Safari */
+            position: relative; /* Needed for absolute positioning of elements inside */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
             z-index: 1; /* Ensure container is above aurora effect */
-            position: relative; /* Needed for absolute positioning of elements inside */
         }
+        /* General input field and select styling */
         .input-field {
             background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
             border: 1px solid rgba(74, 98, 122, 0.2); /* Darker muted border for inputs, 80% transparent */
+            transition: all 0.3s ease; /* Smooth transitions */
             color: #ecf0f1; /* Light text for inputs */
             border-radius: 7.5px; /* Reduced from 10px by 25% */
             padding: 10.5px; /* Reduced from 14px by 25% */
@@ -174,7 +178,7 @@
             appearance: none; /* Remove default browser styling for select */
             -webkit-appearance: none;
             -moz-appearance: none;
-            transition: all 0.3s ease; /* Smooth transitions */
+            transition: all 0.3s ease-in-out; /* Smoother transition for focus */
         }
         .input-field::placeholder {
             color: #bdc3c7; /* Lighter placeholder text */
@@ -183,7 +187,7 @@
         .input-field:focus {
             border-color: #3498db; /* Bright blue focus ring */
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); /* Softer, vibrant glow, reduced size and transparency */
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25), 0 1.5px 7.5px rgba(0, 0, 0, 0.225); /* More pronounced shadow, reduced size and transparency */
             background-color: rgba(61, 90, 115, 0.25); /* Slightly lighter on focus, 75% transparent */
             transform: translateY(-1.5px); /* Subtle lift (reduced by 25%) */
         }
@@ -193,6 +197,9 @@
             display: block; /* Ensure label is block for proper spacing */
             margin-bottom: 6px; /* Reduced from 8px by 25% */
             text-align: left; /* Align label text to left */
+        }
+        .hidden {
+            display: none;
         }
         /* Button styling - unified and large */
         .calculate-button { /* Specific class for calculation buttons */
@@ -222,8 +229,8 @@
             box-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
             background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
         }
-        /* Result display area - unified */
-        .result-box {
+        /* Result display area */
+        #result {
             background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
             padding: 18.75px; /* Reduced from 25px by 25% */
             border-radius: 9px; /* Reduced from 12px by 25% */
@@ -232,31 +239,46 @@
             color: #ecf0f1; /* Light text for result */
             border: 1px solid rgba(74, 98, 122, 0.2); /* Solid, muted border for result box, 80% transparent */
             box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.1); /* Subtle inner shadow, transparency adjusted */
-            text-align: center; /* Center content within result box */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            word-break: break-word; /* Allow long results to wrap */
-            opacity: 0; /* Start hidden for result animation */
+            text-align: left; /* Align result text to left */
+            opacity: 0; /* Start with opacity 0 for animation */
             transform: translateY(7.5px); /* Reduced from 10px by 25% */
         }
-        .result-box.show {
-            animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Using popIn from dao_ham.html */
+
+        /* Animation for result box: popIn (consistent with other tools) */
+        #result.show-result {
+            animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
-        .result-box h2 { /* Heading inside result box */
-            color: #ecf0f1;
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(15px); /* Reduced from 0.8, 20px by 25% */
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.0375) translateY(-3.75px); /* Overshoot slightly, reduced by 25% */
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        #result h2 {
+            color: #ecf0f1; /* Light heading color for result */
             text-align: center;
             margin-bottom: 11.25px; /* Reduced from 15px by 25% */
             font-size: 0.9375rem; /* Reduced from 1.25rem by 25% */
         }
-        .result-box p { /* Paragraphs inside result box */
-            color: #ecf0f1;
+        #perimeterAreaResult, #surfaceVolumeResult {
+            margin-bottom: 11.25px; /* Reduced from 15px by 25% */
             font-size: 0.825rem; /* Reduced from 1.1rem by 25% */
-            line-height: 1.5;
+        }
+        #perimeterAreaResult span, #surfaceVolumeResult span {
+            display: block; /* Ensure each line breaks */
             margin-bottom: 6px; /* Reduced from 8px by 25% */
         }
-        .result-box p:last-child {
+        #perimeterAreaResult span:last-child, #surfaceVolumeResult span:last-child {
             margin-bottom: 0;
         }
 
@@ -273,45 +295,37 @@
             color: #3498db; /* Brighter blue for visibility */
             font-weight: 600;
         }
-        h1 { /* Main page title */
-            color: #ecf0f1;
+        h1 { /* Specific style for main heading - Copied from music.html */
+            color: #ecf0f1; /* Light heading color */
             font-size: 1.65rem; /* Reduced from 2.2rem by 25% */
             font-weight: 700;
             margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
             text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4);
         }
-        h2 { /* Section titles */
-            color: #ecf0f1;
-            font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
-            font-weight: 600;
-            margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
-        }
         p {
-            color: #bdc3c7;
-            font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
-            line-height: 1.5;
-            margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
+            color: #bdc3c7; /* Lighter muted paragraph text */
         }
-
-        /* Keyframe Animations */
-        @keyframes popIn { /* Copied from dao_ham.html */
-            0% {
-                opacity: 0;
-                transform: scale(0.85) translateY(15px); /* Reduced from 0.8, 20px by 25% */
-            }
-            70% {
-                opacity: 1;
-                transform: scale(1.0375) translateY(-3.75px); /* Overshoot slightly, reduced by 25% */
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        /* Input group for dynamic fields */
+        .input-group {
+            margin-bottom: 13.5px; /* Reduced from 18px by 25% */
+        }
+        /* Custom styling for number input spin buttons (to remove them) */
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefox */
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Chrome, Safari, Edge */
+            margin: 0;
+        }
+        /* Adjust grid gap for input fields */
+        #inputFields {
+            gap: 0.9375rem; /* Reduced from 1.25rem by 25% */
         }
 
         /* Back Button Styling - Copied from music.html for consistency */
         .back-button {
-            position: absolute; /* Changed from fixed to absolute to be relative to container */
+            position: absolute;
             top: 15px; /* Reduced from 20px by 25% */
             left: 15px; /* Reduced from 20px by 25% */
             background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
@@ -474,19 +488,19 @@
                 font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
                 margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             }
-            h2 {
-                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
-            }
-            p {
-                font-size: 0.7875rem; /* Reduced from 0.95rem by 25% */
-            }
-            .input-field, .calculate-button {
+            input[type="text"], input[type="number"], .calculate-button { /* Added .calculate-button here */
                 padding: 9px; /* Reduced from 12px by 25% */
                 font-size: 0.75rem; /* Reduced from 1rem by 25% */
             }
             .result-box {
                 padding: 15px; /* Reduced from 20px by 25% */
                 font-size: 0.75rem; /* Reduced from 1rem by 25% */
+            }
+            h2 {
+                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
+            }
+            .hint-text {
+                font-size: 0.6rem; /* Reduced from 0.8rem by 25% */
             }
         }
     </style>
@@ -510,26 +524,171 @@
                 </svg>
             </a>
 
-            <h1 class="text-3xl font-bold text-center mb-6">Ứng Dụng Chia Động Từ (Có Nghĩa)</h1>
+            <h1 class="text-3xl font-bold text-center mb-6">Tính Chu Vi, Diện Tích & Thể Tích</h1>
 
+            <!-- Shape Type Selection -->
             <div class="mb-6">
-                <label for="verbSelect" class="label-text mb-2">Chọn một động từ:</label>
-                <select id="verbSelect" class="input-field">
-                    <!-- Options will be populated by JavaScript -->
+                <label for="shapeType" class="label-text mb-2">Chọn loại hình:</label>
+                <select id="shapeType" class="input-field">
+                    <option value="2D">Hình 2D</option>
+                    <option value="3D">Hình 3D</option>
                 </select>
             </div>
 
-            <!-- Button to show conjugation -->
-            <button id="showConjugationBtn" class="calculate-button">
-                Hiển Thị Chia Động Từ
+            <!-- Specific Shape Selection (2D) -->
+            <div id="2dShapes" class="mb-6">
+                <label for="2dShapeSelect" class="label-text mb-2">Chọn hình 2D:</label>
+                <select id="2dShapeSelect" class="input-field">
+                    <option value="square">Hình Vuông</option>
+                    <option value="rectangle">Hình Chữ Nhật</option>
+                    <option value="circle">Hình Tròn</option>
+                    <option value="triangle">Hình Tam Giác (cạnh đáy, chiều cao & 3 cạnh)</option>
+                    <option value="parallelogram">Hình Bình Hành</option>
+                    <option value="trapezoid">Hình Thang</option>
+                    <option value="rhombus">Hình Thoi</option>
+                </select>
+            </div>
+
+            <!-- Specific Shape Selection (3D) -->
+            <div id="3dShapes" class="mb-6 hidden">
+                <label for="3dShapeSelect" class="label-text mb-2">Chọn hình 3D:</label>
+                <select id="3dShapeSelect" class="input-field">
+                    <option value="cube">Hình Lập Phương</option>
+                    <option value="sphere">Hình Cầu</option>
+                    <option value="cylinder">Hình Trụ</option>
+                    <option value="cone">Hình Nón</option>
+                    <option value="rectangularPyramid">Hình Chóp Tứ Giác Đều</option>
+                    <option value="rectangularPrism">Hình Lăng Trụ Đứng Đáy Chữ Nhật</option>
+                </select>
+            </div>
+
+            <!-- Input Fields - Dynamically shown/hidden -->
+            <div id="inputFields" class="mb-6 grid grid-cols-1 md:grid-cols-2">
+                <!-- Square/Cube -->
+                <div id="sideInput" class="input-group">
+                    <label for="side" class="label-text">Cạnh (s):</label>
+                    <input type="number" id="side" placeholder="Nhập độ dài cạnh" class="input-field">
+                </div>
+
+                <!-- Rectangle/Rectangular Prism -->
+                <div id="lengthInput" class="input-group hidden">
+                    <label for="length" class="label-text">Chiều dài (l):</label>
+                    <input type="number" id="length" placeholder="Nhập chiều dài" class="input-field">
+                </div>
+                <div id="widthInput" class="input-group hidden">
+                    <label for="width" class="label-text">Chiều rộng (w):</label>
+                    <input type="number" id="width" placeholder="Nhập chiều rộng" class="input-field">
+                </div>
+
+                <!-- Circle/Sphere/Cylinder/Cone -->
+                <div id="radiusInput" class="input-group hidden">
+                    <label for="radius" class="label-text">Bán kính (r):</label>
+                    <input type="number" id="radius" placeholder="Nhập bán kính" class="input-field">
+                </div>
+
+                <!-- Triangle -->
+                <div id="triangleBaseInput" class="input-group hidden">
+                    <label for="triangleBase" class="label-text">Cạnh đáy (b):</label>
+                    <input type="number" id="triangleBase" placeholder="Nhập cạnh đáy" class="input-field">
+                </div>
+                <div id="triangleHeightInput" class="input-group hidden">
+                    <label for="triangleHeight" class="label-text">Chiều cao (h):</label>
+                    <input type="number" id="triangleHeight" placeholder="Nhập chiều cao" class="input-field">
+                </div>
+                <div id="triangleSideAInput" class="input-group hidden">
+                    <label for="triangleSideA" class="label-text">Cạnh a:</label>
+                    <input type="number" id="triangleSideA" placeholder="Nhập cạnh a" class="input-field">
+                </div>
+                <div id="triangleSideBInput" class="input-group hidden">
+                    <label for="triangleSideB" class="label-text">Cạnh b:</label>
+                    <input type="number" id="triangleSideB" placeholder="Nhập cạnh b" class="input-field">
+                </div>
+                <div id="triangleSideCInput" class="input-group hidden">
+                    <label for="triangleSideC" class="label-text">Cạnh c:</label>
+                    <input type="number" id="triangleSideC" placeholder="Nhập cạnh c" class="input-field">
+                </div>
+
+                <!-- Parallelogram -->
+                <div id="parallelogramBaseInput" class="input-group hidden">
+                    <label for="parallelogramBase" class="label-text">Cạnh đáy (b):</label>
+                    <input type="number" id="parallelogramBase" placeholder="Nhập cạnh đáy" class="input-field">
+                </div>
+                <div id="parallelogramHeightInput" class="input-group hidden">
+                    <label for="parallelogramHeight" class="label-text">Chiều cao (h):</label>
+                    <input type="number" id="parallelogramHeight" placeholder="Nhập chiều cao" class="input-field">
+                </div>
+                <div id="parallelogramSideInput" class="input-group hidden">
+                    <label for="parallelogramSide" class="label-text">Cạnh bên (s):</label>
+                    <input type="number" id="parallelogramSide" placeholder="Nhập cạnh bên" class="input-field">
+                </div>
+
+                <!-- Trapezoid -->
+                <div id="trapezoidBase1Input" class="input-group hidden">
+                    <label for="trapezoidBase1" class="label-text">Đáy lớn (b1):</label>
+                    <input type="number" id="trapezoidBase1" placeholder="Nhập đáy lớn" class="input-field">
+                </div>
+                <div id="trapezoidBase2Input" class="input-group hidden">
+                    <label for="trapezoidBase2" class="label-text">Đáy bé (b2):</label>
+                    <input type="number" id="trapezoidBase2" placeholder="Nhập đáy bé" class="input-field">
+                </div>
+                <div id="trapezoidHeightInput" class="input-group hidden">
+                    <label for="trapezoidHeight" class="label-text">Chiều cao (h):</label>
+                    <input type="number" id="trapezoidHeight" placeholder="Nhập chiều cao" class="input-field">
+                </div>
+                <div id="trapezoidSide1Input" class="input-group hidden">
+                    <label for="trapezoidSide1" class="label-text">Cạnh bên 1 (s1):</label>
+                    <input type="number" id="trapezoidSide1" placeholder="Nhập cạnh bên 1" class="input-field">
+                </div>
+                <div id="trapezoidSide2Input" class="input-group hidden">
+                    <label for="trapezoidSide2" class="label-text">Cạnh bên 2 (s2):</label>
+                    <input type="number" id="trapezoidSide2" placeholder="Nhập cạnh bên 2" class="input-field">
+                </div>
+
+                <!-- Rhombus -->
+                <div id="rhombusDiagonal1Input" class="input-group hidden">
+                    <label for="rhombusDiagonal1" class="label-text">Đường chéo 1 (d1):</label>
+                    <input type="number" id="rhombusDiagonal1" placeholder="Nhập đường chéo 1" class="input-field">
+                </div>
+                <div id="rhombusDiagonal2Input" class="input-group hidden">
+                    <label for="rhombusDiagonal2" class="label-text">Đường chéo 2 (d2):</label>
+                    <input type="number" id="rhombusDiagonal2" placeholder="Nhập đường chéo 2" class="input-field">
+                </div>
+                <div id="rhombusSideInput" class="input-group hidden">
+                    <label for="rhombusSide" class="label-text">Cạnh (s):</label>
+                    <input type="number" id="rhombusSide" placeholder="Nhập độ dài cạnh" class="input-field">
+                </div>
+
+
+                <!-- Cylinder/Cone/Pyramid/Prism -->
+                <div id="heightInput" class="input-group hidden">
+                    <label for="height" class="label-text">Chiều cao (h):</label>
+                    <input type="number" id="height" placeholder="Nhập chiều cao" class="input-field">
+                </div>
+                <!-- Cone -->
+                <div id="slantHeightInput" class="input-group hidden">
+                    <label for="slantHeight" class="label-text">Đường sinh (l) (tùy chọn):</label>
+                    <input type="number" id="slantHeight" placeholder="Nhập đường sinh (nếu có)" class="input-field">
+                </div>
+
+                <!-- Rectangular Pyramid -->
+                <div id="pyramidBaseSideInput" class="input-group hidden">
+                    <label for="pyramidBaseSide" class="label-text">Cạnh đáy hình chóp (s):</label>
+                    <input type="number" id="pyramidBaseSide" placeholder="Nhập cạnh đáy" class="input-field">
+                </div>
+
+                <!-- Rectangular Prism (uses length, width, height) -->
+            </div>
+
+            <!-- Calculate Button -->
+            <button id="calculateBtn" class="calculate-button">
+                Tính Toán
             </button>
 
             <!-- Result Display Area -->
-            <div id="result" class="result-box">
+            <div id="result" class="mt-8 p-6 min-h-[6rem]">
                 <h2 class="text-xl font-semibold text-center mb-3">Kết Quả:</h2>
-                <div id="conjugationDetails" class="text-base leading-relaxed text-center">
-                    Vui lòng chọn một động từ và nhấn nút để xem chia động từ.
-                </div>
+                <div id="perimeterAreaResult" class="mb-2"></div>
+                <div id="surfaceVolumeResult"></div>
             </div>
         </div>
     </div>
@@ -555,7 +714,6 @@
 
     <script>
         // --- Music Player Logic for Background Playback ---
-        // Declare variables globally
         let audioPlayer;
         let toggleMusicButton;
         let musicPlayPauseIcon;
@@ -686,482 +844,437 @@
             }
         }
 
-        // Comprehensive list of irregular verbs with their forms
-        // This list is used to determine if a verb from the user's file is irregular.
-        const irregularVerbsData = {
-            "be": { pastSimple: "was/were", pastParticiple: "been" },
-            "become": { pastSimple: "became", pastParticiple: "become" },
-            "begin": { pastSimple: "began", pastParticiple: "begun" },
-            "break": { pastSimple: "broke", pastParticiple: "broken" },
-            "bring": { pastSimple: "brought", pastParticiple: "brought" },
-            "build": { pastSimple: "built", pastParticiple: "built" },
-            "buy": { pastSimple: "bought", pastParticiple: "bought" },
-            "choose": { pastSimple: "chose", pastParticiple: "chosen" },
-            "come": { pastSimple: "came", pastParticiple: "come" },
-            "cut": { pastSimple: "cut", pastParticiple: "cut" },
-            "do": { pastSimple: "did", pastParticiple: "done" },
-            "draw": { pastSimple: "drew", pastParticiple: "drawn" },
-            "drink": { pastSimple: "drank", pastParticiple: "drunk" },
-            "drive": { pastSimple: "drove", pastParticiple: "driven" },
-            "eat": { pastSimple: "ate", pastParticiple: "eaten" },
-            "fall": { pastSimple: "fell", pastParticiple: "fallen" },
-            "feel": { pastSimple: "felt", pastParticiple: "felt" },
-            "find": { pastSimple: "found", pastParticiple: "found" },
-            "forget": { pastSimple: "forgot", pastParticiple: "forgotten" },
-            "get": { pastSimple: "got", pastParticiple: "gotten/got" },
-            "give": { pastSimple: "gave", pastParticiple: "given" },
-            "go": { pastSimple: "went", pastParticiple: "gone" },
-            "grow": { pastSimple: "grew", pastParticiple: "grown" },
-            "have": { pastSimple: "had", pastParticiple: "had" },
-            "hear": { pastSimple: "heard", pastParticiple: "heard" },
-            "hide": { pastSimple: "hid", pastParticiple: "hidden" },
-            "hit": { pastSimple: "hit", pastParticiple: "hit" },
-            "hold": { pastSimple: "held", pastParticiple: "held" },
-            "keep": { pastSimple: "kept", pastParticiple: "kept" },
-            "know": { pastSimple: "knew", pastParticiple: "known" },
-            "lead": { pastSimple: "led", pastParticiple: "led" },
-            "leave": { pastSimple: "left", pastParticiple: "left" },
-            "let": { pastSimple: "let", pastParticiple: "let" },
-            "lose": { pastSimple: "lost", pastParticiple: "lost" },
-            "make": { pastSimple: "made", pastParticiple: "made" },
-            "mean": { pastSimple: "meant", pastParticiple: "meant" },
-            "meet": { pastSimple: "met", pastParticiple: "met" },
-            "pay": { pastSimple: "paid", pastParticiple: "paid" },
-            "put": { pastSimple: "put", pastParticiple: "put" },
-            "read": { pastSimple: "read", pastParticiple: "read" },
-            "run": { pastSimple: "ran", pastParticiple: "run" },
-            "say": { pastSimple: "said", pastParticiple: "said" },
-            "see": { pastSimple: "saw", pastParticiple: "seen" },
-            "sell": { pastSimple: "sold", pastParticiple: "sold" },
-            "send": { pastSimple: "sent", pastParticiple: "sent" },
-            "set": { pastSimple: "set", pastParticiple: "set" },
-            "show": { pastSimple: "showed", pastParticiple: "shown/showed" },
-            "sing": { pastSimple: "sang", pastParticiple: "sung" },
-            "sit": { pastSimple: "sat", pastParticiple: "sat" },
-            "sleep": { pastSimple: "slept", pastParticiple: "slept" },
-            "speak": { pastSimple: "spoke", pastParticiple: "spoken" },
-            "spend": { pastSimple: "spent", pastParticiple: "spent" },
-            "stand": { pastSimple: "stood", pastParticiple: "stood" },
-            "swim": { pastSimple: "swam", pastParticiple: "swum" },
-            "take": { pastSimple: "took", pastParticiple: "taken" },
-            "teach": { pastSimple: "taught", pastParticiple: "taught" },
-            "tell": { pastSimple: "told", pastParticiple: "told" },
-            "think": { pastSimple: "thought", pastParticiple: "thought" },
-            "understand": { pastSimple: "understood", pastParticiple: "understood" },
-            "wear": { pastSimple: "wore", pastParticiple: "worn" },
-            "win": { pastSimple: "won", pastParticiple: "won" },
-            "write": { pastSimple: "wrote", pastParticiple: "written" },
-            "arise": { pastSimple: "arose", pastParticiple: "arisen" },
-            "awake": { pastSimple: "awoke", pastParticiple: "awoken" },
-            "bear": { pastSimple: "bore", pastParticiple: "born/borne" },
-            "beat": { pastSimple: "beat", pastParticiple: "beaten" },
-            "bend": { pastSimple: "bent", pastParticiple: "bent" },
-            "bet": { pastSimple: "bet", pastParticiple: "bet" },
-            "bid": { pastSimple: "bid", pastParticiple: "bid" },
-            "bind": { pastSimple: "bound", pastParticiple: "bound" },
-            "bite": { pastSimple: "bit", pastParticiple: "bitten" },
-            "bleed": { pastSimple: "bled", pastParticiple: "bled" },
-            "blow": { pastSimple: "blew", pastParticiple: "blown" },
-            "broadcast": { pastSimple: "broadcast", pastParticiple: "broadcast" },
-            "burst": { pastSimple: "burst", pastParticiple: "burst" },
-            "cast": { pastSimple: "cast", pastParticiple: "cast" },
-            "catch": { pastSimple: "caught", pastParticiple: "caught" },
-            "cling": { pastSimple: "clung", pastParticiple: "clung" },
-            "cost": { pastSimple: "cost", pastParticiple: "cost" },
-            "creep": { pastSimple: "crept", pastParticiple: "crept" },
-            "deal": { pastSimple: "dealt", pastParticiple: "dealt" },
-            "dig": { pastSimple: "dug", pastParticiple: "dug" },
-            "dream": { pastSimple: "dreamt/dreamed", pastParticiple: "dreamt/dreamed" },
-            "feed": { pastSimple: "fed", pastParticiple: "fed" },
-            "fight": { pastSimple: "fought", pastParticiple: "fought" },
-            "flee": { pastSimple: "fled", pastParticiple: "fled" },
-            "fling": { pastSimple: "flung", pastParticiple: "flung" },
-            "fly": { pastSimple: "flew", pastParticiple: "flown" },
-            "forbid": { pastSimple: "forbade", pastParticiple: "forbidden" },
-            "forecast": { pastSimple: "forecast", pastParticiple: "forecast" },
-            "foresee": { pastSimple: "foresaw", pastParticiple: "foreseen" },
-            "forgive": { pastSimple: "forgave", pastParticiple: "forgiven" },
-            "freeze": { pastSimple: "froze", pastParticiple: "frozen" },
-            "grind": { pastSimple: "ground", pastParticiple: "ground" },
-            "hang": { pastSimple: "hung", pastParticiple: "hung" }, // For "suspend"
-            "hurt": { pastSimple: "hurt", pastParticiple: "hurt" },
-            "kneel": { pastSimple: "knelt/kneeled", pastParticiple: "knelt/kneeled" },
-            "lay": { pastSimple: "laid", pastParticiple: "laid" }, // To put something down
-            "lean": { pastSimple: "leant/leaned", pastParticiple: "leant/leaned" },
-            "leap": { pastSimple: "leapt/leaped", pastParticiple: "leapt/leaped" },
-            "lend": { pastSimple: "lent", pastParticiple: "lent" },
-            "lie": { pastSimple: "lay", pastParticiple: "lain" }, // To recline
-            "light": { pastSimple: "lit/lighted", pastParticiple: "lit/lighted" },
-            "mow": { pastSimple: "mowed", pastParticiple: "mown/mowed" },
-            "prove": { pastSimple: "proved", pastParticiple: "proven/proved" },
-            "quit": { pastSimple: "quit", pastParticiple: "quit" },
-            "ride": { pastSimple: "rode", pastParticiple: "ridden" },
-            "ring": { pastSimple: "rang", pastParticiple: "rung" },
-            "rise": { pastSimple: "rose", pastParticiple: "risen" },
-            "saw": { pastSimple: "sawed", pastParticiple: "sawn/sawed" },
-            "seek": { pastSimple: "sought", pastParticiple: "sought" },
-            "shake": { pastSimple: "shook", pastParticiple: "shaken" },
-            "shed": { pastSimple: "shed", pastParticiple: "shed" },
-            "shine": { pastSimple: "shone/shined", pastParticiple: "shone/shined" },
-            "shoot": { pastSimple: "shot", pastParticiple: "shot" },
-            "shrink": { pastSimple: "shrank", pastParticiple: "shrunk" },
-            "shut": { pastSimple: "shut", pastParticiple: "shut" },
-            "sink": { pastSimple: "sank", pastParticiple: "sunk" },
-            "slide": { pastSimple: "slid", pastParticiple: "slid" },
-            "smell": { pastSimple: "smelt/smelled", pastParticiple: "smelt/smelled" },
-            "sow": { pastSimple: "sowed", pastParticiple: "sown/sowed" },
-            "spell": { pastSimple: "spelt/spelled", pastParticiple: "spelt/spelled" },
-            "spill": { pastSimple: "spilt/spilled", pastParticiple: "spilt/spilled" },
-            "spin": { pastSimple: "spun", pastParticiple: "spun" },
-            "spit": { pastSimple: "spat/spit", pastParticiple: "spat/spit" },
-            "split": { pastSimple: "split", pastParticiple: "split" },
-            "spread": { pastSimple: "spread", pastParticiple: "spread" },
-            "spring": { pastSimple: "sprang", pastParticiple: "sprung" },
-            "steal": { pastSimple: "stole", pastParticiple: "stolen" },
-            "stick": { pastSimple: "stuck", pastParticiple: "stuck" },
-            "sting": { pastSimple: "stung", pastParticiple: "stung" },
-            "stink": { pastSimple: "stank", pastParticiple: "stunk" },
-            "strike": { pastSimple: "struck", pastParticiple: "struck/stricken" },
-            "string": { pastSimple: "strung", pastParticiple: "strung" },
-            "strive": { pastSimple: "strove", pastParticiple: "striven" },
-            "swear": { pastSimple: "swore", pastParticiple: "sworn" },
-            "sweep": { pastSimple: "swept", pastParticiple: "swept" },
-            "swell": { pastSimple: "swelled", pastParticiple: "swollen/swelled" },
-            "swing": { pastSimple: "swung", pastParticiple: "swung" },
-            "tear": { pastSimple: "tore", pastParticiple: "torn" },
-            "throw": { pastSimple: "threw", pastParticiple: "thrown" },
-            "tread": { pastSimple: "trod", pastParticiple: "trodden/trod" },
-            "undergo": { pastSimple: "underwent", pastParticiple: "undergone" },
-            "wake": { pastSimple: "woke", pastParticiple: "woken" },
-            "weep": { pastSimple: "wept", pastParticiple: "wept" },
-            "wind": { pastSimple: "wound", pastParticiple: "wound" },
-            "withdraw": { pastSimple: "withdrew", pastParticiple: "withdrawn" },
-            "withhold": { pastSimple: "withheld", pastParticiple: "withheld" },
-            "withstand": { pastSimple: "withstood", pastParticiple: "withstood" },
-            "wring": { pastSimple: "wrung", pastParticiple: "wrung" },
-            "upset": { pastSimple: "upset", pastParticiple: "upset" }
+        // Get DOM elements for hinh_hoc.html
+        const shapeTypeSelect = document.getElementById('shapeType');
+        const d2ShapesDiv = document.getElementById('2dShapes');
+        const d3ShapesDiv = document.getElementById('3dShapes');
+        const d2ShapeSelect = document.getElementById('2dShapeSelect');
+        const d3ShapeSelect = document.getElementById('3dShapeSelect');
+        const inputFieldsDiv = document.getElementById('inputFields');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const perimeterAreaResultDiv = document.getElementById('perimeterAreaResult');
+        const surfaceVolumeResultDiv = document.getElementById('surfaceVolumeResult');
+        const resultBox = document.getElementById('result');
+
+        // Input field references (updated to include new shapes)
+        const inputGroups = {
+            side: document.getElementById('sideInput'),
+            length: document.getElementById('lengthInput'),
+            width: document.getElementById('widthInput'),
+            radius: document.getElementById('radiusInput'),
+            triangleBase: document.getElementById('triangleBaseInput'),
+            triangleHeight: document.getElementById('triangleHeightInput'),
+            triangleSideA: document.getElementById('triangleSideAInput'),
+            triangleSideB: document.getElementById('triangleSideBInput'),
+            triangleSideC: document.getElementById('triangleSideCInput'),
+            parallelogramBase: document.getElementById('parallelogramBaseInput'),
+            parallelogramHeight: document.getElementById('parallelogramHeightInput'),
+            parallelogramSide: document.getElementById('parallelogramSideInput'),
+            trapezoidBase1: document.getElementById('trapezoidBase1Input'),
+            trapezoidBase2: document.getElementById('trapezoidBase2Input'),
+            trapezoidHeight: document.getElementById('trapezoidHeightInput'),
+            trapezoidSide1: document.getElementById('trapezoidSide1Input'),
+            trapezoidSide2: document.getElementById('trapezoidSide2Input'),
+            rhombusDiagonal1: document.getElementById('rhombusDiagonal1Input'),
+            rhombusDiagonal2: document.getElementById('rhombusDiagonal2Input'),
+            rhombusSide: document.getElementById('rhombusSideInput'),
+            height: document.getElementById('heightInput'),
+            slantHeight: document.getElementById('slantHeightInput'),
+            pyramidBaseSide: document.getElementById('pyramidBaseSideInput')
         };
 
-        // Function to generate regular verb forms
-        function getRegularForms(baseForm) {
-            let pastSimple = baseForm;
-            let pastParticiple = baseForm;
+        const inputElements = {
+            side: document.getElementById('side'),
+            length: document.getElementById('length'),
+            width: document.getElementById('width'),
+            radius: document.getElementById('radius'),
+            triangleBase: document.getElementById('triangleBase'),
+            triangleHeight: document.getElementById('triangleHeight'),
+            triangleSideA: document.getElementById('triangleSideA'),
+            triangleSideB: document.getElementById('triangleSideB'),
+            triangleSideC: document.getElementById('triangleSideC'),
+            parallelogramBase: document.getElementById('parallelogramBase'),
+            parallelogramHeight: document.getElementById('parallelogramHeight'),
+            parallelogramSide: document.getElementById('parallelogramSide'),
+            trapezoidBase1: document.getElementById('trapezoidBase1'),
+            trapezoidBase2: document.getElementById('trapezoidBase2'),
+            trapezoidHeight: document.getElementById('trapezoidHeight'),
+            trapezoidSide1: document.getElementById('trapezoidSide1'),
+            trapezoidSide2: document.getElementById('trapezoidSide2'),
+            rhombusDiagonal1: document.getElementById('rhombusDiagonal1'),
+            rhombusDiagonal2: document.getElementById('rhombusDiagonal2'),
+            rhombusSide: document.getElementById('rhombusSide'),
+            height: document.getElementById('height'),
+            slantHeight: document.getElementById('slantHeight'),
+            pyramidBaseSide: document.getElementById('pyramidBaseSide')
+        };
 
-            // Rule for verbs ending in 'e'
-            if (baseForm.endsWith('e')) {
-                pastSimple += 'd';
-                pastParticiple += 'd';
+        // Function to show/hide input fields based on selected shape
+        function updateInputFields() {
+            // Hide all input groups first
+            Object.values(inputGroups).forEach(group => group.classList.add('hidden'));
+            // Clear all input values
+            Object.values(inputElements).forEach(input => input.value = '');
+
+
+            const shapeType = shapeTypeSelect.value;
+            let selectedShape;
+
+            if (shapeType === '2D') {
+                d2ShapesDiv.classList.remove('hidden');
+                d3ShapesDiv.classList.add('hidden');
+                selectedShape = d2ShapeSelect.value;
+            } else { // 3D
+                d3ShapesDiv.classList.remove('hidden');
+                d2ShapesDiv.classList.add('hidden');
+                selectedShape = d3ShapeSelect.value;
             }
-            // Rule for verbs ending in 'y' preceded by a consonant
-            else if (baseForm.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(baseForm[baseForm.length - 2])) {
-                pastSimple = baseForm.slice(0, -1) + 'ied';
-                pastParticiple = baseForm.slice(0, -1) + 'ied';
+
+            // Show relevant input fields for the selected shape
+            switch (selectedShape) {
+                case 'square':
+                case 'cube':
+                    inputGroups.side.classList.remove('hidden');
+                    break;
+                case 'rectangle':
+                    inputGroups.length.classList.remove('hidden');
+                    inputGroups.width.classList.remove('hidden');
+                    break;
+                case 'circle':
+                case 'sphere':
+                    inputGroups.radius.classList.remove('hidden');
+                    break;
+                case 'triangle':
+                    inputGroups.triangleBase.classList.remove('hidden');
+                    inputGroups.triangleHeight.classList.remove('hidden');
+                    inputGroups.triangleSideA.classList.remove('hidden');
+                    inputGroups.triangleSideB.classList.remove('hidden');
+                    inputGroups.triangleSideC.classList.remove('hidden');
+                    break;
+                case 'parallelogram':
+                    inputGroups.parallelogramBase.classList.remove('hidden');
+                    inputGroups.parallelogramHeight.classList.remove('hidden');
+                    inputGroups.parallelogramSide.classList.remove('hidden');
+                    break;
+                case 'trapezoid':
+                    inputGroups.trapezoidBase1.classList.remove('hidden');
+                    inputGroups.trapezoidBase2.classList.remove('hidden');
+                    inputGroups.trapezoidHeight.classList.remove('hidden');
+                    inputGroups.trapezoidSide1.classList.remove('hidden');
+                    inputGroups.trapezoidSide2.classList.remove('hidden');
+                    break;
+                case 'rhombus':
+                    inputGroups.rhombusDiagonal1.classList.remove('hidden');
+                    inputGroups.rhombusDiagonal2.classList.remove('hidden');
+                    inputGroups.rhombusSide.classList.remove('hidden');
+                    break;
+                case 'cylinder':
+                    inputGroups.radius.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
+                case 'cone':
+                    inputGroups.radius.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    inputGroups.slantHeight.classList.remove('hidden');
+                    break;
+                case 'rectangularPyramid':
+                    inputGroups.pyramidBaseSide.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
+                case 'rectangularPrism':
+                    inputGroups.length.classList.remove('hidden');
+                    inputGroups.width.classList.remove('hidden');
+                    inputGroups.height.classList.remove('hidden');
+                    break;
             }
-            // Default: just add 'ed'
-            else {
-                pastSimple += 'ed';
-                pastParticiple += 'ed';
-            }
-            return { pastSimple, pastParticiple };
+            // Clear results when shape changes
+            perimeterAreaResultDiv.innerHTML = '';
+            surfaceVolumeResultDiv.innerHTML = '';
+            resultBox.classList.remove('show-result'); // Hide result box animation
         }
 
-        // Data from the uploaded file (extracted and cleaned)
-        // This list now includes both the English verb and its Vietnamese meaning
-        const verbsWithMeaningFromFile = [
-            { verb: "be", meaning: "là, thì, ở" },
-            { verb: "have", meaning: "có" },
-            { verb: "do", meaning: "làm" },
-            { verb: "say", meaning: "nói" },
-            { verb: "go", meaning: "đi" },
-            { verb: "get", meaning: "có được, lấy, nhận, trở nên" },
-            { verb: "make", meaning: "làm, chế tạo" },
-            { verb: "know", meaning: "biết" },
-            { verb: "think", meaning: "nghĩ, suy nghĩ" },
-            { verb: "take", meaning: "cầm, lấy, mang, đưa" },
-            { verb: "see", meaning: "nhìn, thấy" },
-            { verb: "come", meaning: "đến" },
-            { verb: "want", meaning: "muốn" },
-            { verb: "look", meaning: "nhìn, trông" },
-            { verb: "use", meaning: "sử dụng" },
-            { verb: "find", meaning: "tìm thấy" },
-            { verb: "give", meaning: "cho, tặng" },
-            { verb: "tell", meaning: "kể, nói" },
-            { verb: "work", meaning: "làm việc" },
-            { verb: "call", meaning: "gọi, gọi điện" },
-            { verb: "try", meaning: "cố gắng, thử" },
-            { verb: "ask", meaning: "hỏi, yêu cầu" },
-            { verb: "need", meaning: "cần" },
-            { verb: "feel", meaning: "cảm thấy" },
-            { verb: "become", meaning: "trở thành" },
-            { verb: "leave", meaning: "rời đi, để lại" },
-            { verb: "put", meaning: "đặt, để" },
-            { verb: "mean", meaning: "có nghĩa là" },
-            { verb: "keep", meaning: "giữ" },
-            { verb: "let", meaning: "để, cho phép" },
-            { verb: "begin", meaning: "bắt đầu" },
-            { verb: "seem", meaning: "dường như, có vẻ" },
-            { verb: "help", meaning: "giúp đỡ" },
-            { verb: "talk", meaning: "nói chuyện" },
-            { verb: "turn", meaning: "quay, xoay, rẽ" },
-            { verb: "start", meaning: "bắt đầu" },
-            { verb: "show", meaning: "chỉ, bày tỏ, cho xem" },
-            { verb: "hear", meaning: "nghe" },
-            { verb: "play", meaning: "chơi" },
-            { verb: "run", meaning: "chạy" },
-            { verb: "move", meaning: "di chuyển" },
-            { verb: "like", meaning: "thích" },
-            { verb: "live", meaning: "sống, ở" },
-            { verb: "believe", meaning: "tin tưởng" },
-            { verb: "hold", meaning: "giữ, cầm" },
-            { verb: "bring", meaning: "mang lại, đưa đến" },
-            { verb: "happen", meaning: "xảy ra" },
-            { verb: "write", meaning: "viết" },
-            { verb: "provide", meaning: "cung cấp" },
-            { verb: "sit", meaning: "ngồi" },
-            { verb: "stand", meaning: "đứng" },
-            { verb: "lose", meaning: "mất, thua" },
-            { verb: "pay", meaning: "trả tiền" },
-            { verb: "meet", meaning: "gặp gỡ" },
-            { verb: "include", meaning: "bao gồm" },
-            { verb: "continue", meaning: "tiếp tục" },
-            { verb: "set", meaning: "đặt, để, thiết lập" },
-            { verb: "learn", meaning: "học" },
-            { verb: "change", meaning: "thay đổi" },
-            { verb: "lead", meaning: "dẫn dắt" },
-            { verb: "understand", meaning: "hiểu" },
-            { verb: "watch", meaning: "xem, theo dõi" },
-            { verb: "follow", meaning: "theo sau" },
-            { verb: "stop", meaning: "dừng lại" },
-            { verb: "create", meaning: "tạo ra" },
-            { verb: "speak", meaning: "nói" },
-            { verb: "read", meaning: "đọc" },
-            { verb: "allow", meaning: "cho phép" },
-            { verb: "add", meaning: "thêm vào" },
-            { verb: "spend", meaning: "chi tiêu, dành (thời gian)" },
-            { verb: "grow", meaning: "lớn lên, phát triển, trồng" },
-            { verb: "open", meaning: "mở" },
-            { verb: "walk", meaning: "đi bộ" },
-            { verb: "win", meaning: "thắng" },
-            { verb: "offer", meaning: "đề nghị, cung cấp" },
-            { verb: "remember", meaning: "nhớ" },
-            { verb: "love", meaning: "yêu" },
-            { verb: "consider", meaning: "xem xét" },
-            { verb: "appear", meaning: "xuất hiện" },
-            { verb: "buy", meaning: "mua" },
-            { verb: "wait", meaning: "chờ đợi" },
-            { verb: "serve", meaning: "phục vụ" },
-            { verb: "die", meaning: "chết" },
-            { verb: "send", meaning: "gửi" },
-            { verb: "build", meaning: "xây dựng" },
-            { verb: "stay", meaning: "ở lại, duy trì" },
-            { verb: "fall", meaning: "ngã, rơi" },
-            { verb: "cut", meaning: "cắt" },
-            { verb: "reach", meaning: "với tới, đạt tới" },
-            { verb: "kill", meaning: "giết" },
-            { verb: "remain", meaning: "còn lại, vẫn còn" },
-            { verb: "suggest", meaning: "gợi ý" },
-            { verb: "raise", meaning: "nâng lên, nuôi dưỡng" },
-            { verb: "pass", meaning: "đi qua, vượt qua, thi đậu" },
-            { verb: "sell", meaning: "bán" },
-            { verb: "require", meaning: "yêu cầu" },
-            { verb: "report", meaning: "báo cáo" },
-            { verb: "decide", meaning: "quyết định" },
-            { verb: "pull", meaning: "kéo" },
-            { verb: "push", meaning: "đẩy" },
-            { verb: "return", meaning: "trở về, trả lại" },
-            { verb: "explain", meaning: "giải thích" },
-            { verb: "hope", meaning: "hy vọng" },
-            { verb: "develop", meaning: "phát triển" },
-            { verb: "carry", meaning: "mang, vác" },
-            { verb: "break", meaning: "làm vỡ, phá vỡ" },
-            { verb: "receive", meaning: "nhận được" },
-            { verb: "agree", meaning: "đồng ý" },
-            { verb: "support", meaning: "ủng hộ" },
-            { verb: "hit", meaning: "đánh, đập" },
-            { verb: "present", meaning: "trình bày, tặng" },
-            { verb: "discuss", meaning: "thảo luận" },
-            { verb: "prove", meaning: "chứng minh" },
-            { verb: "teach", meaning: "dạy" },
-            { verb: "sing", meaning: "hát" },
-            { verb: "dance", meaning: "nhảy múa" },
-            { verb: "draw", meaning: "vẽ" },
-            { verb: "eat", meaning: "ăn" },
-            { verb: "drink", meaning: "uống" },
-            { verb: "sleep", meaning: "ngủ" },
-            { verb: "swim", meaning: "bơi" },
-            { verb: "travel", meaning: "du lịch" },
-            { verb: "visit", meaning: "thăm" },
-            { verb: "study", meaning: "học" },
-            { verb: "choose", meaning: "chọn lựa" },
-            { verb: "drive", meaning: "lái xe" },
-            { verb: "listen", meaning: "nghe" },
-            { verb: "cook", meaning: "nấu ăn" },
-            { verb: "clean", meaning: "dọn dẹp" },
-            { verb: "wash", meaning: "rửa" },
-            { verb: "fix", meaning: "sửa chữa" },
-            { verb: "repair", meaning: "sửa chữa" },
-            { verb: "close", meaning: "đóng" },
-            { verb: "finish", meaning: "kết thúc" },
-            { verb: "end", meaning: "kết thúc" },
-            { verb: "arrive", meaning: "đến" },
-            { verb: "depart", meaning: "khởi hành" },
-            { verb: "enter", meaning: "vào" },
-            { verb: "exit", meaning: "ra" },
-            { verb: "join", meaning: "tham gia" },
-            { verb: "wear", meaning: "mặc, đội" },
-            { verb: "put on", meaning: "mặc vào, đội vào" },
-            { verb: "take off", meaning: "cởi ra" },
-            { verb: "hide", meaning: "giấu" },
-            { verb: "forget", meaning: "quên" },
-            { verb: "answer", meaning: "trả lời" },
-            { verb: "disagree", meaning: "không đồng ý" },
-            { verb: "accept", meaning: "chấp nhận" },
-            { verb: "refuse", meaning: "từ chối" },
-            { verb: "demand", meaning: "yêu cầu" },
-            { verb: "advise", meaning: "khuyên bảo" },
-            { verb: "warn", meaning: "cảnh báo" },
-            { verb: "apologize", meaning: "xin lỗi" },
-            { verb: "thank", meaning: "cảm ơn" },
-            { verb: "welcome", meaning: "chào đón" },
-            { verb: "congratulate", meaning: "chúc mừng" },
-            { verb: "celebrate", meaning: "ăn mừng" },
-            { verb: "introduce", meaning: "giới thiệu" },
-            { verb: "interview", meaning: "phỏng vấn" },
-            { verb: "imagine", meaning: "tưởng tượng" },
-            { verb: "invent", meaning: "phát minh" },
-            { verb: "discover", meaning: "khám phá" },
-            { verb: "explore", meaning: "khám phá, thám hiểm" },
-            { verb: "research", meaning: "nghiên cứu" },
-            { verb: "analyze", meaning: "phân tích" },
-            { verb: "solve", meaning: "giải quyết" },
-            { verb: "improve", meaning: "cải thiện" },
-            { verb: "protect", meaning: "bảo vệ" },
-            { verb: "destroy", meaning: "phá hủy" },
-            { verb: "demolish", meaning: "phá dỡ" },
-            { verb: "decorate", meaning: "trang trí" },
-            { verb: "paint", meaning: "sơn" },
-            { verb: "design", meaning: "thiết kế" },
-            { verb: "plan", meaning: "lập kế hoạch" },
-            { verb: "organize", meaning: "tổ chức" },
-            { verb: "manage", meaning: "quản lý" },
-            { verb: "control", meaning: "kiểm soát" },
-            { verb: "supervise", meaning: "giám sát" },
-            { verb: "train", meaning: "đào tạo" },
-            { verb: "educate", meaning: "giáo dục" },
-            { verb: "practice", meaning: "thực hành" },
-            { verb: "exercise", meaning: "tập thể dục" },
-            { verb: "relax", meaning: "thư giãn" },
-            { verb: "rest", meaning: "nghỉ ngơi" },
-            { verb: "wake up", meaning: "thức dậy" },
-            { verb: "get up", meaning: "thức dậy, đứng dậy" },
-            { verb: "bake", meaning: "nướng" },
-            { verb: "fry", meaning: "chiên" },
-            { verb: "grill", meaning: "nướng (trên vỉ)" },
-            { verb: "boil", meaning: "đun sôi" }
-        ];
+        // Function to validate input values
+        function validateInputs(inputs) {
+            for (const input of inputs) {
+                if (isNaN(input) || input <= 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-        // Process all verbs to create the final 'verbs' object used by the app
-        const allVerbs = {};
-        verbsWithMeaningFromFile.forEach(item => {
-            const baseForm = item.verb.trim();
-            const meaning = item.meaning;
+        // Calculation functions for 2D shapes
+        function calculateSquare() {
+            const s = parseFloat(inputElements.side.value);
+            if (!validateInputs([s])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập độ dài cạnh hợp lệ.</span>';
+                return;
+            }
+            const perimeter = 4 * s;
+            const area = s * s;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
 
-            if (irregularVerbsData[baseForm]) {
-                allVerbs[baseForm] = {
-                    pastSimple: irregularVerbsData[baseForm].pastSimple,
-                    pastParticiple: irregularVerbsData[baseForm].pastParticiple,
-                    type: "irregular",
-                    meaning: meaning
-                };
+        function calculateRectangle() {
+            const l = parseFloat(inputElements.length.value);
+            const w = parseFloat(inputElements.width.value);
+            if (!validateInputs([l, w])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập chiều dài và chiều rộng hợp lệ.</span>';
+                return;
+            }
+            const perimeter = 2 * (l + w);
+            const area = l * w;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
+
+        function calculateCircle() {
+            const r = parseFloat(inputElements.radius.value);
+            if (!validateInputs([r])) {
+                perimeterAreaResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính hợp lệ.</span>';
+                return;
+            }
+            const circumference = 2 * Math.PI * r;
+            const area = Math.PI * r * r;
+            perimeterAreaResultDiv.innerHTML = `<span class="text-blue-600">Chu vi: ${circumference.toFixed(2)}</span><br><span class="text-green-600">Diện tích: ${area.toFixed(2)}</span>`;
+        }
+
+        function calculateTriangle() {
+            const b = parseFloat(inputElements.triangleBase.value);
+            const h = parseFloat(inputElements.triangleHeight.value);
+            const a = parseFloat(inputElements.triangleSideA.value);
+            const sB = parseFloat(inputElements.triangleSideB.value); // Renamed to sB to avoid conflict with base 'b'
+            const c = parseFloat(inputElements.triangleSideC.value);
+
+            let resultHtml = '';
+
+            // Calculate Area (requires base and height)
+            if (validateInputs([b, h])) {
+                const area = 0.5 * b * h;
+                resultHtml += `<span class="text-green-600">Diện tích (dùng cạnh đáy & chiều cao): ${area.toFixed(2)}</span><br>`;
             } else {
-                const { pastSimple, pastParticiple } = getRegularForms(baseForm);
-                allVerbs[baseForm] = {
-                    pastSimple: pastSimple,
-                    pastParticiple: pastParticiple,
-                    type: "regular",
-                    meaning: meaning
-                };
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span><br>';
             }
-        });
 
-        // Get DOM elements
-        const verbSelect = document.getElementById('verbSelect');
-        const showConjugationBtn = document.getElementById('showConjugationBtn');
-        const conjugationDetailsDiv = document.getElementById('conjugationDetails');
-        const resultBox = document.getElementById('result'); // Get the result box element
-
-        // Function to populate the select dropdown
-        function populateVerbSelect() {
-            // Create a default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = "";
-            defaultOption.textContent = "--- Chọn động từ ---";
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            verbSelect.appendChild(defaultOption);
-
-            // Sort verbs alphabetically for better user experience
-            const sortedVerbs = Object.keys(allVerbs).sort();
-
-            // Add irregular verbs group
-            const irregularGroup = document.createElement('optgroup');
-            irregularGroup.label = "Động từ Bất Quy Tắc";
-            sortedVerbs.filter(verb => allVerbs[verb].type === 'irregular').forEach(verb => {
-                const option = document.createElement('option');
-                option.value = verb;
-                option.textContent = verb;
-                irregularGroup.appendChild(option);
-            });
-            verbSelect.appendChild(irregularGroup);
-
-            // Add regular verbs group
-            const regularGroup = document.createElement('optgroup');
-            regularGroup.label = "Động từ Có Quy Tắc";
-            sortedVerbs.filter(verb => allVerbs[verb].type === 'regular').forEach(verb => {
-                const option = document.createElement('option');
-                option.value = verb;
-                option.textContent = verb;
-                regularGroup.appendChild(option);
-            });
-            verbSelect.appendChild(regularGroup);
+            // Calculate Perimeter (requires 3 sides)
+            if (validateInputs([a, sB, c])) {
+                // Check triangle inequality
+                if (a + sB > c && a + c > sB && sB + c > a) {
+                    const perimeter = a + sB + c;
+                    resultHtml += `<span class="text-blue-600">Chu vi (dùng 3 cạnh): ${perimeter.toFixed(2)}</span>`;
+                } else {
+                    resultHtml += '<span class="text-red-600">Ba cạnh không tạo thành một tam giác hợp lệ.</span>';
+                }
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập 3 cạnh hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
         }
 
-        // Function to display conjugation
-        function displayConjugation() {
-            const selectedVerb = verbSelect.value;
+        function calculateParallelogram() {
+            const base = parseFloat(inputElements.parallelogramBase.value);
+            const height = parseFloat(inputElements.parallelogramHeight.value);
+            const side = parseFloat(inputElements.parallelogramSide.value);
 
-            // Clear previous results and remove 'show' class to re-trigger animation
-            conjugationDetailsDiv.innerHTML = '';
-            resultBox.classList.remove('show');
+            let resultHtml = '';
 
-            if (!selectedVerb) {
-                conjugationDetailsDiv.innerHTML = '<p class="text-red-600">Vui lòng chọn một động từ từ danh sách.</p>';
-                resultBox.classList.add('show'); // Show error with animation
+            if (validateInputs([base, height])) {
+                const area = base * height;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([base, side])) {
+                const perimeter = 2 * (base + side);
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập cạnh đáy và cạnh bên hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        function calculateTrapezoid() {
+            const base1 = parseFloat(inputElements.trapezoidBase1.value);
+            const base2 = parseFloat(inputElements.trapezoidBase2.value);
+            const height = parseFloat(inputElements.trapezoidHeight.value);
+            const side1 = parseFloat(inputElements.trapezoidSide1.value);
+            const side2 = parseFloat(inputElements.trapezoidSide2.value);
+
+            let resultHtml = '';
+
+            if (validateInputs([base1, base2, height])) {
+                const area = 0.5 * (base1 + base2) * height;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập hai đáy và chiều cao hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([base1, base2, side1, side2])) {
+                const perimeter = base1 + base2 + side1 + side2;
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập hai đáy và hai cạnh bên hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        function calculateRhombus() {
+            const d1 = parseFloat(inputElements.rhombusDiagonal1.value);
+            const d2 = parseFloat(inputElements.rhombusDiagonal2.value);
+            const s = parseFloat(inputElements.rhombusSide.value);
+
+            let resultHtml = '';
+
+            if (validateInputs([d1, d2])) {
+                const area = 0.5 * d1 * d2;
+                resultHtml += `<span class="text-green-600">Diện tích: ${area.toFixed(2)}</span><br>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính diện tích, vui lòng nhập hai đường chéo hợp lệ.</span><br>';
+            }
+
+            if (validateInputs([s])) {
+                const perimeter = 4 * s;
+                resultHtml += `<span class="text-blue-600">Chu vi: ${perimeter.toFixed(2)}</span>`;
+            } else {
+                resultHtml += '<span class="text-red-600">Để tính chu vi, vui lòng nhập độ dài cạnh hợp lệ.</span>';
+            }
+            perimeterAreaResultDiv.innerHTML = resultHtml;
+        }
+
+        // Calculation functions for 3D shapes
+        function calculateCube() {
+            const s = parseFloat(inputElements.side.value);
+            if (!validateInputs([s])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập độ dài cạnh hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 6 * s * s;
+            const volume = s * s * s;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateSphere() {
+            const r = parseFloat(inputElements.radius.value);
+            if (!validateInputs([r])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 4 * Math.PI * r * r;
+            const volume = (4 / 3) * Math.PI * r * r * r;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateCylinder() {
+            const r = parseFloat(inputElements.radius.value);
+            const h = parseFloat(inputElements.height.value);
+            if (!validateInputs([r, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính và chiều cao hợp lệ.</span>';
+                return;
+            }
+            const surfaceArea = 2 * Math.PI * r * (r + h);
+            const volume = Math.PI * r * r * h;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateCone() {
+            const r = parseFloat(inputElements.radius.value);
+            const h = parseFloat(inputElements.height.value);
+            let l = parseFloat(inputElements.slantHeight.value); // Slant height
+
+            if (!validateInputs([r, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập bán kính và chiều cao hợp lệ.</span>';
                 return;
             }
 
-            const verbData = allVerbs[selectedVerb];
-            let typeLabel = '';
-            if (verbData.type === 'regular') {
-                typeLabel = '<p class="text-green-600">(Động từ Có Quy Tắc)</p>';
-            } else {
-                typeLabel = '<p class="text-red-600">(Động từ Bất Quy Tắc)</p>';
+            // If slant height is not provided or invalid, calculate it
+            if (isNaN(l) || l <= 0) {
+                l = Math.sqrt(r * r + h * h);
+                // Optionally inform user that slant height was calculated
+                // console.log(`Slant height calculated: ${l.toFixed(2)}`);
             }
 
-            conjugationDetailsDiv.innerHTML = `
-                <p><strong>Dạng Nguyên Thể (Base Form):</strong> ${selectedVerb}</p>
-                <p><strong>Nghĩa:</strong> ${verbData.meaning}</p>
-                <p><strong>Quá Khứ Đơn (Past Simple):</strong> ${verbData.pastSimple}</p>
-                <p><strong>Quá Khứ Phân Từ (Past Participle):</strong> ${verbData.pastParticiple}</p>
-                ${typeLabel}
-            `;
-            resultBox.classList.add('show'); // Show result with animation
+            const surfaceArea = Math.PI * r * (r + l);
+            const volume = (1 / 3) * Math.PI * r * r * h;
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
         }
 
-        // Event Listeners
-        showConjugationBtn.addEventListener('click', displayConjugation);
+        function calculateRectangularPyramid() {
+            const baseSide = parseFloat(inputElements.pyramidBaseSide.value);
+            const height = parseFloat(inputElements.height.value);
 
-        // Initial setup on page load
+            if (!validateInputs([baseSide, height])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập cạnh đáy và chiều cao hợp lệ.</span>';
+                return;
+            }
+
+            const baseArea = baseSide * baseSide;
+            const volume = (1 / 3) * baseArea * height;
+
+            // Calculate slant height for surface area
+            const slantHeight = Math.sqrt(height * height + (baseSide / 2) * (baseSide / 2));
+            const lateralArea = 2 * baseSide * slantHeight; // Sum of 4 triangular faces
+            const totalSurfaceArea = baseArea + lateralArea;
+
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${totalSurfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+        function calculateRectangularPrism() {
+            const l = parseFloat(inputElements.length.value);
+            const w = parseFloat(inputElements.width.value);
+            const h = parseFloat(inputElements.height.value);
+
+            if (!validateInputs([l, w, h])) {
+                surfaceVolumeResultDiv.innerHTML = '<span class="text-red-600">Vui lòng nhập chiều dài, chiều rộng và chiều cao hợp lệ.</span>';
+                return;
+            }
+
+            const volume = l * w * h;
+            const surfaceArea = 2 * (l * w + l * h + w * h);
+
+            surfaceVolumeResultDiv.innerHTML = `<span class="text-blue-600">Diện tích bề mặt: ${surfaceArea.toFixed(2)}</span><br><span class="text-green-600">Thể tích: ${volume.toFixed(2)}</span>`;
+        }
+
+
+        // Main calculation handler
+        function handleCalculate() {
+            perimeterAreaResultDiv.innerHTML = '';
+            surfaceVolumeResultDiv.innerHTML = '';
+            resultBox.classList.remove('show-result'); // Remove class to re-trigger animation
+
+            const shapeType = shapeTypeSelect.value;
+            let selectedShape;
+
+            if (shapeType === '2D') {
+                selectedShape = d2ShapeSelect.value;
+                switch (selectedShape) {
+                    case 'square': calculateSquare(); break;
+                    case 'rectangle': calculateRectangle(); break;
+                    case 'circle': calculateCircle(); break;
+                    case 'triangle': calculateTriangle(); break;
+                    case 'parallelogram': calculateParallelogram(); break;
+                    case 'trapezoid': calculateTrapezoid(); break;
+                    case 'rhombus': calculateRhombus(); break;
+                }
+            } else { // 3D
+                selectedShape = d3ShapeSelect.value;
+                switch (selectedShape) {
+                    case 'cube': calculateCube(); break;
+                    case 'sphere': calculateSphere(); break;
+                    case 'cylinder': calculateCylinder(); break;
+                    case 'cone': calculateCone(); break;
+                    case 'rectangularPyramid': calculateRectangularPyramid(); break;
+                    case 'rectangularPrism': calculateRectangularPrism(); break;
+                }
+            }
+
+            // Check if any result was set, then add animation class
+            if (perimeterAreaResultDiv.innerHTML !== '' || surfaceVolumeResultDiv.innerHTML !== '') {
+                void resultBox.offsetWidth; // Trigger reflow
+                resultBox.classList.add('show-result');
+            }
+        }
+
+        // --- Page Transition Logic ---
         document.addEventListener('DOMContentLoaded', () => {
             const pageContentWrapper = document.getElementById('pageContentWrapper');
             const pageLinks = document.querySelectorAll('.page-link');
@@ -1169,7 +1282,7 @@
             // Animate page in on load
             pageContentWrapper.classList.add('page-transition-in');
 
-            // Assign music player DOM elements
+            // Attach music player DOM elements and event listeners
             audioPlayer = document.getElementById('audioPlayer');
             toggleMusicButton = document.getElementById('toggleMusicButton');
             musicPlayPauseIcon = document.getElementById('musicPlayPauseIcon');
@@ -1266,12 +1379,17 @@
                 });
             });
 
-            populateVerbSelect(); // Populate dropdown on DOMContentLoaded
-            // Clear input fields and result box on initial load
-            verbSelect.value = ""; // Reset select to default
-            conjugationDetailsDiv.innerHTML = 'Vui lòng chọn một động từ và nhấn nút để xem chia động từ.';
-            resultBox.classList.remove('show'); // Ensure result box is hidden initially
+            // Initial setup on page load: clear inputs and results
+            updateInputFields(); // This will also clear inputs and results
+            // Ensure result box is hidden initially
+            resultBox.classList.remove('show-result');
         });
+
+        // Event Listeners for hinh_hoc.html specific logic
+        shapeTypeSelect.addEventListener('change', updateInputFields);
+        d2ShapeSelect.addEventListener('change', updateInputFields);
+        d3ShapeSelect.addEventListener('change', updateInputFields);
+        calculateBtn.addEventListener('click', handleCalculate);
     </script>
 </body>
 </html>
