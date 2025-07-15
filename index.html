@@ -50,12 +50,14 @@
             animation: auroraMovement 20s infinite alternate ease-in-out; /* Re-enabled animation */
         }
 
-        .aurora-layer:nth-child(1) {
+       .aurora-layer:nth-child(1) {
             width: 600px;
             height: 600px;
             top: 10%;
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
+            animation-delay: 0s;
+            animation-duration: 5.625s; /* Increased duration by 50% (1.75s * 1.5) */
         }
 
         .aurora-layer:nth-child(2) {
@@ -64,6 +66,8 @@
             top: 50%;
             left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
+            animation-delay: 0.705s; /* Increased delay by 50% (0.47s * 1.5) */
+            animation-duration: 2.28s; /* Increased duration by 50% (1.52s * 1.5) */
         }
 
         .aurora-layer:nth-child(3) {
@@ -72,6 +76,8 @@
             top: 80%;
             left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
+            animation-delay: 1.395s; /* Increased delay by 50% (0.93s * 1.5) */
+            animation-duration: 2.97s; /* Increased duration by 50% (1.98s * 1.5) */
         }
 
         .aurora-layer:nth-child(4) {
@@ -80,6 +86,8 @@
             top: 20%;
             left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
+            animation-delay: 2.1s; /* Increased delay by 50% (1.4s * 1.5) */
+            animation-duration: 2.445s; /* Increased duration by 50% (1.63s * 1.5) */
         }
 
         @keyframes auroraMovement {
@@ -139,7 +147,7 @@
 
 
         .container {
-            background-color: rgba(44, 62, 80, 0.8); /* Slightly lighter dark container background with transparency */
+            background-color: rgba(44, 62, 80, 0.0); /* Đã chỉnh alpha thành 0.0 */
             border-radius: 16px; /* More rounded corners */
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); /* More prominent, softer shadow */
             padding: 30px;
@@ -152,6 +160,13 @@
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
             z-index: 1; /* Ensure container is above aurora effect */
             position: relative; /* For positioning elements inside */
+        }
+        /* New class for expanded container on search focus */
+        .container.expanded-search {
+            max-width: 700px; /* Expand max-width when search is focused */
+            padding: 40px; /* Increase padding slightly */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* More prominent shadow */
+            will-change: max-width, padding, box-shadow; /* Add will-change here for optimization */
         }
         h1 {
             font-size: 2.5rem;
@@ -178,15 +193,15 @@
             animation: whiteGlowPulse 2s infinite alternate ease-in-out;
         }
 
-        /* Updated CSS for aura/halo hover glow on tool cards (blue-green) */
+        /* Optimized CSS for aura/halo hover glow on tool cards (blue-green) */
         @keyframes auraCardGlow {
             from {
                 box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             }
             to {
-                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3),
-                            0 0 15px rgba(52, 152, 219, 0.6), /* Blue inner glow */
-                            0 0 25px rgba(46, 204, 113, 0.4); /* Green outer, more diffused glow */
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), /* Stronger base shadow */
+                            0 0 25px rgba(52, 152, 219, 0.8), /* More intense blue inner glow */
+                            0 0 40px rgba(46, 204, 113, 0.6); /* Larger, more diffused green outer glow */
             }
         }
 
@@ -210,9 +225,11 @@
             border: 1px solid #4a627a; /* Subtle border */
         }
         .tool-card:hover {
-            transform: translateY(-8px) scale(1.05); /* More pronounced lift and scale */
+            transform: translateY(-10px) scale(1.1); /* Increased lift and scale for a more pronounced effect */
             background-color: #3d5a73; /* Slightly lighter on hover */
             animation: auraCardGlow 0.5s forwards; /* Apply aura glow on hover */
+            z-index: 2; /* Ensure the hovered card is above others */
+            position: relative; /* Needed for z-index to work */
         }
         .tool-card:active {
             transform: translateY(0) scale(0.95); /* Gentle press effect */
@@ -222,25 +239,36 @@
             font-size: 3rem; /* Larger icons */
             color: #3498db; /* Blue accent for icons */
             margin-bottom: 1rem;
-            transition: color 0.3s ease;
+            /* Added transform for smooth scaling */
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 7px rgba(52, 152, 219, 0.6); /* Subtle glow for icons, slightly increased */
         }
         .tool-card:hover i {
+            font-size: 3.5rem; /* Make icon larger on hover */
             color: #2ecc71; /* Green accent on hover */
+            text-shadow: 0 0 15px rgba(46, 204, 113, 1), 0 0 25px rgba(46, 204, 113, 0.7); /* Even stronger green glow */
+            transform: scale(1.1); /* Slightly scale the icon itself */
         }
         /* New style for text-based icons */
         .tool-icon-text {
-            font-size: 1.8rem; /* Reduced font size for text-based icons */
+            font-size: 2.5rem; /* Adjusted font size for text-based icons to match other icons */
             font-weight: bold; /* Make the text bold */
             color: #3498db; /* Blue accent, consistent with other icons */
-            margin-bottom: 1rem;
+            margin-bottom: 1rem; /* Keep consistent margin */
             display: flex; /* Use flex to center text vertically if needed */
             align-items: center;
             justify-content: center;
             height: 3rem; /* Keep fixed height to align with original icons */
             width: 100%; /* Take full width to center text */
+            /* Added transform for smooth scaling */
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 0 7px rgba(52, 152, 219, 0.6); /* Subtle glow for text icons, slightly increased */
         }
         .tool-card:hover .tool-icon-text {
+            font-size: 3rem; /* Make text icon larger on hover */
             color: #2ecc71; /* Green accent on hover */
+            text-shadow: 0 0 15px rgba(46, 204, 113, 1), 0 0 25px rgba(46, 204, 113, 0.7); /* Even stronger green glow */
+            transform: scale(1.1); /* Slightly scale the text icon itself */
         }
 
         .tool-card h2 {
@@ -367,10 +395,94 @@
             visibility: visible;
         }
 
+        /* Search Bar Styling - Made more prominent */
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            background-color: #2c3e50; /* Slightly darker background for more contrast */
+            border: 2px solid #3498db; /* Blue border for prominence */
+            border-radius: 12px; /* More rounded corners */
+            padding: 12px 20px; /* Increased padding */
+            margin-bottom: 30px; /* More space below search bar */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(52, 152, 219, 0.5); /* Stronger, blue-tinted shadow */
+            transition: all 0.3s ease;
+            position: relative; /* For potential future animations */
+            width: 60%; /* Initial width */
+            margin-left: auto; /* Center the element */
+            margin-right: auto; /* Center the element */
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease; /* Smooth width transition */
+        }
+
+        .search-bar-container:focus-within {
+            border-color: #2ecc71; /* Green border on focus */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(46, 204, 113, 0.7); /* Even stronger, green-tinted shadow on focus */
+            transform: translateY(-3px); /* Slight lift on focus */
+            width: 90%; /* Expand width on focus */
+        }
+
+        .search-bar-container input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ecf0f1;
+            font-size: 1.15rem; /* Larger font size */
+            padding: 5px 10px;
+        }
+
+        .search-bar-container input::placeholder {
+            color: #bdc3c7;
+            opacity: 0.8; /* Slightly less transparent */
+        }
+
+        .search-bar-container .search-icon {
+            color: #bdc3c7;
+            font-size: 1.5rem; /* Larger icon */
+            margin-left: 15px; /* More space to the left of the icon */
+        }
+
+        /* New animations for tool cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Slightly more pronounced slide */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(30px); /* Consistent slide down */
+            }
+        }
+
+        .tool-card.fade-in-up {
+            animation: fadeInUp 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; /* Longer duration, different easing */
+            will-change: transform, opacity; /* Hint to browser for optimization */
+        }
+
+        .tool-card.fade-out-down {
+            animation: fadeOutDown 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards; /* Longer duration, different easing */
+            will-change: transform, opacity; /* Hint to browser for optimization */
+        }
+
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
+            }
+            .container.expanded-search {
+                max-width: 95%; /* Expand max-width for mobile when search is focused */
+                padding: 30px; /* Adjust padding */
             }
             h1 {
                 font-size: 2rem;
@@ -392,6 +504,20 @@
             .tool-card p {
                 font-size: 0.85rem;
             }
+            .search-bar-container {
+                padding: 10px 15px; /* Adjusted padding for smaller screens */
+                margin-bottom: 20px;
+                width: 80%; /* Adjust width for mobile */
+            }
+            .search-bar-container:focus-within {
+                width: 95%; /* Expand width for mobile */
+            }
+            .search-bar-container input {
+                font-size: 1rem;
+            }
+            .search-bar-container .search-icon {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -405,15 +531,21 @@
 
     <!-- Page Content Wrapper for Transitions -->
     <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-center">
-        <div class="container">
+        <div class="container" id="mainContainer">
             <h1 class="text-3xl font-bold text-center mb-8" id="mainTitle">
                 Chào mừng, bây giờ là <span id="currentTimeDisplay" class="glowing-title"></span>.
             </h1>
 
-            <div class="grid-cols-2">
+            <!-- Search Bar -->
+            <div class="search-bar-container">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm công cụ, một chủ đề,...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <div class="grid-cols-2" id="toolCardsGrid">
                 <!-- Tool Card 1: Đạo Hàm -->
                 <a href="dao_ham.html" class="tool-card page-link" data-href="dao_ham.html">
-                    <i class="fas fa-calculator"></i>
+                    <span class="tool-icon-text" id="derivativeIcon"></span>
                     <h2>Tính Đạo Hàm</h2>
                     <p>Tính đạo hàm của các hàm số phức tạp.</p>
                 </a>
@@ -621,6 +753,11 @@
             const pageContentWrapper = document.getElementById('pageContentWrapper');
             const pageLinks = document.querySelectorAll('.page-link');
             const currentTimeDisplay = document.getElementById('currentTimeDisplay'); // Get the new span for time
+            const searchInput = document.getElementById('searchInput'); // Get search input
+            const toolCardsGrid = document.getElementById('toolCardsGrid'); // Get the grid container
+            const toolCards = toolCardsGrid.querySelectorAll('.tool-card'); // Get all tool cards
+            const mainContainer = document.getElementById('mainContainer'); // Get the main container
+            const derivativeIconSpan = document.getElementById('derivativeIcon'); // Get the span for derivative icon
 
             // Function to update the time display
             function updateTime() {
@@ -635,6 +772,12 @@
             updateTime();
             // Update time every second to ensure continuous update
             setInterval(updateTime, 1000); // Changed to 1000ms (1 second)
+
+            // Randomly set derivative icon on page load
+            const derivativeIcons = ["f'(x)", "d/dx"];
+            const randomIndex = Math.floor(Math.random() * derivativeIcons.length);
+            derivativeIconSpan.textContent = derivativeIcons[randomIndex];
+
 
             // Animate page in on load
             pageContentWrapper.classList.add('page-transition-in');
@@ -720,6 +863,60 @@
                         }, { once: true }); // Ensure the event listener is removed after it fires
                     }
                 });
+            });
+
+            // Debounce function
+            let debounceTimer;
+            const debounce = (func, delay) => {
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+                };
+            };
+
+            // Function to filter tool cards
+            const filterToolCards = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                toolCards.forEach(card => {
+                    const title = card.querySelector('h2').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const cardIsVisible = card.style.display !== 'none';
+                    const shouldBeVisible = title.includes(searchTerm) || description.includes(searchTerm);
+
+                    if (shouldBeVisible && !cardIsVisible) {
+                        // If card should be visible but is currently hidden
+                        card.style.display = 'flex'; // Make it visible for animation
+                        card.classList.remove('fade-out-down'); // Remove any lingering fade-out
+                        card.classList.add('fade-in-up'); // Add fade-in animation
+                    } else if (!shouldBeVisible && cardIsVisible) {
+                        // If card should be hidden but is currently visible
+                        card.classList.remove('fade-in-up'); // Remove any lingering fade-in
+                        card.classList.add('fade-out-down'); // Add fade-out animation
+                        card.addEventListener('animationend', function handler() {
+                            card.style.display = 'none'; // Hide after animation
+                            card.classList.remove('fade-out-down'); // Clean up class
+                            card.removeEventListener('animationend', handler); // Remove listener
+                        }, { once: true });
+                    }
+                });
+            };
+
+            // Apply debounce to the search input
+            searchInput.addEventListener('input', debounce(filterToolCards, 500));
+
+            // Add/remove class to main container on search input focus/blur
+            searchInput.addEventListener('focus', () => {
+                mainContainer.classList.add('expanded-search');
+            });
+
+            searchInput.addEventListener('blur', () => {
+                // Only collapse if the search input is empty
+                if (searchInput.value.trim() === '') {
+                    mainContainer.classList.remove('expanded-search');
+                }
+                // If there's content in the search box, it will remain expanded
             });
         });
     </script>
