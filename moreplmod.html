@@ -50,25 +50,25 @@
         .aurora-layer:nth-child(1) {
             width: 600px; height: 600px; top: 10%; left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
-            animation-delay: 0s; animation-duration: 30s; /* Adjusted duration for more subtle flow */
+            animation-delay: 0s; animation-duration: 7s; /* Tốc độ 150%: 30s / 1.5 = 20s */
         }
         .aurora-layer:nth-child(2) {
             width: 700px; height: 700px; top: 50%; left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
             animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 26s; /* Adjusted duration */
+            animation-duration: 17.33s; /* Tốc độ 150%: 8s / 1.5 = ~17.33s */
         }
         .aurora-layer:nth-child(3) {
             width: 500px; height: 500px; top: 80%; left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
             animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 34s; /* Adjusted duration */
+            animation-duration: 22.67s; /* Tốc độ 150%: 6s / 1.5 = ~22.67s */
         }
         .aurora-layer:nth-child(4) {
             width: 400px; height: 400px; top: 20%; left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
             animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 28s; /* Adjusted duration */
+            animation-duration: 18.67s; /* Tốc độ 150%: 8s / 1.5 = ~18.67s */
         }
 
         @keyframes auroraMovement {
@@ -117,7 +117,7 @@
 
         /* Main content container */
         .article-container {
-            background-color: rgba(44, 62, 80, 0.8);
+            background-color: rgba(44, 62, 80, 0.0); /* Alpha set to 0.0 for full transparency */
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
             padding: 30px;
@@ -443,7 +443,7 @@
             left: 70px; /* Position to the right of the button */
             bottom: 50%; /* Vertically center with the button */
             transform: translateY(50%); /* Adjust for vertical centering */
-            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency */
+            background-color: rgba(44, 62, 80, 0.0); /* Alpha set to 0.0 for full transparency */
             color: #ecf0f1;
             padding: 10px 15px;
             border-radius: 8px;
@@ -494,9 +494,7 @@
     </style>
 </head>
 <body>
-    <!-- Page Content Wrapper for Transitions -->
     <div id="pageContentWrapper" class="relative w-full h-full flex justify-center items-start">
-        <!-- Back button positioned outside the article container -->
         <a href="#" class="back-button page-link" data-href="index.html" title="Quay lại Trang Chủ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12 4L4 12L12 20M4 12H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -563,7 +561,6 @@
             <p>"More Police Mod v1.1" hứa hẹn sẽ thổi một luồng gió mới vào những cuộc phiêu lưu của bạn tại San Andreas, biến mỗi lần truy nã thành một cuộc chiến sinh tồn đầy cam go và hấp dẫn.</p>
         </div>
 
-        <!-- Image Modal -->
         <div id="imageModal" class="image-modal">
             <div class="modal-content">
                 <img id="modalImage" src="" alt="Full size image">
@@ -572,14 +569,11 @@
         </div>
     </div>
 
-    <!-- Music Player Button Wrapper for Tooltip - Copied from index.html -->
     <div class="music-player-floating-button-wrapper">
         <button class="music-player-floating-button" id="toggleMusicButton">
-            <!-- Font Awesome Play/Pause icon -->
             <i class="fas fa-play" id="musicPlayPauseIcon"></i>
         </button>
         <div class="music-tooltip" id="musicTooltip">
-            <!-- Album cover image -->
             <img id="albumCover" src="" alt="Album Cover">
             <div class="music-tooltip-content">
                 <span class="song-title" id="songTitle"></span>
@@ -588,7 +582,6 @@
         </div>
     </div>
 
-    <!-- Hidden Audio Player -->
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
     <script>
