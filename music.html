@@ -10,16 +10,165 @@
         /* Global Styles consistent with index.html */
         body {
             font-family: 'Inter', sans-serif;
-            /* Changed background to support aurora effect */
-            background: #0d1a2a; /* Dark base color */
+            background: var(--body-bg); /* Use CSS variable for background */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 15px; /* Reduced from 20px by 25% */
             box-sizing: border-box;
-            color: #ecf0f1; /* Default light text color for body */
+            color: var(--text-color); /* Use CSS variable for text color */
             position: relative; /* For positioning aurora layers */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            /* Dark Theme (Default) */
+            --body-bg: #0d1a2a;
+            --text-color: #ecf0f1;
+            --container-bg: rgba(44, 62, 80, 0.05);
+            --container-border: rgba(61, 90, 115, 0.1);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.4);
+            --heading-color: #ecf0f1;
+            --subheading-color: #3498db;
+            --paragraph-color: #bdc3c7;
+            --back-button-bg: rgba(90, 125, 154, 0.15);
+            --back-button-hover-bg: rgba(106, 141, 176, 0.25);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1);
+            --back-button-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15);
+            --back-button-active-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #ecf0f1;
+            --album-title-color: #ecf0f1;
+            --album-title-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4);
+            --album-art-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            --album-art-hover-shadow: 0 9px 18.75px rgba(0, 0, 0, 0.5);
+            --album-art-playing-shadow-1: 0 6px 15px rgba(0, 0, 0, 0.5);
+            --album-art-playing-shadow-2: 0 0 37.5px rgba(52, 152, 219, 0.8), 0 0 52.5px rgba(46, 204, 113, 0.5);
+            --song-info-title-color: #ecf0f1;
+            --song-info-artist-color: #bdc3c7;
+            --progress-bar-container-bg: rgba(90, 125, 154, 0.15);
+            --progress-bar-container-hover-shadow: 0 0 11.25px rgba(52, 152, 219, 0.8);
+            --progress-bar-bg-start: rgba(52, 152, 219, 0.25);
+            --progress-bar-bg-end: rgba(41, 128, 185, 0.25);
+            --progress-bar-shadow: 0 0 3.75px rgba(52, 152, 219, 0.25);
+            --time-display-color: #bdc3c7;
+            --control-button-bg: rgba(52, 152, 219, 0.15);
+            --control-button-color: white;
+            --control-button-border: rgba(52, 152, 219, 0.25);
+            --control-button-shadow: 0 4.5px 11.25px rgba(52, 152, 219, 0.15);
+            --control-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --control-button-hover-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3);
+            --control-button-active-bg: rgba(36, 113, 163, 0.2);
+            --control-button-active-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15);
+            --play-button-pulse-shadow-1: 0 0 22.5px rgba(52, 152, 219, 1), 0 0 37.5px rgba(255, 255, 255, 0.5);
+            --play-button-pulse-shadow-2: 0 0 33.75px rgba(52, 152, 219, 1.2), 0 0 52.5px rgba(255, 255, 255, 0.7);
+            --volume-icon-color: #bdc3c7;
+            --volume-slider-bg: rgba(90, 125, 154, 0.15);
+            --volume-slider-thumb-bg: rgba(52, 152, 219, 0.25);
+            --volume-slider-thumb-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3);
+            --volume-slider-thumb-hover-bg: rgba(41, 128, 185, 0.35);
+            --playlist-header-color: #ecf0f1;
+            --playlist-header-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4);
+            --playlist-scrollbar-thumb: rgba(52, 152, 219, 0.25);
+            --playlist-scrollbar-track: rgba(90, 125, 154, 0.15);
+            --playlist-item-bg: rgba(52, 73, 94, 0.15);
+            --playlist-item-border: rgba(61, 90, 115, 0.1);
+            --playlist-item-hover-bg: rgba(61, 90, 115, 0.25);
+            --playlist-item-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.3);
+            --playlist-item-active-bg-start: rgba(52, 152, 219, 0.25);
+            --playlist-item-active-bg-end: rgba(41, 128, 185, 0.25);
+            --playlist-item-active-shadow: 0 3px 11.25px rgba(52, 152, 219, 0.3);
+            --playlist-item-active-border-color: rgba(52, 152, 219, 0.25);
+            --playlist-item-img-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.2);
+            --playlist-item-title-color: #ecf0f1;
+            --playlist-item-artist-color: #bdc3c7;
+            --playlist-item-active-text-color: #ffffff;
+            --search-bar-bg: rgba(44, 62, 80, 0.15);
+            --search-bar-border: rgba(52, 152, 219, 0.25);
+            --search-bar-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3);
+            --search-bar-focus-border: rgba(46, 204, 113, 0.25);
+            --search-bar-focus-shadow: 0 0 15px rgba(46, 204, 113, 0.525);
+            --search-input-color: #ecf0f1;
+            --search-input-placeholder-color: #bdc3c7;
+            --search-icon-color: #bdc3c7;
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            --body-bg: #f0f2f5; /* Light background */
+            --text-color: #34495e; /* Darker text */
+            --container-bg: rgba(255, 255, 255, 0.1); /* Reduced alpha for more transparency */
+            --container-border: rgba(180, 180, 180, 0.7);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.1);
+            --heading-color: #34495e;
+            --subheading-color: #2980b9;
+            --paragraph-color: #7f8c8d;
+            --back-button-bg: rgba(180, 180, 180, 0.2);
+            --back-button-hover-bg: rgba(180, 180, 180, 0.3);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.05);
+            --back-button-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.1);
+            --back-button-active-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #34495e;
+            --album-title-color: #34495e;
+            --album-title-shadow: none;
+            --album-art-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --album-art-hover-shadow: 0 9px 18.75px rgba(0, 0, 0, 0.2);
+            --album-art-playing-shadow-1: 0 6px 15px rgba(0, 0, 0, 0.2);
+            --album-art-playing-shadow-2: 0 0 37.5px rgba(52, 152, 219, 0.4), 0 0 52.5px rgba(46, 204, 113, 0.2);
+            --song-info-title-color: #34495e;
+            --song-info-artist-color: #7f8c8d;
+            --progress-bar-container-bg: rgba(180, 180, 180, 0.2);
+            --progress-bar-container-hover-shadow: 0 0 11.25px rgba(52, 152, 219, 0.4);
+            --progress-bar-bg-start: rgba(52, 152, 219, 0.15);
+            --progress-bar-bg-end: rgba(41, 128, 185, 0.15);
+            --progress-bar-shadow: 0 0 3.75px rgba(52, 152, 219, 0.15);
+            --time-display-color: #7f8c8d;
+            --control-button-bg: rgba(52, 152, 219, 0.1);
+            --control-button-color: #34495e;
+            --control-button-border: rgba(52, 152, 219, 0.15);
+            --control-button-shadow: 0 4.5px 11.25px rgba(52, 152, 219, 0.1);
+            --control-button-hover-bg: rgba(52, 152, 219, 0.15);
+            --control-button-hover-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.2);
+            --control-button-active-bg: rgba(36, 113, 163, 0.1);
+            --control-button-active-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.1);
+            --play-button-pulse-shadow-1: 0 0 22.5px rgba(52, 152, 219, 0.5), 0 0 37.5px rgba(0, 0, 0, 0.25);
+            --play-button-pulse-shadow-2: 0 0 33.75px rgba(52, 152, 219, 0.6), 0 0 52.5px rgba(0, 0, 0, 0.35);
+            --volume-icon-color: #7f8c8d;
+            --volume-slider-bg: rgba(180, 180, 180, 0.2);
+            --volume-slider-thumb-bg: rgba(52, 152, 219, 0.15);
+            --volume-slider-thumb-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.15);
+            --volume-slider-thumb-hover-bg: rgba(41, 128, 185, 0.25);
+            --playlist-header-color: #34495e;
+            --playlist-header-shadow: none;
+            --playlist-scrollbar-thumb: rgba(52, 152, 219, 0.15);
+            --playlist-scrollbar-track: rgba(180, 180, 180, 0.2);
+            --playlist-item-bg: rgba(255, 255, 255, 0.1);
+            --playlist-item-border: rgba(180, 180, 180, 0.7);
+            --playlist-item-hover-bg: rgba(255, 255, 255, 0.2);
+            --playlist-item-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.1);
+            --playlist-item-active-bg-start: rgba(52, 152, 219, 0.15);
+            --playlist-item-active-bg-end: rgba(41, 128, 185, 0.15);
+            --playlist-item-active-shadow: 0 3px 11.25px rgba(52, 152, 219, 0.2);
+            --playlist-item-active-border-color: rgba(52, 152, 219, 0.15);
+            --playlist-item-img-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.1);
+            --playlist-item-title-color: #34495e;
+            --playlist-item-artist-color: #7f8c8d;
+            --playlist-item-active-text-color: #34495e;
+            --search-bar-bg: rgba(255, 255, 255, 0.1);
+            --search-bar-border: rgba(52, 152, 219, 0.15);
+            --search-bar-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.1);
+            --search-bar-focus-border: rgba(46, 204, 113, 0.15);
+            --search-bar-focus-shadow: 0 0 15px rgba(46, 204, 113, 0.25);
+            --search-input-color: #34495e;
+            --search-input-placeholder-color: #7f8c8d;
+            --search-icon-color: #7f8c8d;
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
         }
 
         /* Aurora Borealis Effect */
@@ -37,15 +186,14 @@
 
         .aurora-layer {
             position: absolute;
-            /* Default gradient, will be overridden by nth-child */
             background: linear-gradient(to bottom,
                 rgba(52, 152, 219, 0.3), /* Blue from active playlist item */
                 rgba(46, 204, 113, 0.3)  /* Green from active playlist item */
             );
             border-radius: 50%;
             filter: blur(80px); /* Soft blur for aurora effect */
-            opacity: 0.5; /* Consistent with index.html */
-            animation: auroraMovement 20s infinite alternate ease-in-out;
+            opacity: 0;
+            animation: auroraMovement 5s infinite alternate ease-in-out;
         }
 
         .aurora-layer:nth-child(1) {
@@ -53,10 +201,9 @@
             height: 600px;
             top: 10%;
             left: 15%;
-            /* Blue to Green gradient */
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 25s;
+            animation-duration: 8s; /* Adjusted duration for more subtle flow */
         }
 
         .aurora-layer:nth-child(2) {
@@ -64,10 +211,9 @@
             height: 700px;
             top: 50%;
             left: 70%;
-            /* Slightly different shade of green/blue */
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 5s;
-            animation-duration: 20s;
+            animation-delay: 8s; /* Adjusted delay */
+            animation-duration: 10s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(3) {
@@ -75,10 +221,9 @@
             height: 500px;
             top: 80%;
             left: 30%;
-            /* Another blue-green variation */
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 10s;
-            animation-duration: 30s;
+            animation-delay: 16s; /* Adjusted delay */
+            animation-duration: 10s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(4) {
@@ -86,10 +231,9 @@
             height: 400px;
             top: 20%;
             left: 80%;
-            /* A lighter, more vibrant blue-green */
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 15s;
-            animation-duration: 22s;
+            animation-delay: 24s; /* Adjusted delay */
+            animation-duration: 9s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
@@ -113,6 +257,11 @@
                 transform: translate(0, 0) scale(1);
                 opacity: 0.5;
             }
+        }
+
+        /* Light theme specific adjustment for aurora opacity */
+        body.light-theme .aurora-layer {
+            opacity: 0.2; /* Reduce opacity for light theme */
         }
 
         /* Page Transition Animations - Changed to Fade In/Out with subtle timing */
@@ -206,13 +355,13 @@
         }
 
         .music-player-container, .playlist-container {
-            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
+            background-color: var(--container-bg); /* Use CSS variable */
             border-radius: 12px; /* Reduced from 16px by 25% */
-            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Reduced from 0 12px 30px by 25% */
+            box-shadow: var(--container-shadow); /* Use CSS variable */
             padding: 22.5px; /* Reduced from 30px by 25% */
             width: 100%; /* Take full width of their flex item */
             text-align: center;
-            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
+            border: 1px solid var(--container-border); /* Use CSS variable */
             backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
             -webkit-backdrop-filter: blur(7.5px); /* For Safari */
             position: relative; /* For back button positioning */
@@ -238,34 +387,34 @@
             top: 15px; /* Reduced from 20px by 25% */
             left: 15px; /* Reduced from 20px by 25% */
             /* New styles for circular button */
-            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background-color: var(--back-button-bg); /* Use CSS variable */
             width: 33.75px; /* Reduced from 45px by 25% */
             height: 33.75px; /* Reduced from 45px by 25% */
             border-radius: 50%; /* Make it circular */
             display: flex; /* Use flex to center SVG */
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced from 0 4px 10px by 25% */
+            box-shadow: var(--back-button-shadow); /* Use CSS variable */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transitions */
             text-decoration: none; /* Remove underline for link */
             z-index: 10; /* Ensure it's above other content */
-            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
+            border: 1px solid var(--back-button-bg); /* Use CSS variable */
         }
         .back-button:hover {
-            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
+            background-color: var(--back-button-hover-bg); /* Use CSS variable */
             transform: translateX(-3.75px) scale(1.0375); /* Reduced from -5px, 1.05 by 25% */
-            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15); /* Reduced from 0 6px 15px by 25% */
+            box-shadow: var(--back-button-hover-shadow); /* Use CSS variable */
         }
         .back-button:active {
             transform: translateY(0) scale(0.9625); /* Reduced from 0.95 by 25% */
-            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05); /* Reduced from 0 2px 5px by 25% */
+            box-shadow: var(--back-button-active-shadow); /* Use CSS variable */
         }
         /* Style for the SVG icon inside the button */
         .back-button svg {
             width: 0.9em; /* Reduced from 1.2em by 25% */
             height: 0.9em; /* Reduced from 1.2em by 25% */
-            stroke: #ecf0f1; /* White color for the arrow */
+            stroke: var(--back-button-icon-color); /* Use CSS variable */
             stroke-width: 1.875; /* Reduced from 2.5 by 25% */
             stroke-linecap: round; /* Rounded ends for lines */
             stroke-linejoin: round; /* Rounded corners for lines */
@@ -273,15 +422,15 @@
             transition: stroke 0.3s ease; /* Smooth transition for arrow color */
         }
         .back-button:hover svg {
-            stroke: #ecf0f1; /* Keep white on hover */
+            stroke: var(--back-button-icon-color); /* Keep color consistent with theme */
         }
         /* Adjusted h1 to be the album title */
         .album-title {
-            color: #ecf0f1;
+            color: var(--album-title-color); /* Use CSS variable */
             font-size: 1.65rem; /* Reduced from 2.2rem by 25% */
             font-weight: 700;
             margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
-            text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4); /* Reduced from 0 2px 6px by 25% */
+            text-shadow: var(--album-title-shadow); /* Use CSS variable */
         }
 
         /* Album Art Fixed Glow when playing */
@@ -291,18 +440,17 @@
             border-radius: 9px; /* Reduced from 12px by 25% */
             object-fit: cover;
             margin: 0 auto 15px auto; /* Reduced from 20px by 25% */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Reduced from 0 8px 20px by 25% */
+            box-shadow: var(--album-art-shadow); /* Use CSS variable */
             transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover and glow */
         }
         .album-art:hover {
             transform: scale(1.015); /* Reduced from 1.02 by 25% */
-            box-shadow: 0 9px 18.75px rgba(0, 0, 0, 0.5); /* Reduced from 0 12px 25px by 25% */
+            box-shadow: var(--album-art-hover-shadow); /* Use CSS variable */
         }
         .album-art.playing {
             /* Fixed glow effect - Increased spread radius for larger glow */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), /* Reduced from 0 8px 20px by 25% */
-                        0 0 37.5px rgba(52, 152, 219, 0.8), /* Reduced from 50px by 25% */
-                        0 0 52.5px rgba(46, 204, 113, 0.5); /* Reduced from 70px by 25% */
+            box-shadow: var(--album-art-playing-shadow-1), /* Use CSS variable */
+                        var(--album-art-playing-shadow-2); /* Use CSS variable */
             transform: scale(1.0075); /* Reduced from 1.01 by 25% */
         }
 
@@ -310,17 +458,17 @@
             font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: bold;
             margin-bottom: 3.75px; /* Reduced from 5px by 25% */
-            color: #ecf0f1;
+            color: var(--song-info-title-color); /* Use CSS variable */
         }
         .song-info .artist {
             font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
-            color: #bdc3c7;
+            color: var(--song-info-artist-color); /* Use CSS variable */
             margin-bottom: 15px; /* Reduced from 20px by 25% */
         }
         .progress-bar-container {
             width: 100%;
             height: 6px; /* Reduced from 8px by 25% */
-            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background-color: var(--progress-bar-container-bg); /* Use CSS variable */
             border-radius: 3px; /* Reduced from 4px by 25% */
             margin-bottom: 11.25px; /* Reduced from 15px by 25% */
             cursor: pointer;
@@ -328,21 +476,21 @@
             transition: box-shadow 0.3s ease; /* Smooth transition for glow */
         }
         .progress-bar-container:hover {
-            box-shadow: 0 0 11.25px rgba(52, 152, 219, 0.8); /* Reduced from 15px by 25% */
+            box-shadow: var(--progress-bar-container-hover-shadow); /* Use CSS variable */
         }
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); /* 75% transparent */
+            background: linear-gradient(to right, var(--progress-bar-bg-start), var(--progress-bar-bg-end)); /* Use CSS variables */
             border-radius: 3px; /* Reduced from 4px by 25% */
             transition: width 0.1s ease-out; /* Changed to ease-out for smoother animation */
-            box-shadow: 0 0 3.75px rgba(52, 152, 219, 0.25); /* Reduced from 5px by 25%, transparency adjusted */
+            box-shadow: var(--progress-bar-shadow); /* Use CSS variable */
         }
         .time-display {
             display: flex;
             justify-content: space-between;
             font-size: 0.675rem; /* Reduced from 0.9rem by 25% */
-            color: #bdc3c7;
+            color: var(--time-display-color); /* Use CSS variable */
             margin-bottom: 18.75px; /* Reduced from 25px by 25% */
         }
         .controls {
@@ -352,8 +500,8 @@
             margin-bottom: 22.5px; /* Reduced from 30px by 25% */
         }
         .control-button {
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
+            background: var(--control-button-bg); /* Use CSS variable */
+            color: var(--control-button-color); /* Use CSS variable */
             width: 41.25px; /* Reduced from 55px by 25% */
             height: 41.25px; /* Reduced from 55px by 25% */
             border-radius: 50%;
@@ -361,20 +509,20 @@
             justify-content: center;
             align-items: center;
             font-size: 1.05rem; /* Reduced from 1.4rem by 25% */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
+            border: 1px solid var(--control-button-border); /* Use CSS variable */
             cursor: pointer;
-            box-shadow: 0 4.5px 11.25px rgba(52, 152, 219, 0.15); /* Reduced from 0 6px 15px by 25%, transparency adjusted */
+            box-shadow: var(--control-button-shadow); /* Use CSS variable */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, slightly springy transition */
         }
         .control-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            background: var(--control-button-hover-bg); /* Use CSS variable */
             transform: translateY(-3.75px) scale(1.06); /* Reduced from -5px, 1.08 by 25% */
-            box-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3); /* Reduced from 0 15px 35px by 25%, transparency adjusted */
+            box-shadow: var(--control-button-hover-shadow); /* Use CSS variable */
         }
         .control-button:active {
             transform: translateY(0) scale(0.94); /* Reduced from 0.92 by 25% */
-            box-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15); /* Reduced from 0 2px 10px by 25%, transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            box-shadow: var(--control-button-active-shadow); /* Use CSS variable */
+            background: var(--control-button-active-bg); /* Use CSS variable */
         }
         .control-button.play-pause {
             width: 52.5px; /* Reduced from 70px by 25% */
@@ -385,24 +533,27 @@
         /* Reintroduced: Play/Pause button pulse glow when playing */
         @keyframes playButtonPulse {
             0% {
-                box-shadow: 0 0 22.5px rgba(52, 152, 219, 1), /* Reduced from 30px by 25% */
-                            0 0 37.5px rgba(255, 255, 255, 0.5); /* Reduced from 50px by 25% */
+                box-shadow: var(--play-button-pulse-shadow-1); /* Use CSS variable */
                 transform: scale(1.0375); /* Reduced from 1.05 by 25% */
             }
             50% {
-                box-shadow: 0 0 33.75px rgba(52, 152, 219, 1.2), /* Reduced from 45px by 25% */
-                            0 0 52.5px rgba(255, 255, 255, 0.7); /* Reduced from 70px by 25% */
+                box-shadow: var(--play-button-pulse-shadow-2); /* Use CSS variable */
                 transform: scale(1.0525); /* Reduced from 1.07 by 25% */
             }
             100% {
-                box-shadow: 0 0 22.5px rgba(52, 152, 219, 1),
-                            0 0 37.5px rgba(255, 255, 255, 0.5);
+                box-shadow: var(--play-button-pulse-shadow-1); /* Use CSS variable */
                 transform: scale(1.0375);
             }
         }
 
         .control-button.play-pause.playing {
             animation: playButtonPulse 1.8s infinite alternate ease-in-out; /* Apply animation */
+        }
+
+        /* Light theme specific adjustment for play button pulse */
+        body.light-theme .control-button.play-pause.playing {
+            animation: none; /* Disable pulse animation for light theme */
+            box-shadow: var(--control-button-shadow); /* Keep regular shadow */
         }
 
         .volume-control {
@@ -414,13 +565,13 @@
         }
         .volume-control i {
             font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
-            color: #bdc3c7;
+            color: var(--volume-icon-color); /* Use CSS variable */
         }
         .volume-slider {
             width: 112.5px; /* Reduced from 150px by 25% */
             -webkit-appearance: none;
             height: 4.5px; /* Reduced from 6px by 25% */
-            background: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background: var(--volume-slider-bg); /* Use CSS variable */
             border-radius: 2.25px; /* Reduced from 3px by 25% */
             outline: none;
             cursor: pointer;
@@ -431,35 +582,35 @@
             width: 12px; /* Reduced from 16px by 25% */
             height: 12px; /* Reduced from 16px by 25% */
             border-radius: 50%;
-            background: rgba(52, 152, 219, 0.25); /* 75% transparent */
+            background: var(--volume-slider-thumb-bg); /* Use CSS variable */
             cursor: pointer;
-            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3); /* Reduced from 0 2px 5px by 25% */
+            box-shadow: var(--volume-slider-thumb-shadow); /* Use CSS variable */
             transition: background 0.2s ease; /* Smooth transition for thumb color */
         }
         .volume-slider::-webkit-slider-thumb:hover {
-            background: rgba(41, 128, 185, 0.35); /* Darker blue on hover, more opaque */
+            background: var(--volume-slider-thumb-hover-bg); /* Use CSS variable */
         }
         .volume-slider::-moz-range-thumb {
             width: 12px; /* Reduced from 16px by 25% */
             height: 12px; /* Reduced from 16px by 25% */
             border-radius: 50%;
-            background: rgba(52, 152, 219, 0.25);
+            background: var(--volume-slider-thumb-bg); /* Use CSS variable */
             cursor: pointer;
-            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--volume-slider-thumb-shadow); /* Use CSS variable */
             transition: background 0.2s ease;
         }
         .volume-slider::-moz-range-thumb:hover {
-            background: rgba(41, 128, 185, 0.35);
+            background: var(--volume-slider-thumb-hover-bg); /* Use CSS variable */
         }
 
         /* Playlist Specific Styles */
         .playlist-header {
             font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: 700;
-            color: #ecf0f1;
+            color: var(--playlist-header-color); /* Use CSS variable */
             margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             text-align: center;
-            text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4); /* Reduced from 0 2px 6px by 25% */
+            text-shadow: var(--playlist-header-shadow); /* Use CSS variable */
         }
 
         .playlist-list {
@@ -469,7 +620,7 @@
             max-height: calc(100% - 52.5px); /* Reduced from 70px by 25% */
             overflow-y: auto; /* Scrollable playlist */
             scrollbar-width: thin; /* Firefox */
-            scrollbar-color: rgba(52, 152, 219, 0.25) rgba(90, 125, 154, 0.15); /* Thumb and Track, 75% and 85% transparent */
+            scrollbar-color: var(--playlist-scrollbar-thumb) var(--playlist-scrollbar-track); /* Thumb and Track, 75% and 85% transparent */
         }
 
         /* Webkit scrollbar styles */
@@ -478,14 +629,14 @@
         }
 
         .playlist-list::-webkit-scrollbar-track {
-            background: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background: var(--playlist-scrollbar-track); /* Use CSS variable */
             border-radius: 3px; /* Reduced from 4px by 25% */
         }
 
         .playlist-list::-webkit-scrollbar-thumb {
-            background-color: rgba(52, 152, 219, 0.25); /* 75% transparent */
+            background-color: var(--playlist-scrollbar-thumb); /* Use CSS variable */
             border-radius: 3px; /* Reduced from 4px by 25% */
-            border: 1.5px solid rgba(90, 125, 154, 0.15); /* Reduced from 2px, 85% transparent */
+            border: 1.5px solid var(--playlist-scrollbar-track); /* Use CSS variable */
         }
 
         .playlist-item {
@@ -493,25 +644,25 @@
             align-items: center;
             padding: 9px 11.25px; /* Reduced from 12px 15px by 25% */
             margin-bottom: 6px; /* Reduced from 8px by 25% */
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
+            background-color: var(--playlist-item-bg); /* Use CSS variable */
             border-radius: 7.5px; /* Reduced from 10px by 25% */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             text-align: left; /* Align text left within item */
-            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
+            border: 1px solid var(--playlist-item-border); /* Use CSS variable */
         }
 
         .playlist-item:hover {
-            background-color: rgba(61, 90, 115, 0.25); /* Lighter on hover, 75% transparent */
+            background-color: var(--playlist-item-hover-bg); /* Use CSS variable */
             transform: translateY(-2.25px); /* Reduced from -3px by 25% */
-            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 6px 15px by 25% */
+            box-shadow: var(--playlist-item-hover-shadow); /* Use CSS variable */
         }
 
         .playlist-item.active {
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); /* 75% transparent */
-            box-shadow: 0 3px 11.25px rgba(52, 152, 219, 0.3); /* Reduced from 0 4px 15px by 25%, transparency adjusted */
+            background: linear-gradient(to right, var(--playlist-item-active-bg-start), var(--playlist-item-active-bg-end)); /* Use CSS variables */
+            box-shadow: var(--playlist-item-active-shadow); /* Use CSS variable */
             transform: scale(1.0075); /* Reduced from 1.01 by 25% */
-            border-color: rgba(52, 152, 219, 0.25); /* Blue border for active, 75% transparent */
+            border-color: var(--playlist-item-active-border-color); /* Use CSS variable */
         }
 
         .playlist-item-img {
@@ -521,7 +672,7 @@
             object-fit: cover;
             margin-right: 11.25px; /* Reduced from 15px by 25% */
             flex-shrink: 0;
-            box-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.2); /* Reduced from 0 2px 8px by 25% */
+            box-shadow: var(--playlist-item-img-shadow); /* Use CSS variable */
         }
 
         .playlist-item-info {
@@ -531,7 +682,7 @@
         .playlist-item-info .title {
             font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
             font-weight: bold;
-            color: #ecf0f1;
+            color: var(--playlist-item-title-color); /* Use CSS variable */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -539,26 +690,26 @@
 
         .playlist-item-info .artist {
             font-size: 0.675rem; /* Reduced from 0.9rem by 25% */
-            color: #bdc3c7;
+            color: var(--playlist-item-artist-color); /* Use CSS variable */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .playlist-item.active .playlist-item-info .title,
         .playlist-item.active .playlist-item-info .artist {
-            color: #ffffff; /* White text for active item */
+            color: var(--playlist-item-active-text-color); /* Use CSS variable */
         }
 
         /* Search Bar Styling */
         .search-bar-container {
             display: flex;
             align-items: center;
-            background-color: rgba(44, 62, 80, 0.15); /* 85% transparent */
-            border: 1.5px solid rgba(52, 152, 219, 0.25); /* Reduced from 2px, 75% transparent */
+            background-color: var(--search-bar-bg); /* Use CSS variable */
+            border: 1.5px solid var(--search-bar-border); /* Use CSS variable */
             border-radius: 9px; /* Reduced from 12px by 25% */
             padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
             margin-bottom: 15px; /* Reduced from 20px by 25% */
-            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
+            box-shadow: var(--search-bar-shadow); /* Use CSS variable */
             transition: all 0.3s ease;
             width: 90%; /* Default width */
             margin-left: auto;
@@ -566,8 +717,8 @@
         }
 
         .search-bar-container:focus-within {
-            border-color: rgba(46, 204, 113, 0.25); /* Green border on focus, 75% transparent */
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.525); /* Reduced from 20px, transparency adjusted */
+            border-color: var(--search-bar-focus-border); /* Use CSS variable */
+            box-shadow: var(--search-bar-focus-shadow); /* Use CSS variable */
             transform: translateY(-1.5px); /* Reduced from -2px by 25% */
         }
 
@@ -576,20 +727,87 @@
             background: transparent;
             border: none;
             outline: none;
-            color: #ecf0f1;
+            color: var(--search-input-color); /* Use CSS variable */
             font-size: 0.75rem; /* Reduced from 1rem by 25% */
             padding: 3.75px 7.5px; /* Reduced from 5px 10px by 25% */
         }
 
         .search-bar-container input::placeholder {
-            color: #bdc3c7;
+            color: var(--search-input-placeholder-color); /* Use CSS variable */
             opacity: 0.8;
         }
 
         .search-bar-container .search-icon {
-            color: #bdc3c7;
+            color: var(--search-icon-color); /* Use CSS variable */
             font-size: 0.9rem; /* Reduced from 1.2rem by 25% */
             margin-left: 7.5px; /* Reduced from 10px by 25% */
+        }
+
+        /* Theme Switch Styles */
+        .theme-switch-wrapper {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--container-bg);
+            border-radius: 9px;
+            padding: 8px 15px;
+            box-shadow: var(--container-shadow);
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--slider-bg);
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--slider-before-bg);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--slider-checked-bg);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--slider-checked-bg);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
         }
 
 
@@ -639,6 +857,13 @@
             }
             .volume-slider {
                 width: 100%;
+            }
+            .theme-switch-wrapper {
+                bottom: 15px;
+                right: 15px;
+                left: auto; /* Ensure it stays on the right */
+                width: auto;
+                padding: 8px 10px;
             }
         }
         @media (max-width: 600px) {
@@ -743,6 +968,15 @@
         </div>
     </div>
 
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label for="theme-switch-checkbox" class="text-sm font-semibold">Chế độ sáng</label>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-switch-checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
     <!-- Hidden Audio Player -->
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
@@ -762,6 +996,7 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const playlistElement = document.getElementById('playlist'); // New: Playlist UL element
         const playlistSearchInput = document.getElementById('playlistSearchInput'); // New: Search input for playlist
+        const themeSwitchCheckbox = document.getElementById('theme-switch-checkbox'); // Get the theme switch checkbox
 
         const SONGS = [
             {
@@ -787,7 +1022,47 @@
                 album: "BALLADS 1",
                 url: "music/09 Come Thru.mp3", // Updated to local path
                 albumArtUrl: "albumcover/ballads1.png" // Updated to local path
-            }
+            },
+			{
+                id: 'song4',
+                title: "Modus",
+                artist: "Joji",
+                album: "Nectar",
+                url: "music/02 MODUS.mp3", // Updated to local path
+                albumArtUrl: "albumcover/Nectar.jpg" // Updated to local path
+            },
+			{
+                id: 'song5',
+                title: "505",
+                artist: "Arctic Monkeys",
+                album: "Favourite Worst Nightmare",
+                url: "music/505 - Arctic Monkeys.mp3", // Updated to local path
+                albumArtUrl: "albumcover/FavouriteWorstNightmare.jpg" // Updated to local path
+            },
+			{
+                id: 'song6',
+                title: "Stressed Out",
+                artist: "Ben Schuller",
+                album: "piano cover",
+                url: "music/Ben Schuller-Stressed Out.mp3", // Updated to local path
+                albumArtUrl: "albumcover/strout.jpg" // Updated to local path
+            },
+			{
+                id: 'song7',
+                title: "Chamber Of Reflection",
+                artist: "Mac DeMarco",
+                album: "Salad Days",
+                url: "music/Chamber Of Reflection.mp3", // Updated to local path
+                albumArtUrl: "albumcover/cbofrl.jpg" // Updated to local path
+            },
+			{
+                id: 'song8',
+                title: "For the First Time",
+                artist: "Mac DeMarco",
+                album: "This Old Dog",
+                url: "music/For the First Time - Mac DeMarco.mp3", // Updated to local path
+                albumArtUrl: "albumcover/tolddog.png" // Updated to local path
+            },
         ];
 
         let currentSongIndex = -1; // No song selected initially
@@ -829,6 +1104,7 @@
             currentAlbumArt.classList.remove('playing');
             playPauseButton.classList.remove('playing');
             playPauseButton.innerHTML = '<i class="fas fa-play"></i>'; // Reset button to play icon during transition
+
 
             // Update active state in playlist
             document.querySelectorAll('.playlist-item').forEach(item => {
@@ -1113,6 +1389,28 @@
         // Event Listener for playlist search input with debounce
         playlistSearchInput.addEventListener('input', debounce(filterPlaylistItems, 500));
 
+        // --- Theme Switch Logic ---
+        function applyTheme(theme) {
+            document.body.classList.remove('light-theme'); // Remove existing theme class
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+            localStorage.setItem('theme', theme); // Save theme preference
+        }
+
+        // Load theme preference on page load
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+        applyTheme(savedTheme);
+        themeSwitchCheckbox.checked = (savedTheme === 'light'); // Set checkbox state
+
+        // Event listener for theme switch
+        themeSwitchCheckbox.addEventListener('change', () => {
+            if (themeSwitchCheckbox.checked) {
+                applyTheme('light');
+            } else {
+                applyTheme('dark');
+            }
+        });
 
         // --- Page Transition Logic ---
         document.addEventListener('DOMContentLoaded', () => {
