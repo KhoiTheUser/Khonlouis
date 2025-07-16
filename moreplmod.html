@@ -10,16 +10,111 @@
         /* Custom font and background consistent with homepage */
         body {
             font-family: 'Inter', sans-serif;
-            background: #0d1a2a; /* Dark base color */
+            background: var(--body-bg); /* Use CSS variable for background */
             display: flex;
             justify-content: center;
             align-items: flex-start; /* Align to top for scrolling content */
             min-height: 100vh; /* Use min-height to allow content to push it */
-            padding: 15px; /* Reduced from 20px by 25% */
+            padding: 15px;
             box-sizing: border-box;
-            color: #ecf0f1;
+            color: var(--text-color); /* Use CSS variable for text color */
             position: relative;
             overflow-y: auto; /* Enable vertical scrolling */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            /* Dark Theme (Default) */
+            --body-bg: #0d1a2a;
+            --text-color: #ecf0f1;
+            --container-bg: rgba(44, 62, 80, 0.05);
+            --container-border: rgba(61, 90, 115, 0.1);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.4);
+            --heading-color: #ecf0f1;
+            --heading-shadow: 0 1.5px 6px rgba(0,0,0,0.5);
+            --subheading-color: #3498db;
+            --paragraph-color: #bdc3c7;
+            --list-item-color: #bdc3c7;
+            --strong-color: #ecf0f1;
+            --important-note-bg: rgba(231, 76, 60, 0.15);
+            --important-note-border: #e74c3c;
+            --important-note-text: #ecf0f1;
+            --link-color: #F7F7F7;
+            --link-hover-color: #F7F7F7;
+            --highlight-glow-color: #F7F7F7;
+            --image-shadow: 0 3.75px 11.25px rgba(0, 0, 0, 0.3);
+            --image-hover-shadow: 0 7.5px 18.75px rgba(0, 0, 0, 0.5);
+            --back-button-bg: rgba(90, 125, 154, 0.15);
+            --back-button-hover-bg: rgba(106, 141, 176, 0.25);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1);
+            --back-button-hover-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            --back-button-active-shadow: 0 2.25px 6px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #ecf0f1;
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: white;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 7.5px 18.75px rgba(52, 152, 219, 0.3);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-active-shadow: 0 2.25px 7.5px rgba(52, 152, 219, 0.1);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15);
+            --music-tooltip-bg: rgba(44, 62, 80, 0.95);
+            --music-tooltip-color: #ecf0f1;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3);
+            --music-tooltip-border: rgba(61, 90, 115, 0.5);
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #ecf0f1;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            --body-bg: #f0f2f5; /* Light background */
+            --text-color: #34495e; /* Darker text */
+            --container-bg: rgba(255, 255, 255, 0.1); /* Reduced alpha for more transparency */
+            --container-border: rgba(180, 180, 180, 0.7);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.1);
+            --heading-color: #34495e;
+            --heading-shadow: none;
+            --subheading-color: #2980b9;
+            --paragraph-color: #7f8c8d;
+            --list-item-color: #7f8c8d;
+            --strong-color: #34495e;
+            --important-note-bg: rgba(231, 76, 60, 0.1);
+            --important-note-border: #c0392b;
+            --important-note-text: #34495e;
+            --link-color: #2980b9;
+            --link-hover-color: #3498db;
+            --highlight-glow-color: #2980b9;
+            --image-shadow: 0 3.75px 11.25px rgba(0, 0, 0, 0.1);
+            --image-hover-shadow: 0 7.5px 18.75px rgba(0, 0, 0, 0.2);
+            --back-button-bg: rgba(180, 180, 180, 0.2);
+            --back-button-hover-bg: rgba(180, 180, 180, 0.3);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.05);
+            --back-button-hover-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --back-button-active-shadow: 0 2.25px 6px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #34495e;
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: #34495e;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(0, 0, 0, 0.1);
+            --music-tooltip-bg: rgba(255, 255, 255, 0.9);
+            --music-tooltip-color: #34495e;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.15);
+            --music-tooltip-border: #ccc;
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #34495e;
         }
 
         /* Aurora background from homepage */
@@ -35,40 +130,56 @@
             overflow: hidden;
         }
 
-        .aurora-layer {
+         .aurora-layer {
             position: absolute;
             background: linear-gradient(to bottom,
-                rgba(52, 152, 219, 0.3),
-                rgba(46, 204, 113, 0.3)
+                rgba(52, 152, 219, 0.3), /* Blue from active playlist item */
+                rgba(46, 204, 113, 0.3)  /* Green from active playlist item */
             );
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5; /* Consistent with index.html */
-            animation: auroraMovement 20s infinite alternate ease-in-out;
+            filter: blur(80px); /* Soft blur for aurora effect */
+            opacity: 0;
+            animation: auroraMovement 5s infinite alternate ease-in-out;
         }
 
         .aurora-layer:nth-child(1) {
-            width: 600px; height: 600px; top: 10%; left: 15%;
+            width: 600px;
+            height: 600px;
+            top: 10%;
+            left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
-            animation-delay: 0s; animation-duration: 30s; /* Adjusted duration for more subtle flow */
+            animation-delay: 0s;
+            animation-duration: 8s; /* Adjusted duration for more subtle flow */
         }
+
         .aurora-layer:nth-child(2) {
-            width: 700px; height: 700px; top: 50%; left: 70%;
-            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
+            width: 700px;
+            height: 700px;
+            top: 50%;
+            left: 70%;
+            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
             animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 26s; /* Adjusted duration */
+            animation-duration: 10s; /* Adjusted duration */
         }
+
         .aurora-layer:nth-child(3) {
-            width: 500px; height: 500px; top: 80%; left: 30%;
-            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
+            width: 500px;
+            height: 500px;
+            top: 80%;
+            left: 30%;
+            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
             animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 34s; /* Adjusted duration */
+            animation-duration: 10s; /* Adjusted duration */
         }
+
         .aurora-layer:nth-child(4) {
-            width: 400px; height: 400px; top: 20%; left: 80%;
-            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
+            width: 400px;
+            height: 400px;
+            top: 20%;
+            left: 80%;
+            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
             animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 28s; /* Adjusted duration */
+            animation-duration: 9s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
@@ -77,6 +188,11 @@
             50% { transform: translate(-15px, 45px) scale(0.94); opacity: 0.65; } /* More pronounced movement */
             75% { transform: translate(35px, -25px) scale(1.04); opacity: 0.85; }
             100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+        }
+
+        /* Light theme specific adjustment for aurora opacity */
+        body.light-theme .aurora-layer {
+            opacity: 0.2; /* Reduce opacity for light theme */
         }
 
         /* Page Transition Animations - Changed to Fade In/Out with subtle timing */
@@ -117,39 +233,46 @@
 
         /* Main content container */
         .article-container {
-            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
+            background-color: var(--container-bg);
             border-radius: 12px; /* Reduced from 16px by 25% */
-            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Reduced from 0 12px 30px by 25% */
+            box-shadow: var(--container-shadow);
             padding: 22.5px; /* Reduced from 30px by 25% */
             max-width: 600px; /* Reduced from 800px by 25% */
             width: 100%;
             text-align: left; /* Align text left for readability */
-            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
-            backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
-            -webkit-backdrop-filter: blur(7.5px); /* For Safari */
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(25px); /* Increased blur for frosted glass effect in light mode */
+            -webkit-backdrop-filter: blur(25px); /* For Safari */
             position: relative;
             z-index: 1;
             margin-top: 37.5px; /* Reduced from 50px by 25% */
             margin-bottom: 37.5px; /* Reduced from 50px by 25% */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 		.important-note a {
-            color: #F7F7F7; /* Lighter blue for links */
+            color: var(--link-color);
             text-decoration: underline;
             transition: color 0.3s ease;
         }
         .important-note a:hover {
-            color: #F7F7F7; /* Even lighter blue on hover */
+            color: var(--link-hover-color);
         }
 
         /* Keyframes for the subtle glowing effect on specific text */
         @keyframes pulseGlow {
-            0% { text-shadow: 0 0 6px #F7F7F7, 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
-            50% { text-shadow: 0 0 9px #F7F7F7, 0 0 15px rgba(247, 247, 247, 0.9); } /* Reduced by 25% */
-            100% { text-shadow: 0 0 6px #F7F7F7, 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
+            0% { text-shadow: 0 0 6px var(--highlight-glow-color), 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
+            50% { text-shadow: 0 0 9px var(--highlight-glow-color), 0 0 15px rgba(247, 247, 247, 0.9); } /* Reduced by 25% */
+            100% { text-shadow: 0 0 6px var(--highlight-glow-color), 0 0 11.25px rgba(247, 247, 247, 0.6); } /* Reduced by 25% */
+        }
+
+        body.light-theme @keyframes pulseGlow {
+            0% { text-shadow: 0 0 6px var(--highlight-glow-color), 0 0 11.25px rgba(41, 128, 185, 0.3); }
+            50% { text-shadow: 0 0 9px var(--highlight-glow-color), 0 0 15px rgba(41, 128, 185, 0.6); }
+            100% { text-shadow: 0 0 6px var(--highlight-glow-color), 0 0 11.25px rgba(41, 128, 185, 0.3); }
         }
 
         .highlight-glow {
-            color: #F7F7F7; /* Ensure the text itself is the glow color */
+            color: var(--highlight-glow-color); /* Ensure the text itself is the glow color */
             animation: pulseGlow 2.5s infinite alternate ease-in-out; /* Slightly longer duration for smoother pulse */
             font-weight: bold; /* Make it slightly bolder */
         }
@@ -159,33 +282,33 @@
             position: fixed; /* Fixed to the viewport */
             top: 22.5px; /* Reduced from 30px by 25% */
             left: 22.5px; /* Reduced from 30px by 25% */
-            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background-color: var(--back-button-bg);
             width: 33.75px; /* Reduced from 45px by 25% */
             height: 33.75px; /* Reduced from 45px by 25% */
             border-radius: 50%; /* Make it circular */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced from 0 4px 10px by 25% */
+            box-shadow: var(--back-button-shadow);
             cursor: pointer;
             /* Enhanced transition for back button */
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 1000; /* Ensure it's always on top */
-            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
+            border: 1px solid var(--back-button-bg);
         }
         .back-button:hover {
-            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
+            background-color: var(--back-button-hover-bg);
             transform: translateX(-6px) scale(1.08); /* Reduced from -8px, 1.1 by 25% */
-            box-shadow: 0 6px 18.75px rgba(0, 0, 0, 0.3); /* Reduced from 0 8px 20px by 25% */
+            box-shadow: var(--back-button-hover-shadow);
         }
         .back-button:active {
             transform: translateY(0) scale(0.925); /* Reduced from 0.9 by 25% */
-            box-shadow: 0 0.75px 2.25px rgba(0, 0, 0, 0.2); /* Reduced from 0 1px 3px by 25% */
+            box-shadow: var(--back-button-active-shadow);
         }
         .back-button svg {
             width: 0.9em; /* Reduced from 1.2em by 25% */
             height: 0.9em; /* Reduced from 1.2em by 25% */
-            stroke: #ecf0f1;
+            stroke: var(--back-button-icon-color);
             stroke-width: 1.875; /* Reduced from 2.5 by 25% */
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -197,47 +320,50 @@
         .article-container h1 {
             font-size: 1.875rem; /* Reduced from 2.5rem by 25% */
             font-weight: bold;
-            color: #ecf0f1;
+            color: var(--heading-color);
             margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
             text-align: center;
-            text-shadow: 0 1.5px 6px rgba(0,0,0,0.5); /* Reduced from 0 2px 8px by 25% */
+            text-shadow: var(--heading-shadow);
         }
         .article-container h2 {
             font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
             font-weight: 600;
-            color: #3498db; /* Blue accent for subheadings */
+            color: var(--subheading-color); /* Blue accent for subheadings */
             margin-top: 1.875rem; /* Reduced from 2.5rem by 25% */
             margin-bottom: 0.75rem; /* Reduced from 1rem by 25% */
             border-bottom: 1.5px solid rgba(52, 152, 219, 0.25); /* Reduced from 2px, transparency adjusted */
             padding-bottom: 3.75px; /* Reduced from 5px by 25% */
             display: inline-block; /* Underline only text width */
         }
+        body.light-theme .article-container h2 {
+            border-bottom: 1.5px solid rgba(41, 128, 185, 0.25); /* Adjust border color for light theme */
+        }
         .article-container p {
             font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
             line-height: 1.7;
-            color: #bdc3c7;
+            color: var(--paragraph-color);
             margin-bottom: 0.9rem; /* Reduced from 1.2rem by 25% */
         }
         .article-container ul {
             list-style: disc;
             margin-left: 18.75px; /* Reduced from 25px by 25% */
             margin-bottom: 0.9rem; /* Reduced from 1.2rem by 25% */
-            color: #bdc3c7;
+            color: var(--list-item-color);
         }
         .article-container ul li {
             margin-bottom: 0.375rem; /* Reduced from 0.5rem by 25% */
         }
         .article-container strong {
-            color: #ecf0f1;
+            color: var(--strong-color);
         }
         .article-container .important-note {
-            background-color: rgba(231, 76, 60, 0.15); /* 85% transparent */
-            border-left: 3px solid #e74c3c; /* Reduced from 4px by 25% */
+            background-color: var(--important-note-bg);
+            border-left: 3px solid var(--important-note-border);
             padding: 11.25px; /* Reduced from 15px by 25% */
             border-radius: 6px; /* Reduced from 8px by 25% */
             margin-top: 1.5rem; /* Reduced from 2rem by 25% */
             margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
-            color: #ecf0f1;
+            color: var(--important-note-text);
             font-weight: 500;
         }
 
@@ -255,7 +381,7 @@
             height: 150px; /* Reduced from 200px by 25% */
             object-fit: cover; /* Crop images to fit */
             border-radius: 6px; /* Reduced from 8px by 25% */
-            box-shadow: 0 3.75px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 5px 15px by 25% */
+            box-shadow: var(--image-shadow);
             /* Enhanced transition for gallery images */
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer; /* Indicate clickable */
@@ -263,7 +389,7 @@
 
         .image-gallery img:hover {
             transform: scale(1.0375); /* Reduced from 1.05 by 25% */
-            box-shadow: 0 7.5px 18.75px rgba(0, 0, 0, 0.5); /* Reduced from 0 10px 25px by 25% */
+            box-shadow: var(--image-hover-shadow);
         }
 
         /* Responsive adjustments */
@@ -325,6 +451,8 @@
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 20px; /* Added padding to ensure space around the image */
+            box-sizing: border-box; /* Include padding in width/height calculation */
         }
 
         /* When modal is shown, apply final state to modal-content */
@@ -361,6 +489,11 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: 1px solid rgba(231, 76, 60, 0.25); /* Added subtle border with transparency */
         }
+        body.light-theme .close-modal-btn {
+            background-color: rgba(231, 76, 60, 0.2); /* Adjust background for light theme */
+            border: 1px solid rgba(192, 57, 43, 0.3); /* Adjust border for light theme */
+            color: #34495e; /* Darker text for light theme */
+        }
 
         .close-modal-btn:hover {
             background-color: rgba(192, 57, 43, 0.25); /* Slightly darker, 75% transparent */
@@ -394,8 +527,8 @@
         }
 
         .music-player-floating-button {
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
+            background: var(--music-button-bg);
+            color: var(--music-button-color);
             width: 45px; /* Reduced from 60px by 25% */
             height: 45px; /* Reduced from 60px by 25% */
             border-radius: 50%; /* Circular button */
@@ -403,35 +536,35 @@
             justify-content: center;
             align-items: center;
             font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
-            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+            box-shadow: var(--music-button-shadow);
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; /* For tooltip positioning */
             z-index: 1; /* Ensure button is above tooltip when active */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
+            border: 1px solid var(--music-button-border);
         }
 
         .music-player-floating-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            background: var(--music-button-hover-bg);
             transform: translateY(-2.25px) scale(1.0375); /* Reduced lift and scale by 25% */
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.2); /* Reduced and transparency adjusted */
+            box-shadow: var(--music-button-hover-shadow);
         }
 
         .music-player-floating-button:active {
             transform: translateY(0) scale(0.9625); /* Reduced press effect by 25% */
-            box-shadow: 0 1.5px 6px rgba(52, 152, 219, 0.1); /* Reduced and transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            box-shadow: var(--music-button-active-shadow);
+            background: var(--music-button-active-bg);
         }
 
         /* Pulse effect for the music button when playing */
         @keyframes pulseMusicButton {
             0% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1);
             }
             50% {
-                box-shadow: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-2);
             }
             100% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1);
             }
         }
 
@@ -439,6 +572,15 @@
             animation: pulseMusicButton 1.5s infinite ease-in-out;
         }
 
+        /* Light theme specific adjustment for music button pulse */
+        body.light-theme .music-player-floating-button.playing {
+            animation: none; /* Disable pulse animation for light theme */
+            box-shadow: var(--music-button-shadow); /* Keep regular shadow */
+        }
+
+        .music-player-floating-button i {
+            color: var(--music-icon-color);
+        }
 
         /* Custom Tooltip Styles - Copied from index.html */
         .music-tooltip {
@@ -446,18 +588,18 @@
             left: 52.5px; /* Reduced from 70px by 25% */
             bottom: 50%; /* Vertically center with the button */
             transform: translateY(50%); /* Adjust for vertical centering */
-            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency (kept for readability) */
-            color: #ecf0f1;
+            background-color: var(--music-tooltip-bg);
+            color: var(--music-tooltip-color);
             padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
             border-radius: 6px; /* Reduced from 8px by 25% */
-            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
+            box-shadow: var(--music-tooltip-shadow);
             white-space: nowrap; /* Prevent text wrapping */
             opacity: 0; /* Hidden by default */
             visibility: hidden; /* Hidden by default */
             transition: opacity 0.3s ease, visibility 0.3s ease;
             font-size: 0.7125rem; /* Reduced from 0.95rem by 25% */
             pointer-events: none; /* Allow clicks to pass through */
-            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
+            border: 1px solid var(--music-tooltip-border);
             backdrop-filter: blur(2.25px); /* Reduced from 3px by 25% */
             -webkit-backdrop-filter: blur(2.25px); /* For Safari */
             display: flex; /* Use flexbox for layout inside tooltip */
@@ -482,17 +624,112 @@
         .music-tooltip-content .song-title {
             font-weight: bold;
             font-size: 0.75rem; /* Reduced from 1rem by 25% */
-            color: #ecf0f1;
+            color: var(--music-tooltip-color);
         }
 
         .music-tooltip-content .song-details {
             font-size: 0.6375rem; /* Reduced from 0.85rem by 25% */
-            color: #bdc3c7;
+            color: var(--paragraph-color);
         }
 
         .music-player-floating-button-wrapper:hover .music-tooltip {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Theme Switch Styles */
+        .theme-switch-wrapper {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--container-bg);
+            border-radius: 9px;
+            padding: 8px 15px;
+            box-shadow: var(--container-shadow);
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--slider-bg);
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--slider-before-bg);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--slider-checked-bg);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--slider-checked-bg);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .music-player-floating-button-wrapper,
+            .theme-switch-wrapper {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
+                justify-content: space-between;
+                width: calc(100% - 30px);
+                gap: 0;
+            }
+            .theme-switch-wrapper {
+                right: 15px;
+                left: auto;
+                width: auto;
+                padding: 8px 10px;
+            }
+            .music-player-floating-button-wrapper {
+                left: 15px;
+                right: auto;
+                width: auto;
+                padding: 0;
+            }
+            .music-tooltip {
+                left: 60px;
+            }
         }
     </style>
 </head>
@@ -548,9 +785,9 @@
             </ul>
 
            <div class="image-gallery">
-                <img src="image/1717791649_a.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
-                <img src="image/1717791649_ab.jpg" alt="Xe cảnh sát trong GTA San Andreas">
-                <img src="image/1717791649_abcd.jpg" alt="Cảnh sát đang làm nhiệm vụ">
+                <img src="image/1717791649_abcdefgsij.jpg" alt="Cảnh sát truy đuổi trong GTA San Andreas">
+                <img src="image/1717791649_abcdefgsijk.jpg" alt="Xe cảnh sát trong GTA San Andreas">
+                <img src="image/1717791649_a.jpg" alt="Cảnh sát đang làm nhiệm vụ">
             </div>
 
             <h2>Lưu ý khi cài đặt</h2>
@@ -591,6 +828,15 @@
         </div>
     </div>
 
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label for="theme-switch-checkbox" class="text-sm font-semibold">Chế độ sáng</label>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-switch-checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
     <!-- Hidden Audio Player -->
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
@@ -605,30 +851,70 @@
         let songDetailsSpan;
 
         const SONGS = [
-            {
-                id: 'song1',
-                title: "Die for you",
-                artist: "joji",
-                album: "SMITHEREENS",
-                url: "music/03. Die For You.mp3",
-                albumArtUrl: "albumcover/smithereens.jpeg"
-            },
-            {
-                id: 'song2',
-                title: "You suck Charlie",
-                artist: "joji",
-                album: "Chloe Burbank",
-                url: "music/you suck charlie.m4a",
-                albumArtUrl: "albumcover/chloe burbank.jpg"
-            },
-            {
-                id: 'song3',
-                title: "Come Thru",
-                artist: "Joji",
-                album: "BALLADS 1",
-                url: "music/09 Come Thru.mp3",
-                albumArtUrl: "albumcover/ballads1.png"
-            }
+       {
+            id: 'song1',
+            title: "Die for you",
+            artist: "joji",
+            album: "SMITHEREENS",
+            url: "music/03. Die For You.mp3",
+            albumArtUrl: "albumcover/smithereens.jpeg"
+        },
+        {
+            id: 'song2',
+            title: "You suck Charlie",
+            artist: "joji",
+            album: "Chloe Burbank",
+            url: "music/you suck charlie.m4a",
+            albumArtUrl: "albumcover/chloe burbank.jpg"
+        },
+        {
+            id: 'song3',
+            title: "Come Thru",
+            artist: "Joji",
+            album: "BALLADS 1",
+            url: "music/09 Come Thru.mp3",
+            albumArtUrl: "albumcover/ballads1.png"
+        },
+        {
+            id: 'song4',
+            title: "Modus",
+            artist: "Joji",
+            album: "Nectar",
+            url: "music/02 MODUS.mp3",
+            albumArtUrl: "albumcover/Nectar.jpg"
+        },
+        {
+            id: 'song5',
+            title: "505",
+            artist: "Arctic Monkeys",
+            album: "Favourite Worst Nightmare",
+            url: "music/505 - Arctic Monkeys.mp3",
+            albumArtUrl: "albumcover/FavouriteWorstNightmare.jpg"
+        },
+        {
+            id: 'song6',
+            title: "Stressed Out",
+            artist: "Ben Schuller",
+            album: "piano cover",
+            url: "music/Ben Schuller-Stressed Out.mp3",
+            albumArtUrl: "albumcover/strout.jpg"
+        },
+        {
+            id: 'song7',
+            title: "Chamber Of Reflection",
+            artist: "Mac DeMarco",
+            album: "Salad Days",
+            url: "music/Chamber Of Reflection.mp3",
+            albumArtUrl: "albumcover/cbofrl.jpg"
+        },
+        {
+            id: 'song8',
+            title: "For the First Time",
+            artist: "Mac DeMarco",
+            album: "This Old Dog",
+            url: "music/For the First Time - Mac DeMarco.mp3",
+            albumArtUrl: "albumcover/tolddog.png"
+        }
         ];
 
         let currentSongIndex = -1; // No song selected initially
@@ -729,6 +1015,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const pageContentWrapper = document.getElementById('pageContentWrapper');
             const pageLinks = document.querySelectorAll('.page-link');
+            const themeSwitchCheckbox = document.getElementById('theme-switch-checkbox'); // Get the theme switch checkbox
 
             // Animate page in on load
             pageContentWrapper.classList.add('page-transition-in');
@@ -851,6 +1138,29 @@
             imageModal.addEventListener('click', (e) => {
                 if (e.target === imageModal) {
                     imageModal.classList.remove('show');
+                }
+            });
+
+            // --- Theme Switch Logic ---
+            function applyTheme(theme) {
+                document.body.classList.remove('light-theme'); // Remove existing theme class
+                if (theme === 'light') {
+                    document.body.classList.add('light-theme');
+                }
+                localStorage.setItem('theme', theme); // Save theme preference
+            }
+
+            // Load theme preference on page load
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+            applyTheme(savedTheme);
+            themeSwitchCheckbox.checked = (savedTheme === 'light'); // Set checkbox state
+
+            // Event listener for theme switch
+            themeSwitchCheckbox.addEventListener('change', () => {
+                if (themeSwitchCheckbox.checked) {
+                    applyTheme('light');
+                } else {
+                    applyTheme('dark');
                 }
             });
         });
