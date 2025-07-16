@@ -12,17 +12,121 @@
         /* Custom font for better aesthetics */
         body {
             font-family: 'Inter', sans-serif;
-            /* Changed background to support aurora effect from music.html */
-            background: #0d1a2a; /* Dark base color */
+            background: var(--body-bg); /* Use CSS variable for background */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 15px; /* Reduced from 20px by 25% */
+            padding: 15px;
             box-sizing: border-box;
-            color: #ecf0f1; /* Default light text color for body */
-            position: relative; /* For positioning aurora layers */
-            /* Removed perspective: 1000px; as it's not needed here */
+            color: var(--text-color); /* Use CSS variable for text color */
+            position: relative;
+            transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            /* Dark Theme (Default) */
+            --body-bg: #0d1a2a;
+            --text-color: #ecf0f1;
+            --container-bg: rgba(44, 62, 80, 0.05);
+            --container-border: rgba(61, 90, 115, 0.1);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.4);
+            --input-bg: rgba(52, 73, 94, 0.15);
+            --input-border: rgba(74, 98, 122, 0.2);
+            --input-focus-border: #3498db;
+            --input-focus-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25), 0 1.5px 7.5px rgba(0, 0, 0, 0.225);
+            --input-focus-bg: rgba(61, 90, 115, 0.25);
+            --placeholder-color: #bdc3c7;
+            --button-bg: rgba(52, 152, 219, 0.15);
+            --button-hover-bg: rgba(52, 152, 219, 0.25);
+            --button-active-bg: rgba(36, 113, 163, 0.2);
+            --button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --button-hover-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3);
+            --button-active-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15);
+            --result-box-bg: rgba(52, 73, 94, 0.15);
+            --result-box-border: rgba(74, 98, 122, 0.2);
+            --result-box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.1);
+            --red-color: #e74c3c;
+            --green-color: #2ecc71;
+            --blue-color: #3498db;
+            --back-button-bg: rgba(90, 125, 154, 0.15);
+            --back-button-hover-bg: rgba(106, 141, 176, 0.25);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1);
+            --back-button-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15);
+            --back-button-active-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: white;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 6px 15px rgba(52, 152, 219, 0.2);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15);
+            --music-tooltip-bg: rgba(44, 62, 80, 0.95);
+            --music-tooltip-color: #ecf0f1;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3);
+            --music-tooltip-border: rgba(61, 90, 115, 0.5);
+            --heading-color: #ecf0f1;
+            --heading-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4);
+            --label-text-color: #bdc3c7;
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #ecf0f1;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            --body-bg: #f0f2f5; /* Light background */
+            --text-color: #34495e; /* Darker text */
+            --container-bg: rgba(255, 255, 255, 0.1); /* Reduced alpha for more transparency */
+            --container-border: rgba(180, 180, 180, 0.7);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-border: rgba(200, 200, 200, 0.7);
+            --input-focus-border: #2980b9;
+            --input-focus-shadow: 0 0 0 3px rgba(41, 128, 185, 0.15);
+            --input-focus-bg: rgba(255, 255, 255, 0.95);
+            --placeholder-color: #7f8c8d;
+            --button-bg: rgba(52, 152, 219, 0.25);
+            --button-hover-bg: rgba(52, 152, 219, 0.35);
+            --button-active-bg: rgba(36, 113, 163, 0.3);
+            --button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.1);
+            --button-hover-shadow: 0 13.5px 30px rgba(52, 152, 219, 0.2);
+            --button-active-shadow: 0 3px 9px rgba(52, 152, 219, 0.05);
+            --result-box-bg: rgba(255, 255, 255, 0.9);
+            --result-box-border: rgba(200, 200, 200, 0.7);
+            --result-box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --red-color: #c0392b;
+            --green-color: #27ae60;
+            --blue-color: #2980b9;
+            --back-button-bg: rgba(180, 180, 180, 0.2);
+            --back-button-hover-bg: rgba(180, 180, 180, 0.3);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.05);
+            --back-button-hover-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --back-button-active-shadow: 0 2.25px 6px rgba(0, 0, 0, 0.05);
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: #34495e;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(0, 0, 0, 0.1);
+            --music-tooltip-bg: rgba(255, 255, 255, 0.9);
+            --music-tooltip-color: #34495e;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.15);
+            --music-tooltip-border: #ccc;
+            --heading-color: #34495e;
+            --heading-shadow: none;
+            --label-text-color: #34495e; /* Màu đen đậm hơn cho các nhãn */
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #34495e;
         }
 
         /* Aurora Borealis Effect - Copied from music.html */
@@ -32,22 +136,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Allow clicks to pass through */
-            z-index: -1; /* Place behind content */
+            pointer-events: none;
+            z-index: -1;
             background: transparent;
-            overflow: hidden; /* Keep hidden for aurora layers to prevent inner scroll */
+            overflow: hidden;
         }
 
         .aurora-layer {
             position: absolute;
             background: linear-gradient(to bottom,
-                rgba(52, 152, 219, 0.3), /* Blue from active playlist item */
-                rgba(46, 204, 113, 0.3)  /* Green from active playlist item */
+                rgba(52, 152, 219, 0.3),
+                rgba(46, 204, 113, 0.3)
             );
             border-radius: 50%;
-            filter: blur(80px); /* Soft blur for aurora effect */
-            opacity: 0.5; /* Consistent with index.html */
-            animation: auroraMovement 20s infinite alternate ease-in-out;
+            filter: blur(80px);
+            opacity: 0;
+            animation: auroraMovement 5s infinite alternate ease-in-out;
         }
 
         .aurora-layer:nth-child(1) {
@@ -57,7 +161,7 @@
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 30s; /* Adjusted duration for more subtle flow */
+            animation-duration: 8s;
         }
 
         .aurora-layer:nth-child(2) {
@@ -65,9 +169,9 @@
             height: 700px;
             top: 50%;
             left: 70%;
-            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
-            animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 26s; /* Adjusted duration */
+            background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4));
+            animation-delay: 8s;
+            animation-duration: 10s;
         }
 
         .aurora-layer:nth-child(3) {
@@ -75,9 +179,9 @@
             height: 500px;
             top: 80%;
             left: 30%;
-            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
-            animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 34s; /* Adjusted duration */
+            background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3));
+            animation-delay: 16s;
+            animation-duration: 10s;
         }
 
         .aurora-layer:nth-child(4) {
@@ -85,9 +189,9 @@
             height: 400px;
             top: 20%;
             left: 80%;
-            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
-            animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 28s; /* Adjusted duration */
+            background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3));
+            animation-delay: 24s;
+            animation-duration: 9s;
         }
 
         @keyframes auroraMovement {
@@ -96,16 +200,16 @@
                 opacity: 0.5;
             }
             25% {
-                transform: translate(25px, -35px) scale(1.06); /* More pronounced movement */
-                opacity: 0.75; /* Slightly higher opacity */
+                transform: translate(25px, -35px) scale(1.06);
+                opacity: 0.75;
             }
             50% {
-                transform: translate(-15px, 45px) scale(0.94); /* More pronounced movement */
+                transform: translate(-15px, 45px) scale(0.94);
                 opacity: 0.65;
             }
             75% {
                 transform: translate(35px, -25px) scale(1.04);
-                opacity: 0.85; /* Slightly higher opacity */
+                opacity: 0.85;
             }
             100% {
                 transform: translate(0, 0) scale(1);
@@ -113,15 +217,20 @@
             }
         }
 
+        /* Light theme specific adjustment for aurora opacity */
+        body.light-theme .aurora-layer {
+            opacity: 0.2; /* Reduce opacity for light theme */
+        }
+
         /* Page entrance animation */
         @keyframes pageEnter {
             0% {
                 opacity: 0;
-                transform: translateY(20px) scale(0.98); /* Start slightly below and smaller */
+                transform: translateY(20px) scale(0.98);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1); /* End at original position and size */
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -133,115 +242,119 @@
             }
             100% {
                 opacity: 0;
-                transform: translateY(-20px) scale(0.98); /* Exit by moving up and shrinking */
+                transform: translateY(-20px) scale(0.98);
             }
         }
 
         /* Initial state for page content wrapper to prevent flicker */
         #pageContentWrapper {
-            opacity: 0; /* Start hidden */
+            opacity: 0;
         }
 
         .page-transition-in {
-            animation: pageEnter 0.5s ease-out forwards; /* Smoother ease-out */
+            animation: pageEnter 0.5s ease-out forwards;
         }
 
         .page-transition-out {
-            animation: pageExit 0.5s ease-in forwards; /* Smoother ease-in */
+            animation: pageExit 0.5s ease-in forwards;
         }
 
         .container {
-            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
-            border-radius: 12px; /* Reduced from 16px by 25% */
-            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Original shadow, transparency is for background */
-            padding: 22.5px; /* Reduced from 30px by 25% */
-            max-width: 487.5px; /* Reduced from 650px by 25% */
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: var(--container-shadow);
+            padding: 22.5px;
+            max-width: 487.5px;
             width: 100%;
             text-align: center;
-            border: 1px solid rgba(61, 90, 115, 0.1); /* Subtle border for depth with transparency */
-            backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
-            -webkit-backdrop-filter: blur(7.5px); /* For Safari */
-            position: relative; /* Needed for absolute positioning of elements inside */
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition for any changes */
-            z-index: 1; /* Ensure container is above aurora effect */
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(25px); /* Increased blur for frosted glass effect in light mode */
+            -webkit-backdrop-filter: blur(25px);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
         }
         /* General input field and select styling */
         .input-field {
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
-            border: 1px solid rgba(74, 98, 122, 0.2); /* Darker muted border for inputs, 80% transparent */
-            transition: all 0.3s ease; /* Smooth transitions */
-            color: #ecf0f1; /* Light text for inputs */
-            border-radius: 7.5px; /* Reduced from 10px by 25% */
-            padding: 10.5px; /* Reduced from 14px by 25% */
-            font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
-            width: 100%; /* Ensure full width */
-            appearance: none; /* Remove default browser styling for select */
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            border-radius: 7.5px;
+            padding: 10.5px;
+            font-size: 0.7875rem;
+            width: 100%;
+            appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            transition: all 0.3s ease-in-out; /* Smoother transition for focus */
+            transition: all 0.3s ease-in-out;
+        }
+		.input-field option {
+            color: #000000; /* Always black for readability in dropdown options */
+            background-color: #ffffff; /* Always white for readability in dropdown options */
         }
         .input-field::placeholder {
-            color: #bdc3c7; /* Lighter placeholder text */
-            opacity: 0.7; /* Slightly transparent */
+            color: var(--placeholder-color);
+            opacity: 0.7;
         }
         .input-field:focus {
-            border-color: #3498db; /* Bright blue focus ring */
+            border-color: var(--input-focus-border);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25), 0 1.5px 7.5px rgba(0, 0, 0, 0.225); /* More pronounced shadow, reduced size and transparency */
-            background-color: rgba(61, 90, 115, 0.25); /* Slightly lighter on focus, 75% transparent */
-            transform: translateY(-1.5px); /* Subtle lift (reduced by 25%) */
+            box-shadow: var(--input-focus-shadow);
+            background-color: var(--input-focus-bg);
+            transform: translateY(-1.5px);
         }
         .label-text {
-            color: #bdc3c7; /* Lighter muted label text */
+            color: var(--label-text-color);
             font-weight: 600;
-            display: block; /* Ensure label is block for proper spacing */
-            margin-bottom: 6px; /* Reduced from 8px by 25% */
-            text-align: left; /* Align label text to left */
+            display: block;
+            margin-bottom: 6px;
+            text-align: left;
         }
         .hidden {
             display: none;
         }
         /* Button styling - unified and large */
-        .calculate-button { /* Specific class for calculation buttons */
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
+        .calculate-button {
+            background: var(--button-bg);
+            color: var(--music-button-color);
             cursor: pointer;
-            font-weight: 700; /* Bolder text */
-            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
-            letter-spacing: 0.05em; /* Slight letter spacing */
-            text-transform: uppercase; /* Uppercase for button text */
-            border-radius: 7.5px; /* Reduced from 10px by 25% */
-            padding: 13.5px 18px; /* Reduced from 18px 24px by 25% */
-            font-size: 0.975rem; /* Reduced from 1.3rem by 25% */
-            margin-top: 18.75px; /* Reduced from 25px by 25% */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transitions */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
-            width: 100%; /* Ensure buttons take full width of their parent */
+            font-weight: 700;
+            box-shadow: var(--button-shadow);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 7.5px;
+            padding: 13.5px 18px;
+            font-size: 0.975rem;
+            margin-top: 18.75px;
+            border: 1px solid var(--music-button-border);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            width: 100%;
         }
         .calculate-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
-            transform: translateY(-3.75px) scale(1.06); /* Reduced lift and scale by 25% */
-            box-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3); /* Reduced and transparency adjusted */
+            background: var(--button-hover-bg);
+            transform: translateY(-3.75px) scale(1.06);
+            box-shadow: var(--button-hover-shadow);
         }
         .calculate-button:active {
-            transform: translateY(0) scale(0.94); /* Reduced press effect by 25% */
-            box-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            transform: translateY(0) scale(0.94);
+            box-shadow: var(--button-active-shadow);
+            background: var(--button-active-bg);
         }
         /* Result display area */
         #result {
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
-            padding: 18.75px; /* Reduced from 25px by 25% */
-            border-radius: 9px; /* Reduced from 12px by 25% */
-            margin-top: 18.75px; /* Reduced from 25px by 25% */
-            min-height: 6.75rem; /* Reduced from 9rem by 25% */
-            color: #ecf0f1; /* Light text for result */
-            border: 1px solid rgba(74, 98, 122, 0.2); /* Solid, muted border for result box, 80% transparent */
-            box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.1); /* Subtle inner shadow, transparency adjusted */
-            text-align: left; /* Align result text to left */
-            opacity: 0; /* Start with opacity 0 for animation */
-            transform: translateY(7.5px); /* Reduced from 10px by 25% */
+            background-color: var(--result-box-bg);
+            padding: 18.75px;
+            border-radius: 9px;
+            margin-top: 18.75px;
+            min-height: 6.75rem;
+            color: var(--text-color);
+            border: 1px solid var(--result-box-border);
+            box-shadow: var(--result-box-shadow);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(7.5px);
         }
 
         /* Animation for result box: popIn (consistent with other tools) */
@@ -252,11 +365,11 @@
         @keyframes popIn {
             0% {
                 opacity: 0;
-                transform: scale(0.85) translateY(15px); /* Reduced from 0.8, 20px by 25% */
+                transform: scale(0.85) translateY(15px);
             }
             70% {
                 opacity: 1;
-                transform: scale(1.0375) translateY(-3.75px); /* Overshoot slightly, reduced by 25% */
+                transform: scale(1.0375) translateY(-3.75px);
             }
             100% {
                 opacity: 1;
@@ -265,18 +378,18 @@
         }
 
         #result h2 {
-            color: #ecf0f1; /* Light heading color for result */
+            color: var(--heading-color);
             text-align: center;
-            margin-bottom: 11.25px; /* Reduced from 15px by 25% */
-            font-size: 0.9375rem; /* Reduced from 1.25rem by 25% */
+            margin-bottom: 11.25px;
+            font-size: 0.9375rem;
         }
         #perimeterAreaResult, #surfaceVolumeResult {
-            margin-bottom: 11.25px; /* Reduced from 15px by 25% */
-            font-size: 0.825rem; /* Reduced from 1.1rem by 25% */
+            margin-bottom: 11.25px;
+            font-size: 0.825rem;
         }
         #perimeterAreaResult span, #surfaceVolumeResult span {
-            display: block; /* Ensure each line breaks */
-            margin-bottom: 6px; /* Reduced from 8px by 25% */
+            display: block;
+            margin-bottom: 6px;
         }
         #perimeterAreaResult span:last-child, #surfaceVolumeResult span:last-child {
             margin-bottom: 0;
@@ -284,138 +397,138 @@
 
         /* Colors for specific feedback */
         .text-red-600 {
-            color: #e74c3c; /* Brighter red for visibility */
+            color: var(--red-color);
             font-weight: 600;
         }
         .text-green-600 {
-            color: #2ecc71; /* Brighter green for visibility */
+            color: var(--green-color);
             font-weight: 600;
         }
         .text-blue-600 {
-            color: #3498db; /* Brighter blue for visibility */
+            color: var(--blue-color);
             font-weight: 600;
         }
-        h1 { /* Specific style for main heading - Copied from music.html */
-            color: #ecf0f1; /* Light heading color */
-            font-size: 1.65rem; /* Reduced from 2.2rem by 25% */
+        h1 {
+            color: var(--heading-color);
+            font-size: 1.65rem;
             font-weight: 700;
-            margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
-            text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4);
+            margin-bottom: 1.5rem;
+            text-shadow: var(--heading-shadow);
         }
         p {
-            color: #bdc3c7; /* Lighter muted paragraph text */
+            color: var(--placeholder-color);
         }
         /* Input group for dynamic fields */
         .input-group {
-            margin-bottom: 13.5px; /* Reduced from 18px by 25% */
+            margin-bottom: 13.5px;
         }
         /* Custom styling for number input spin buttons (to remove them) */
         input[type="number"] {
-            -moz-appearance: textfield; /* Firefox */
+            -moz-appearance: textfield;
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
-            -webkit-appearance: none; /* Chrome, Safari, Edge */
+            -webkit-appearance: none;
             margin: 0;
         }
         /* Adjust grid gap for input fields */
         #inputFields {
-            gap: 0.9375rem; /* Reduced from 1.25rem by 25% */
+            gap: 0.9375rem;
         }
 
         /* Back Button Styling - Copied from music.html for consistency */
         .back-button {
             position: absolute;
-            top: 15px; /* Reduced from 20px by 25% */
-            left: 15px; /* Reduced from 20px by 25% */
-            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
-            width: 33.75px; /* Reduced from 45px by 25% */
-            height: 33.75px; /* Reduced from 45px by 25% */
-            border-radius: 50%; /* Make it circular */
-            display: flex; /* Use flex to center SVG */
+            top: 15px;
+            left: 15px;
+            background-color: var(--back-button-bg);
+            width: 33.75px;
+            height: 33.75px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced and transparency adjusted */
+            box-shadow: var(--back-button-shadow);
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transitions */
-            text-decoration: none; /* Remove underline for link */
-            z-index: 10; /* Ensure it's above other content */
-            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            z-index: 10;
+            border: 1px solid var(--back-button-bg);
         }
         .back-button:hover {
-            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
-            transform: translateX(-3.75px) scale(1.0375); /* Reduced slide and scale by 25% */
-            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15); /* Reduced and transparency adjusted */
+            background-color: var(--back-button-hover-bg);
+            transform: translateX(-3.75px) scale(1.0375);
+            box-shadow: var(--back-button-hover-shadow);
         }
         .back-button:active {
-            transform: translateY(0) scale(0.9625); /* Reduced press effect by 25% */
-            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05); /* Reduced and transparency adjusted */
+            transform: translateY(0) scale(0.9625);
+            box-shadow: var(--back-button-active-shadow);
         }
         /* Style for the SVG icon inside the button */
         .back-button svg {
-            width: 0.9em; /* Reduced from 1.2em by 25% */
-            height: 0.9em; /* Reduced from 1.2em by 25% */
-            stroke: #ecf0f1; /* White color for the arrow */
-            stroke-width: 1.875; /* Reduced from 2.5 by 25% */
-            stroke-linecap: round; /* Rounded ends for lines */
-            stroke-linejoin: round; /* Rounded corners for lines */
-            fill: none; /* Ensure no fill for the arrow */
-            transition: stroke 0.3s ease; /* Smooth transition for arrow color */
+            width: 0.9em;
+            height: 0.9em;
+            stroke: var(--text-color);
+            stroke-width: 1.875;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: stroke 0.3s ease;
         }
         .back-button:hover svg {
-            stroke: #ecf0f1; /* Keep white on hover */
+            stroke: var(--text-color);
         }
 
         /* Music Player Floating Button - Copied from index.html */
         .music-player-floating-button-wrapper {
-            position: fixed; /* Fixed position relative to the viewport */
-            bottom: 22.5px; /* Reduced from 30px by 25% */
-            left: 22.5px; /* Reduced from 30px by 25% */
-            z-index: 1000; /* Ensure it's above all other content */
+            position: fixed;
+            bottom: 22.5px;
+            left: 22.5px;
+            z-index: 1000;
             display: flex;
-            align-items: flex-end; /* Align tooltip to the bottom of the button */
-            justify-content: flex-start; /* Align tooltip to the left of the button */
+            align-items: flex-end;
+            justify-content: flex-start;
         }
 
         .music-player-floating-button {
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
-            width: 45px; /* Reduced from 60px by 25% */
-            height: 45px; /* Reduced from 60px by 25% */
-            border-radius: 50%; /* Circular button */
+            background: var(--music-button-bg);
+            color: var(--music-button-color);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
-            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+            font-size: 1.125rem;
+            box-shadow: var(--music-button-shadow);
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; /* For tooltip positioning */
-            z-index: 1; /* Ensure button is above tooltip when active */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--music-button-border);
         }
 
         .music-player-floating-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
-            transform: translateY(-2.25px) scale(1.0375); /* Reduced lift and scale by 25% */
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.2); /* Reduced and transparency adjusted */
+            background: var(--music-button-hover-bg);
+            transform: translateY(-2.25px) scale(1.0375);
+            box-shadow: var(--music-button-hover-shadow);
         }
 
         .music-player-floating-button:active {
-            transform: translateY(0) scale(0.9625); /* Reduced press effect by 25% */
-            box-shadow: 0 1.5px 6px rgba(52, 152, 219, 0.1); /* Reduced and transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            transform: translateY(0) scale(0.9625);
+            box-shadow: var(--music-button-active-shadow);
+            background: var(--music-button-active-bg);
         }
 
         /* Pulse effect for the music button when playing */
         @keyframes pulseMusicButton {
             0% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1);
             }
             50% {
-                box-shadow: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-2);
             }
             100% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1);
             }
         }
 
@@ -423,38 +536,47 @@
             animation: pulseMusicButton 1.5s infinite ease-in-out;
         }
 
+        /* Light theme specific adjustment for music button pulse */
+        body.light-theme .music-player-floating-button.playing {
+            animation: none; /* Disable pulse animation for light theme */
+            box-shadow: var(--music-button-shadow); /* Keep regular shadow */
+        }
+
+        .music-player-floating-button i {
+            color: var(--music-icon-color);
+        }
 
         /* Custom Tooltip Styles - Copied from index.html */
         .music-tooltip {
             position: absolute;
-            left: 52.5px; /* Reduced from 70px by 25% */
-            bottom: 50%; /* Vertically center with the button */
-            transform: translateY(50%); /* Adjust for vertical centering */
-            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency (kept for readability) */
-            color: #ecf0f1;
-            padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
-            border-radius: 6px; /* Reduced from 8px by 25% */
-            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
-            white-space: nowrap; /* Prevent text wrapping */
-            opacity: 0; /* Hidden by default */
-            visibility: hidden; /* Hidden by default */
+            left: 52.5px;
+            bottom: 50%;
+            transform: translateY(50%);
+            background-color: var(--music-tooltip-bg);
+            color: var(--music-tooltip-color);
+            padding: 7.5px 11.25px;
+            border-radius: 6px;
+            box-shadow: var(--music-tooltip-shadow);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            font-size: 0.7125rem; /* Reduced from 0.95rem by 25% */
-            pointer-events: none; /* Allow clicks to pass through */
-            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
-            backdrop-filter: blur(2.25px); /* Reduced from 3px by 25% */
-            -webkit-backdrop-filter: blur(2.25px); /* For Safari */
-            display: flex; /* Use flexbox for layout inside tooltip */
-            align-items: center; /* Vertically align items */
-            gap: 7.5px; /* Reduced from 10px by 25% */
+            font-size: 0.7125rem;
+            pointer-events: none;
+            border: 1px solid var(--music-tooltip-border);
+            backdrop-filter: blur(2.25px);
+            -webkit-backdrop-filter: blur(2.25px);
+            display: flex;
+            align-items: center;
+            gap: 7.5px;
         }
 
         .music-tooltip img {
-            width: 37.5px; /* Reduced from 50px by 25% */
-            height: 37.5px; /* Reduced from 50px by 25% */
-            border-radius: 3px; /* Reduced from 4px by 25% */
-            object-fit: cover; /* Ensure the image covers the area without distortion */
-            flex-shrink: 0; /* Prevent image from shrinking */
+            width: 37.5px;
+            height: 37.5px;
+            border-radius: 3px;
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
         .music-tooltip-content {
@@ -465,13 +587,13 @@
 
         .music-tooltip-content .song-title {
             font-weight: bold;
-            font-size: 0.75rem; /* Reduced from 1rem by 25% */
-            color: #ecf0f1;
+            font-size: 0.75rem;
+            color: var(--music-tooltip-color);
         }
 
         .music-tooltip-content .song-details {
-            font-size: 0.6375rem; /* Reduced from 0.85rem by 25% */
-            color: #bdc3c7;
+            font-size: 0.6375rem;
+            color: var(--placeholder-color);
         }
 
         .music-player-floating-button-wrapper:hover .music-tooltip {
@@ -479,28 +601,119 @@
             visibility: visible;
         }
 
+        /* Theme Switch Styles */
+        .theme-switch-wrapper {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--container-bg);
+            border-radius: 9px;
+            padding: 8px 15px;
+            box-shadow: var(--container-shadow);
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--slider-bg);
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--slider-before-bg);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--slider-checked-bg);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--slider-checked-bg);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
-                padding: 15px; /* Reduced from 20px by 25% */
+                padding: 15px;
             }
             h1 {
-                font-size: 1.35rem; /* Reduced from 1.8rem by 25% */
-                margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
+                font-size: 1.35rem;
+                margin-bottom: 1.125rem;
             }
-            input[type="text"], input[type="number"], .calculate-button { /* Added .calculate-button here */
-                padding: 9px; /* Reduced from 12px by 25% */
-                font-size: 0.75rem; /* Reduced from 1rem by 25% */
+            input[type="text"], input[type="number"], .calculate-button {
+                padding: 9px;
+                font-size: 0.75rem;
             }
             .result-box {
-                padding: 15px; /* Reduced from 20px by 25% */
-                font-size: 0.75rem; /* Reduced from 1rem by 25% */
+                padding: 15px;
+                font-size: 0.75rem;
             }
             h2 {
-                font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
+                font-size: 1.125rem;
             }
             .hint-text {
-                font-size: 0.6rem; /* Reduced from 0.8rem by 25% */
+                font-size: 0.6rem;
+            }
+            .music-player-floating-button-wrapper,
+            .theme-switch-wrapper {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
+                justify-content: space-between;
+                width: calc(100% - 30px);
+                gap: 0;
+            }
+            .theme-switch-wrapper {
+                right: 15px;
+                left: auto;
+                width: auto;
+                padding: 8px 10px;
+            }
+            .music-player-floating-button-wrapper {
+                left: 15px;
+                right: auto;
+                width: auto;
+                padding: 0;
+            }
+            .music-tooltip {
+                left: 60px;
             }
         }
     </style>
@@ -709,6 +922,15 @@
         </div>
     </div>
 
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label for="theme-switch-checkbox" class="text-sm font-semibold">Chế độ sáng</label>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-switch-checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
     <!-- Hidden Audio Player -->
     <audio id="audioPlayer" src="" preload="auto"></audio>
 
@@ -723,30 +945,70 @@
         let songDetailsSpan;
 
         const SONGS = [
-            {
-                id: 'song1',
-                title: "Die for you",
-                artist: "joji",
-                album: "SMITHEREENS",
-                url: "music/03. Die For You.mp3",
-                albumArtUrl: "albumcover/smithereens.jpeg"
-            },
-            {
-                id: 'song2',
-                title: "You suck Charlie",
-                artist: "joji",
-                album: "Chloe Burbank",
-                url: "music/you suck charlie.m4a",
-                albumArtUrl: "albumcover/chloe burbank.jpg"
-            },
-            {
-                id: 'song3',
-                title: "Come Thru",
-                artist: "Joji",
-                album: "BALLADS 1",
-                url: "music/09 Come Thru.mp3",
-                albumArtUrl: "albumcover/ballads1.png"
-            }
+       {
+            id: 'song1',
+            title: "Die for you",
+            artist: "joji",
+            album: "SMITHEREENS",
+            url: "music/03. Die For You.mp3",
+            albumArtUrl: "albumcover/smithereens.jpeg"
+        },
+        {
+            id: 'song2',
+            title: "You suck Charlie",
+            artist: "joji",
+            album: "Chloe Burbank",
+            url: "music/you suck charlie.m4a",
+            albumArtUrl: "albumcover/chloe burbank.jpg"
+        },
+        {
+            id: 'song3',
+            title: "Come Thru",
+            artist: "Joji",
+            album: "BALLADS 1",
+            url: "music/09 Come Thru.mp3",
+            albumArtUrl: "albumcover/ballads1.png"
+        },
+        {
+            id: 'song4',
+            title: "Modus",
+            artist: "Joji",
+            album: "Nectar",
+            url: "music/02 MODUS.mp3",
+            albumArtUrl: "albumcover/Nectar.jpg"
+        },
+        {
+            id: 'song5',
+            title: "505",
+            artist: "Arctic Monkeys",
+            album: "Favourite Worst Nightmare",
+            url: "music/505 - Arctic Monkeys.mp3",
+            albumArtUrl: "albumcover/FavouriteWorstNightmare.jpg"
+        },
+        {
+            id: 'song6',
+            title: "Stressed Out",
+            artist: "Ben Schuller",
+            album: "piano cover",
+            url: "music/Ben Schuller-Stressed Out.mp3",
+            albumArtUrl: "albumcover/strout.jpg"
+        },
+        {
+            id: 'song7',
+            title: "Chamber Of Reflection",
+            artist: "Mac DeMarco",
+            album: "Salad Days",
+            url: "music/Chamber Of Reflection.mp3",
+            albumArtUrl: "albumcover/cbofrl.jpg"
+        },
+        {
+            id: 'song8',
+            title: "For the First Time",
+            artist: "Mac DeMarco",
+            album: "This Old Dog",
+            url: "music/For the First Time - Mac DeMarco.mp3",
+            albumArtUrl: "albumcover/tolddog.png"
+        }
         ];
 
         let currentSongIndex = -1; // No song selected initially
@@ -829,7 +1091,7 @@
 
         function updateTooltip(song) {
             albumCoverImg.src = song.albumArtUrl;
-            albumCoverImg.alt = `Ảnh bìa album của ${song.title}`;
+            albumCoverImg.alt = `Album Cover of ${song.title}`;
             songTitleSpan.textContent = song.title;
             songDetailsSpan.textContent = `${song.artist} ${song.album ? '(Album: "' + song.album + '")' : ''}`;
         }
@@ -1278,6 +1540,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const pageContentWrapper = document.getElementById('pageContentWrapper');
             const pageLinks = document.querySelectorAll('.page-link');
+            const themeSwitchCheckbox = document.getElementById('theme-switch-checkbox'); // Get the theme switch checkbox
 
             // Animate page in on load
             pageContentWrapper.classList.add('page-transition-in');
@@ -1383,6 +1646,29 @@
             updateInputFields(); // This will also clear inputs and results
             // Ensure result box is hidden initially
             resultBox.classList.remove('show-result');
+
+            // --- Theme Switch Logic ---
+            function applyTheme(theme) {
+                document.body.classList.remove('light-theme'); // Remove existing theme class
+                if (theme === 'light') {
+                    document.body.classList.add('light-theme');
+                }
+                localStorage.setItem('theme', theme); // Save theme preference
+            }
+
+            // Load theme preference on page load
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+            applyTheme(savedTheme);
+            themeSwitchCheckbox.checked = (savedTheme === 'light'); // Set checkbox state
+
+            // Event listener for theme switch
+            themeSwitchCheckbox.addEventListener('change', () => {
+                if (themeSwitchCheckbox.checked) {
+                    applyTheme('light');
+                } else {
+                    applyTheme('dark');
+                }
+            });
         });
 
         // Event Listeners for hinh_hoc.html specific logic
