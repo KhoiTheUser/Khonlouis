@@ -12,18 +12,140 @@
         /* Consolidated CSS from all files */
         body {
             font-family: 'Inter', sans-serif;
-            /* Changed background to support aurora effect from music.html */
-            background: #0d1a2a; /* Dark base color */
+            background: var(--body-bg); /* Use CSS variable for background */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 15px; /* Reduced from 20px by 25% */
             box-sizing: border-box;
-            color: #ecf0f1; /* Default light text color for body */
+            color: var(--text-color); /* Use CSS variable for text color */
             position: relative; /* For positioning aurora layers */
             overflow-x: hidden; /* Prevent horizontal scroll during animations */
-            /* Removed perspective: 1000px; as it's not needed here */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            /* Dark Theme (Default) */
+            --body-bg: #0d1a2a;
+            --text-color: #ecf0f1;
+            --container-bg: rgba(44, 62, 80, 0.05);
+            --container-border: rgba(61, 90, 115, 0.1);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.4);
+            --heading-color: #ecf0f1;
+            --subheading-color: #3498db;
+            --paragraph-color: #bdc3c7;
+            --label-text-color: #bdc3c7;
+            --input-bg: rgba(52, 73, 94, 0.15);
+            --input-border: rgba(74, 98, 122, 0.2);
+            --input-placeholder-color: #bdc3c7;
+            --input-focus-border: #3498db;
+            --input-focus-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+            --input-focus-bg: rgba(61, 90, 115, 0.25);
+            --button-bg: rgba(52, 152, 219, 0.15);
+            --button-color: white;
+            --button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --button-border: rgba(52, 152, 219, 0.25);
+            --button-hover-bg: rgba(52, 152, 219, 0.25);
+            --button-hover-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3);
+            --button-active-bg: rgba(36, 113, 163, 0.2);
+            --button-active-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15);
+            --result-box-bg: rgba(52, 73, 94, 0.15);
+            --result-box-border: rgba(74, 98, 122, 0.2);
+            --result-box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.1);
+            --result-text-color: #ecf0f1;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --info-color: #3498db;
+            --back-button-bg: rgba(90, 125, 154, 0.15);
+            --back-button-hover-bg: rgba(106, 141, 176, 0.25);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1);
+            --back-button-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15);
+            --back-button-active-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #ecf0f1;
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: white;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 7.5px 18.75px rgba(52, 152, 219, 0.3);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-active-shadow: 0 2.25px 7.5px rgba(52, 152, 219, 0.1);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15);
+            --music-tooltip-bg: rgba(44, 62, 80, 0.95);
+            --music-tooltip-color: #ecf0f1;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3);
+            --music-tooltip-border: rgba(61, 90, 115, 0.5);
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #ecf0f1;
+            --mathjax-bg: rgba(74, 98, 122, 0.2);
+            --mathjax-shadow: inset 0 0.75px 3px rgba(0, 0, 0, 0.15);
+            --mathjax-text-color: #ecf0f1;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            --body-bg: #f0f2f5; /* Light background */
+            --text-color: #34495e; /* Darker text */
+            --container-bg: rgba(255, 255, 255, 0.1); /* Reduced alpha for more transparency */
+            --container-border: rgba(180, 180, 180, 0.7);
+            --container-shadow: 0 9px 22px rgba(0, 0, 0, 0.1);
+            --heading-color: #34495e;
+            --subheading-color: #2980b9;
+            --paragraph-color: #7f8c8d;
+            --label-text-color: #7f8c8d;
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --input-border: rgba(180, 180, 180, 0.7);
+            --input-placeholder-color: #7f8c8d;
+            --input-focus-border: #2980b9;
+            --input-focus-shadow: 0 0 0 3px rgba(41, 128, 185, 0.2);
+            --input-focus-bg: rgba(255, 255, 255, 0.2);
+            --button-bg: rgba(52, 152, 219, 0.1);
+            --button-color: #34495e;
+            --button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.1);
+            --button-border: rgba(52, 152, 219, 0.15);
+            --button-hover-bg: rgba(52, 152, 219, 0.15);
+            --button-hover-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.2);
+            --button-active-bg: rgba(36, 113, 163, 0.1);
+            --button-active-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.1);
+            --result-box-bg: rgba(255, 255, 255, 0.1);
+            --result-box-border: rgba(180, 180, 180, 0.7);
+            --result-box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --result-text-color: #34495e;
+            --error-color: #c0392b;
+            --success-color: #27ae60;
+            --info-color: #2980b9;
+            --back-button-bg: rgba(180, 180, 180, 0.2);
+            --back-button-hover-bg: rgba(180, 180, 180, 0.3);
+            --back-button-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.05);
+            --back-button-hover-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.1);
+            --back-button-active-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05);
+            --back-button-icon-color: #34495e;
+            --music-button-bg: rgba(52, 152, 219, 0.15);
+            --music-button-color: #34495e;
+            --music-button-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-border: rgba(52, 152, 219, 0.25);
+            --music-button-hover-bg: rgba(52, 152, 219, 0.25);
+            --music-button-hover-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+            --music-button-active-bg: rgba(36, 113, 163, 0.2);
+            --music-button-active-shadow: 0 2.25px 7.5px rgba(52, 152, 219, 0.1);
+            --music-button-pulse-shadow-1: 0 3.75px 11.25px rgba(52, 152, 219, 0.15);
+            --music-button-pulse-shadow-2: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(0, 0, 0, 0.1);
+            --music-tooltip-bg: rgba(255, 255, 255, 0.9);
+            --music-tooltip-color: #34495e;
+            --music-tooltip-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.15);
+            --music-tooltip-border: #ccc;
+            --slider-bg: #ccc;
+            --slider-checked-bg: #2196F3;
+            --slider-before-bg: white;
+            --music-icon-color: #34495e;
+            --mathjax-bg: rgba(180, 180, 180, 0.2);
+            --mathjax-shadow: inset 0 0.75px 3px rgba(0, 0, 0, 0.05);
+            --mathjax-text-color: #34495e;
         }
 
         /* Aurora Borealis Effect - Copied from music.html */
@@ -39,7 +161,7 @@
             overflow: hidden; /* Keep hidden for aurora layers to prevent inner scroll */
         }
 
-        .aurora-layer {
+       .aurora-layer {
             position: absolute;
             background: linear-gradient(to bottom,
                 rgba(52, 152, 219, 0.3), /* Blue from active playlist item */
@@ -47,8 +169,8 @@
             );
             border-radius: 50%;
             filter: blur(80px); /* Soft blur for aurora effect */
-            opacity: 0.5; /* Consistent with index.html */
-            animation: auroraMovement 20s infinite alternate ease-in-out;
+            opacity: 0;
+            animation: auroraMovement 5s infinite alternate ease-in-out;
         }
 
         .aurora-layer:nth-child(1) {
@@ -58,7 +180,7 @@
             left: 15%;
             background: linear-gradient(to bottom, rgba(52, 152, 219, 0.4), rgba(46, 204, 113, 0.4));
             animation-delay: 0s;
-            animation-duration: 30s; /* Adjusted duration for more subtle flow */
+            animation-duration: 8s; /* Adjusted duration for more subtle flow */
         }
 
         .aurora-layer:nth-child(2) {
@@ -68,7 +190,7 @@
             left: 70%;
             background: linear-gradient(to top, rgba(0, 200, 200, 0.4), rgba(0, 150, 150, 0.4)); /* Teal tones */
             animation-delay: 8s; /* Adjusted delay */
-            animation-duration: 26s; /* Adjusted duration */
+            animation-duration: 10s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(3) {
@@ -78,7 +200,7 @@
             left: 30%;
             background: linear-gradient(to right, rgba(70, 130, 180, 0.3), rgba(60, 179, 113, 0.3)); /* SteelBlue to MediumSeaGreen */
             animation-delay: 16s; /* Adjusted delay */
-            animation-duration: 34s; /* Adjusted duration */
+            animation-duration: 10s; /* Adjusted duration */
         }
 
         .aurora-layer:nth-child(4) {
@@ -88,7 +210,7 @@
             left: 80%;
             background: linear-gradient(to left, rgba(135, 206, 250, 0.3), rgba(127, 255, 212, 0.3)); /* LightSkyBlue to Aquamarine */
             animation-delay: 24s; /* Adjusted delay */
-            animation-duration: 28s; /* Adjusted duration */
+            animation-duration: 9s; /* Adjusted duration */
         }
 
         @keyframes auroraMovement {
@@ -112,6 +234,11 @@
                 transform: translate(0, 0) scale(1);
                 opacity: 0.5;
             }
+        }
+
+        /* Light theme specific adjustment for aurora opacity */
+        body.light-theme .aurora-layer {
+            opacity: 0.2; /* Reduce opacity for light theme */
         }
 
         /* Page Transition Animations - Copied from index.html */
@@ -163,27 +290,26 @@
         }
 
         .main-container { /* New main container to hold all tool boxes */
-            background-color: rgba(44, 62, 80, 0.05); /* 95% transparent */
+            background-color: var(--container-bg); /* Use CSS variable */
             border-radius: 12px; /* Reduced from 16px by 25% */
-            box-shadow: 0 9px 22px rgba(0, 0, 0, 0.4); /* Reduced from 0 12px 30px by 25% */
+            box-shadow: var(--container-shadow); /* Use CSS variable */
             padding: 22.5px; /* Reduced from 30px by 25% */
             max-width: 525px; /* Reduced from 700px by 25% */
             width: 100%;
             text-align: center;
-            border: 1px solid rgba(61, 90, 115, 0.1); /* Reduced transparency from 0.5 to 0.1 */
+            border: 1px solid var(--container-border); /* Use CSS variable */
             backdrop-filter: blur(7.5px); /* Reduced from 10px by 25% */
             -webkit-backdrop-filter: blur(7.5px); /* For Safari */
-            /* Removed opacity and transform for fadeInSlideUp, now handled by page-transition-in */
             position: relative; /* For back button positioning */
             z-index: 1; /* Ensure container is above aurora effect */
         }
         .tool-box { /* Style for each individual tool section */
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
+            background-color: var(--input-bg); /* Use CSS variable */
             border-radius: 9px; /* Reduced from 12px by 25% */
             box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 6px 15px by 25% */
             padding: 18.75px; /* Reduced from 25px by 25% */
             margin-bottom: 22.5px; /* Reduced from 30px by 25% */
-            border: 1px solid rgba(74, 98, 122, 0.2); /* Reduced transparency from 0.5 to 0.2 */
+            border: 1px solid var(--input-border); /* Use CSS variable */
             opacity: 0; /* Start hidden for staggered animation */
             transform: translateY(15px); /* Reduced from 20px by 25% */
             animation: fadeInSlideUp 0.6s ease-out forwards; /* Staggered animation */
@@ -193,10 +319,10 @@
         }
         /* General input field styling */
         input[type="number"], input[type="text"] {
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
-            border: 1px solid rgba(74, 98, 122, 0.2); /* Reduced transparency from 0.5 to 0.2 */
+            background-color: var(--input-bg); /* Use CSS variable */
+            border: 1px solid var(--input-border); /* Use CSS variable */
             transition: all 0.3s ease; /* Smooth transitions */
-            color: #ecf0f1; /* Light text for inputs */
+            color: var(--input-color); /* Use CSS variable */
             border-radius: 7.5px; /* Reduced from 10px by 25% */
             padding: 10.5px; /* Reduced from 14px by 25% */
             font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
@@ -206,18 +332,18 @@
             -moz-appearance: none;
         }
         input[type="number"]::placeholder, input[type="text"]::placeholder {
-            color: #bdc3c7; /* Lighter placeholder text */
+            color: var(--input-placeholder-color); /* Use CSS variable */
             opacity: 0.7; /* Slightly transparent */
         }
         input[type="number"]:focus, input[type="text"]:focus {
-            border-color: #3498db; /* Bright blue focus ring */
+            border-color: var(--input-focus-border); /* Use CSS variable */
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3); /* Reduced from 4px, transparency adjusted */
-            background-color: rgba(61, 90, 115, 0.25); /* Slightly lighter on focus, 75% transparent */
+            box-shadow: var(--input-focus-shadow); /* Use CSS variable */
+            background-color: var(--input-focus-bg); /* Use CSS variable */
             transform: translateY(-1.5px); /* Reduced from -2px by 25% */
         }
         .label-text {
-            color: #bdc3c7; /* Lighter muted label text */
+            color: var(--label-text-color); /* Use CSS variable */
             font-weight: 600;
             display: block; /* Ensure label is block for proper spacing */
             margin-bottom: 6px; /* Reduced from 8px by 25% */
@@ -225,42 +351,42 @@
         }
         /* Button styling - unified and large */
         .calculate-button { /* Specific class for calculation buttons */
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
+            background: var(--button-bg); /* Use CSS variable */
+            color: var(--button-color); /* Use CSS variable */
             cursor: pointer;
             font-weight: 700; /* Bolder text */
-            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced from 0 5px 15px by 25%, transparency adjusted */
+            box-shadow: var(--button-shadow); /* Use CSS variable */
             letter-spacing: 0.05em; /* Slight letter spacing */
             text-transform: uppercase; /* Uppercase for button text */
             border-radius: 7.5px; /* Reduced from 10px by 25% */
             padding: 13.5px 18px; /* Reduced from 18px 24px by 25% */
             font-size: 0.975rem; /* Reduced from 1.3rem by 25% */
             margin-top: 18.75px; /* Reduced from 25px by 25% */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
+            border: 1px solid var(--button-border); /* Use CSS variable */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transitions */
             text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Subtle text shadow */
             width: 100%; /* Ensure buttons take full width of their parent */
         }
         .calculate-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            background: var(--button-hover-bg); /* Use CSS variable */
             transform: translateY(-3.75px) scale(1.06); /* Reduced from -5px, 1.08 by 25% */
-            box-shadow: 0 11.25px 26.25px rgba(52, 152, 219, 0.3); /* Reduced from 0 15px 35px by 25%, transparency adjusted */
+            box-shadow: var(--button-hover-shadow); /* Use CSS variable */
         }
         .calculate-button:active {
             transform: translateY(0) scale(0.94); /* Reduced from 0.92 by 25% */
-            box-shadow: 0 1.5px 7.5px rgba(52, 152, 219, 0.15); /* Reduced from 0 2px 10px by 25%, transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            box-shadow: var(--button-active-shadow); /* Use CSS variable */
+            background: var(--button-active-bg); /* Use CSS variable */
         }
         /* Result display area - unified */
         .result-box {
-            background-color: rgba(52, 73, 94, 0.15); /* 85% transparent */
+            background-color: var(--result-box-bg); /* Use CSS variable */
             padding: 18.75px; /* Reduced from 25px by 25% */
             border-radius: 9px; /* Reduced from 12px by 25% */
             margin-top: 18.75px; /* Reduced from 25px by 25% */
             min-height: 6.75rem; /* Reduced from 9rem by 25% */
-            color: #ecf0f1; /* Light text for result */
-            border: 1px solid rgba(74, 98, 122, 0.2); /* Reduced transparency from 0.5 to 0.2 */
-            box-shadow: inset 0 1.5px 3.75px rgba(0, 0, 0, 0.1); /* Reduced from 0 2px 5px by 25% */
+            color: var(--result-text-color); /* Use CSS variable */
+            border: 1px solid var(--result-box-border); /* Use CSS variable */
+            box-shadow: var(--result-box-shadow); /* Use CSS variable */
             text-align: center; /* Center content within result box */
             display: flex;
             flex-direction: column;
@@ -274,7 +400,7 @@
             animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Using popIn from dao_ham.html */
         }
         .result-box h2 { /* Heading inside result box */
-            color: #ecf0f1;
+            color: var(--result-text-color); /* Use CSS variable */
             text-align: center;
             margin-bottom: 11.25px; /* Reduced from 15px by 25% */
             font-size: 0.9375rem; /* Reduced from 1.25rem by 25% */
@@ -290,26 +416,29 @@
 
         /* Colors for specific feedback */
         .text-red-600 {
-            color: #e74c3c; /* Brighter red for visibility */
+            color: var(--error-color); /* Use CSS variable */
             font-weight: 600;
         }
         .text-green-600 {
-            color: #2ecc71; /* Brighter green for visibility */
+            color: var(--success-color); /* Use CSS variable */
             font-weight: 600;
         }
         .text-blue-600 {
-            color: #3498db; /* Brighter blue for visibility */
+            color: var(--info-color); /* Use CSS variable */
             font-weight: 600;
         }
         h1 { /* Main page title */
-            color: #ecf0f1;
+            color: var(--heading-color); /* Use CSS variable */
             font-size: 1.65rem; /* Reduced from 2.2rem by 25% */
             font-weight: 700;
             margin-bottom: 1.5rem; /* Reduced from 2rem by 25% */
             text-shadow: 0 1.5px 4.5px rgba(0,0,0,0.4); /* Reduced from 0 2px 6px by 25% */
         }
+        body.light-theme h1 {
+            text-shadow: none; /* Remove text shadow in light theme */
+        }
         p {
-            color: #bdc3c7;
+            color: var(--paragraph-color); /* Use CSS variable */
             font-size: 0.7875rem; /* Reduced from 1.05rem by 25% */
             line-height: 1.5;
             margin-bottom: 1.125rem; /* Reduced from 1.5rem by 25% */
@@ -337,17 +466,17 @@
         .MathJax_Display {
             overflow-x: auto; /* Allow horizontal scrolling for long equations */
             padding: 9px 11.25px; /* Reduced from 12px 15px by 25% */
-            background-color: rgba(74, 98, 122, 0.2); /* 80% transparent */
+            background-color: var(--mathjax-bg); /* Use CSS variable */
             border-radius: 0.5625rem; /* Reduced from 0.75rem by 25% */
             margin-top: 0.9375rem; /* Reduced from 1.25rem by 25% */
-            color: #ecf0f1 !important; /* Ensure MathJax text is light */
-            box-shadow: inset 0 0.75px 3px rgba(0, 0, 0, 0.15); /* Reduced from 0 1px 4px by 25% */
+            color: var(--mathjax-text-color) !important; /* Ensure MathJax text is light */
+            box-shadow: var(--mathjax-shadow); /* Use CSS variable */
         }
         .MathJax_CHTML {
-            color: #ecf0f1 !important;
+            color: var(--mathjax-text-color) !important;
         }
         .MathJax_CHTML span {
-            color: #ecf0f1 !important;
+            color: var(--mathjax-text-color) !important;
         }
 
         /* Keyframe Animations */
@@ -367,7 +496,7 @@
         }
 
         .error-message {
-            color: #e74c3c; /* Brighter red for visibility */
+            color: var(--error-color); /* Use CSS variable */
             margin-top: 7.5px; /* Reduced from 10px by 25% */
             font-weight: 600;
             font-size: 0.75rem; /* Reduced from 1rem by 25% */
@@ -378,34 +507,34 @@
             position: absolute; /* Changed from fixed to absolute to be relative to container */
             top: 15px; /* Reduced from 20px by 25% */
             left: 15px; /* Reduced from 20px by 25% */
-            background-color: rgba(90, 125, 154, 0.15); /* 85% transparent */
+            background-color: var(--back-button-bg); /* Use CSS variable */
             width: 33.75px; /* Reduced from 45px by 25% */
             height: 33.75px; /* Reduced from 45px by 25% */
             border-radius: 50%; /* Make it circular */
             display: flex; /* Use flex to center SVG */
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 7.5px rgba(0, 0, 0, 0.1); /* Reduced from 0 4px 10px by 25% */
+            box-shadow: var(--back-button-shadow); /* Use CSS variable */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added transitions */
             text-decoration: none; /* Remove underline for link */
             z-index: 10; /* Ensure it's above other content */
-            border: 1px solid rgba(90, 125, 154, 0.2); /* Added subtle border with transparency */
+            border: 1px solid var(--back-button-bg); /* Use CSS variable */
         }
         .back-button:hover {
-            background-color: rgba(106, 141, 176, 0.25); /* Slightly lighter on hover, 75% transparent */
+            background-color: var(--back-button-hover-bg); /* Use CSS variable */
             transform: translateX(-3.75px) scale(1.0375); /* Reduced from -5px, 1.05 by 25% */
-            box-shadow: 0 4.5px 11.25px rgba(0, 0, 0, 0.15); /* Reduced from 0 6px 15px by 25% */
+            box-shadow: var(--back-button-hover-shadow); /* Use CSS variable */
         }
         .back-button:active {
             transform: translateY(0) scale(0.9625); /* Reduced from 0.95 by 25% */
-            box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.05); /* Reduced from 0 2px 5px by 25% */
+            box-shadow: var(--back-button-active-shadow); /* Use CSS variable */
         }
         /* Style for the SVG icon inside the button */
         .back-button svg {
             width: 0.9em; /* Reduced from 1.2em by 25% */
             height: 0.9em; /* Reduced from 1.2em by 25% */
-            stroke: #ecf0f1; /* White color for the arrow */
+            stroke: var(--back-button-icon-color); /* Use CSS variable */
             stroke-width: 1.875; /* Reduced from 2.5 by 25% */
             stroke-linecap: round; /* Rounded ends for lines */
             stroke-linejoin: round; /* Rounded corners for lines */
@@ -413,7 +542,7 @@
             transition: stroke 0.3s ease; /* Smooth transition for arrow color */
         }
         .back-button:hover svg {
-            stroke: #ecf0f1; /* Keep white on hover */
+            stroke: var(--back-button-icon-color); /* Keep white on hover */
         }
 
         /* Music Player Floating Button - Copied from index.html */
@@ -428,8 +557,8 @@
         }
 
         .music-player-floating-button {
-            background: rgba(52, 152, 219, 0.15); /* 85% transparent */
-            color: white;
+            background: var(--music-button-bg); /* Use CSS variable */
+            color: var(--music-button-color); /* Use CSS variable */
             width: 45px; /* Reduced from 60px by 25% */
             height: 45px; /* Reduced from 60px by 25% */
             border-radius: 50%; /* Circular button */
@@ -437,35 +566,35 @@
             justify-content: center;
             align-items: center;
             font-size: 1.125rem; /* Reduced from 1.5rem by 25% */
-            box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+            box-shadow: var(--music-button-shadow); /* Use CSS variable */
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; /* For tooltip positioning */
             z-index: 1; /* Ensure button is above tooltip when active */
-            border: 1px solid rgba(52, 152, 219, 0.25); /* Added subtle border with transparency */
+            border: 1px solid var(--music-button-border); /* Use CSS variable */
         }
 
         .music-player-floating-button:hover {
-            background: rgba(52, 152, 219, 0.25); /* Slightly more opaque on hover */
+            background: var(--music-button-hover-bg); /* Use CSS variable */
             transform: translateY(-2.25px) scale(1.0375); /* Reduced lift and scale by 25% */
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.2); /* Reduced and transparency adjusted */
+            box-shadow: var(--music-button-hover-shadow); /* Use CSS variable */
         }
 
         .music-player-floating-button:active {
             transform: translateY(0) scale(0.9625); /* Reduced press effect by 25% */
-            box-shadow: 0 1.5px 6px rgba(52, 152, 219, 0.1); /* Reduced and transparency adjusted */
-            background: rgba(36, 113, 163, 0.2); /* Solid darker blue on active, 80% transparent */
+            box-shadow: var(--music-button-active-shadow); /* Use CSS variable */
+            background: var(--music-button-active-bg); /* Use CSS variable */
         }
 
         /* Pulse effect for the music button when playing */
         @keyframes pulseMusicButton {
             0% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1); /* Use CSS variable */
             }
             50% {
-                box-shadow: 0 0 18.75px rgba(52, 152, 219, 0.3), 0 0 30px rgba(255, 255, 255, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-2); /* Use CSS variable */
             }
             100% {
-                box-shadow: 0 3.75px 11.25px rgba(52, 152, 219, 0.15); /* Reduced and transparency adjusted */
+                box-shadow: var(--music-button-pulse-shadow-1); /* Use CSS variable */
             }
         }
 
@@ -473,6 +602,15 @@
             animation: pulseMusicButton 1.5s infinite ease-in-out;
         }
 
+        /* Light theme specific adjustment for music button pulse */
+        body.light-theme .music-player-floating-button.playing {
+            animation: none; /* Disable pulse animation for light theme */
+            box-shadow: var(--music-button-shadow); /* Keep regular shadow */
+        }
+
+        .music-player-floating-button i {
+            color: var(--music-icon-color); /* Use CSS variable */
+        }
 
         /* Custom Tooltip Styles - Copied from index.html */
         .music-tooltip {
@@ -480,18 +618,18 @@
             left: 52.5px; /* Reduced from 70px by 25% */
             bottom: 50%; /* Vertically center with the button */
             transform: translateY(50%); /* Adjust for vertical centering */
-            background-color: rgba(44, 62, 80, 0.95); /* Darker background with transparency (kept for readability) */
-            color: #ecf0f1;
+            background-color: var(--music-tooltip-bg); /* Use CSS variable */
+            color: var(--music-tooltip-color); /* Use CSS variable */
             padding: 7.5px 11.25px; /* Reduced from 10px 15px by 25% */
             border-radius: 6px; /* Reduced from 8px by 25% */
-            box-shadow: 0 3px 11.25px rgba(0, 0, 0, 0.3); /* Reduced from 0 4px 15px by 25% */
+            box-shadow: var(--music-tooltip-shadow); /* Use CSS variable */
             white-space: nowrap; /* Prevent text wrapping */
             opacity: 0; /* Hidden by default */
             visibility: hidden; /* Hidden by default */
             transition: opacity 0.3s ease, visibility 0.3s ease;
             font-size: 0.7125rem; /* Reduced from 0.95rem by 25% */
             pointer-events: none; /* Allow clicks to pass through */
-            border: 1px solid rgba(61, 90, 115, 0.5); /* Subtle border */
+            border: 1px solid var(--music-tooltip-border); /* Use CSS variable */
             backdrop-filter: blur(2.25px); /* Reduced from 3px by 25% */
             -webkit-backdrop-filter: blur(2.25px); /* For Safari */
             display: flex; /* Use flexbox for layout inside tooltip */
@@ -516,18 +654,86 @@
         .music-tooltip-content .song-title {
             font-weight: bold;
             font-size: 0.75rem; /* Reduced from 1rem by 25% */
-            color: #ecf0f1;
+            color: var(--music-tooltip-color); /* Use CSS variable */
         }
 
         .music-tooltip-content .song-details {
             font-size: 0.6375rem; /* Reduced from 0.85rem by 25% */
-            color: #bdc3c7;
+            color: var(--paragraph-color); /* Use CSS variable */
         }
 
         .music-player-floating-button-wrapper:hover .music-tooltip {
             opacity: 1;
             visibility: visible;
         }
+
+        /* Theme Switch Styles */
+        .theme-switch-wrapper {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--container-bg);
+            border-radius: 9px;
+            padding: 8px 15px;
+            box-shadow: var(--container-shadow);
+            border: 1px solid var(--container-border);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--slider-bg);
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--slider-before-bg);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--slider-checked-bg);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--slider-checked-bg);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
 
         /* Responsive adjustments */
         @media (max-width: 600px) {
@@ -559,6 +765,30 @@
                 grid-template-columns: repeat(1, 1fr); /* Stack columns on small screens */
                 gap: 0.75rem; /* Reduced from 1rem by 25% */
             }
+            .music-player-floating-button-wrapper,
+            .theme-switch-wrapper {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
+                justify-content: space-between;
+                width: calc(100% - 30px);
+                gap: 0;
+            }
+            .theme-switch-wrapper {
+                right: 15px;
+                left: auto;
+                width: auto;
+                padding: 8px 10px;
+            }
+            .music-player-floating-button-wrapper {
+                left: 15px;
+                right: auto;
+                width: auto;
+                padding: 0;
+            }
+            .music-tooltip {
+                left: 60px;
+            }
         }
     </style>
     <!-- Math.js CDN for parsing and evaluating expressions -->
@@ -588,10 +818,10 @@
                 },
                 styles: {
                     '.mjx-chtml': {
-                        color: '#ecf0f1 !important', /* Override MathJax default text color */
+                        color: 'var(--mathjax-text-color) !important', /* Override MathJax default text color */
                     },
                     '.mjx-chtml span': {
-                        color: '#ecf0f1 !important', /* Override MathJax default span text color */
+                        color: 'var(--mathjax-text-color) !important', /* Override MathJax default span text color */
                     }
                 }
             }
@@ -832,32 +1062,73 @@
         let albumCoverImg;
         let songTitleSpan;
         let songDetailsSpan;
+        let themeSwitchCheckbox; // Declare themeSwitchCheckbox
 
         const SONGS = [
-            {
-                id: 'song1',
-                title: "Die for you",
-                artist: "joji",
-                album: "SMITHEREENS",
-                url: "music/03. Die For You.mp3",
-                albumArtUrl: "albumcover/smithereens.jpeg"
-            },
-            {
-                id: 'song2',
-                title: "You suck Charlie",
-                artist: "joji",
-                album: "Chloe Burbank",
-                url: "music/you suck charlie.m4a",
-                albumArtUrl: "albumcover/chloe burbank.jpg"
-            },
-            {
-                id: 'song3',
-                title: "Come Thru",
-                artist: "Joji",
-                album: "BALLADS 1",
-                url: "music/09 Come Thru.mp3",
-                albumArtUrl: "albumcover/ballads1.png"
-            }
+       {
+            id: 'song1',
+            title: "Die for you",
+            artist: "joji",
+            album: "SMITHEREENS",
+            url: "music/03. Die For You.mp3",
+            albumArtUrl: "albumcover/smithereens.jpeg"
+        },
+        {
+            id: 'song2',
+            title: "You suck Charlie",
+            artist: "joji",
+            album: "Chloe Burbank",
+            url: "music/you suck charlie.m4a",
+            albumArtUrl: "albumcover/chloe burbank.jpg"
+        },
+        {
+            id: 'song3',
+            title: "Come Thru",
+            artist: "Joji",
+            album: "BALLADS 1",
+            url: "music/09 Come Thru.mp3",
+            albumArtUrl: "albumcover/ballads1.png"
+        },
+        {
+            id: 'song4',
+            title: "Modus",
+            artist: "Joji",
+            album: "Nectar",
+            url: "music/02 MODUS.mp3",
+            albumArtUrl: "albumcover/Nectar.jpg"
+        },
+        {
+            id: 'song5',
+            title: "505",
+            artist: "Arctic Monkeys",
+            album: "Favourite Worst Nightmare",
+            url: "music/505 - Arctic Monkeys.mp3",
+            albumArtUrl: "albumcover/FavouriteWorstNightmare.jpg"
+        },
+        {
+            id: 'song6',
+            title: "Stressed Out",
+            artist: "Ben Schuller",
+            album: "piano cover",
+            url: "music/Ben Schuller-Stressed Out.mp3",
+            albumArtUrl: "albumcover/strout.jpg"
+        },
+        {
+            id: 'song7',
+            title: "Chamber Of Reflection",
+            artist: "Mac DeMarco",
+            album: "Salad Days",
+            url: "music/Chamber Of Reflection.mp3",
+            albumArtUrl: "albumcover/cbofrl.jpg"
+        },
+        {
+            id: 'song8',
+            title: "For the First Time",
+            artist: "Mac DeMarco",
+            album: "This Old Dog",
+            url: "music/For the First Time - Mac DeMarco.mp3",
+            albumArtUrl: "albumcover/tolddog.png"
+        }
         ];
 
         let currentSongIndex = -1; // No song selected initially
@@ -955,11 +1226,20 @@
             }
         }
 
+        // --- Theme Switch Logic ---
+        function applyTheme(theme) {
+            document.body.classList.remove('light-theme'); // Remove existing theme class
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+            localStorage.setItem('theme', theme); // Save theme preference
+        }
 
         // --- Initialization on page load ---
         document.addEventListener('DOMContentLoaded', () => {
             const pageContentWrapper = document.getElementById('pageContentWrapper');
             const pageLinks = document.querySelectorAll('.page-link');
+            themeSwitchCheckbox = document.getElementById('theme-switch-checkbox'); // Assign themeSwitchCheckbox here
 
             // Animate page in on load
             pageContentWrapper.classList.add('page-transition-in');
@@ -1093,6 +1373,20 @@
             document.getElementById('minMaxEndRangeInput').value = '';
             document.getElementById('minMaxResultDiv').innerHTML = '<h2 class="text-xl font-semibold mb-2">Kết Quả:</h2>Kết quả sẽ hiển thị ở đây.';
             document.getElementById('minMaxResultDiv').classList.remove('show');
+
+            // Load theme preference on page load
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+            applyTheme(savedTheme);
+            themeSwitchCheckbox.checked = (savedTheme === 'light'); // Set checkbox state
+
+            // Event listener for theme switch
+            themeSwitchCheckbox.addEventListener('change', () => {
+                if (themeSwitchCheckbox.checked) {
+                    applyTheme('light');
+                } else {
+                    applyTheme('dark');
+                }
+            });
         });
     </script>
 </head>
@@ -1228,6 +1522,15 @@
                 <span class="song-details" id="songDetails"></span>
             </div>
         </div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switch-wrapper">
+        <label for="theme-switch-checkbox" class="text-sm font-semibold">Chế độ sáng</label>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-switch-checkbox">
+            <span class="slider round"></span>
+        </label>
     </div>
 
     <!-- Hidden Audio Player -->
